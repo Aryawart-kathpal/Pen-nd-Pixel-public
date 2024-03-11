@@ -1,64 +1,60 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import './Browser.css' 
+import Card from '../Components/BrowserCard.jsx'
 const Browser = () => {
-  const Card = ({ title, description }) => (
-    <div className="card">
-      <h2>{title}</h2>
-      <p>{description}</p>
-    </div>
-  );
-  const useDebounce = (value, delay) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
   
-    useEffect(() => {
-      const handler = setTimeout(() => {
-        setDebouncedValue(value);
-      }, delay);
+  // const useDebounce = (value, delay) => {
+  //   const [debouncedValue, setDebouncedValue] = useState(value);
   
-      return () => {
-        clearTimeout(handler);
-      };
-    }, [value, delay]);
+  //   useEffect(() => {
+  //     const handler = setTimeout(() => {
+  //       setDebouncedValue(value);
+  //     }, delay);
   
-    return debouncedValue;
-  };
-  const [searchText, setSearchText] = useState('');
-  const [cardsData, setCardsData] = useState([]);
-  const [filteredCards, setFilteredCards] = useState([]);
+  //     return () => {
+  //       clearTimeout(handler);
+  //     };
+  //   }, [value, delay]);
+  
+  //   return debouncedValue;
+  // };
+  // const [searchText, setSearchText] = useState('');
+  // const [filteredCards, setFilteredCards] = useState([]);
 
-  const debouncedSearchText = useDebounce(searchText, 300);
+  // const debouncedSearchText = useDebounce(searchText, 300);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const response = await fetch('https://api.example.com/cards');
-        // const data = await response.json();
-        // setCardsData(data);
-        
-        // Sample data for demonstration
-        const dataFromDatabase = [
-          { id: 1, title: 'Card 1', description: 'Description for Card 1' },
-          { id: 2, title: 'Card 2', description: 'Description for Card 2' },
-          { id: 3, title: 'Card 3', description: 'Description for Card 3' },
-          // Add more cards as needed
-        ];
-        setCardsData(dataFromDatabase);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const filteredCards = cardsData.filter(card =>
+  //     card.title.toLowerCase().includes(debouncedSearchText.toLowerCase())
+  //   );
+  //   setFilteredCards(filteredCards);
+  // }, [cardsData, debouncedSearchText]);
 
+  const [searchText, setSearchText] = useState()
+  const fetchData = async () => {
+
+  }
+  useEffect(()=>{
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    const filteredCards = cardsData.filter(card =>
-      card.title.toLowerCase().includes(debouncedSearchText.toLowerCase())
-    );
-    setFilteredCards(filteredCards);
-  }, [cardsData, debouncedSearchText]);
-
+  }, [])
+  const [searchData, setSearchData] = useState([
+    {
+      id: "1",
+      title: "Title 1",
+      description: "description 1"
+    },
+    {
+      id: "2",
+      title: "Title 2",
+      description: "description 2"
+    },
+    {
+      id: "3",
+      title: "Title 3",
+      description: "description 3"
+    }
+  ])
   const handleSearch = (e) => {
     setSearchText(e.target.value);
   };
@@ -70,10 +66,13 @@ const Browser = () => {
         value={searchText}
         onChange={handleSearch}
       />
+      <button className="bg-white p-4">🔍</button>
       <div className="cards-container">
-        {filteredCards.map(card => (
-          <Card key={card.id} title={card.title} description={card.description} />
-        ))}
+        {
+          searchData.map((data) => {
+            return <Card key={data.id} title={data.title} description={data.description} />
+          })
+        }
       </div>
     </div>
   )
