@@ -1,12 +1,15 @@
 import React from 'react'
+import Footer from './Footer'
+import Nav from './Nav'
 
-export const HomeLayout = ({children}) => {
+const HomeLayout = ({children}) => {
   return (
     <div>
-        <children />
-        <footer className="bg-gray-200 text-center text-xs p-3 absolute bottom-0 w-full">
-            <p>PEN & PIXEL | © 2024</p>
-        </footer>  
+      <Nav />
+      {children}
+      <Footer />
     </div>
   )
 }
+
+export default HomeLayout;
