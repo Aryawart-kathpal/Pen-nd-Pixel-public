@@ -5,7 +5,7 @@ const sendEmail = async({to,html,subject})=>{
     const transporter=nodemailer.createTransport(nodemailerConfig);
     
     return transporter.sendMail({
-        from:'"Pen and Pixel"',
+        from:'"Pen and Pixel" <PenAndPixel@gmail.com>',
         to,subject,html
     });
 }
