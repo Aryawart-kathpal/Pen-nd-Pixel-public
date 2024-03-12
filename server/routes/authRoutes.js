@@ -10,6 +10,6 @@ router.route('/login').post(login);
 router.route('/logout').delete(authenticateUser,logout);
 router.route('/verify-email').post(verifyEmail);
 router.route('/forgot-password').post(forgotPassword);
-router.route('/reset-password').post(resetPassword);
+router.route('/reset-password').post(authenticateUser,resetPassword);
 
 module.exports=router;
