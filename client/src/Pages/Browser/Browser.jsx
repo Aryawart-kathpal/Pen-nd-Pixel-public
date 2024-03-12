@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import './Browser.css' 
-import Card from '../Components/BrowserCard.jsx'
+import Card from '../../Components/BrowserCard.jsx'
 const Browser = () => {
   
   // const useDebounce = (value, delay) => {
