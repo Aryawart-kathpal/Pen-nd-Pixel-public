@@ -4,6 +4,8 @@ const {StatusCodes}=require('http-status-codes');
 const CustomError = require('../errors');
 const Token=require('../models/Token');
 const crypto = require('crypto');
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 const {attachCookiesToResponse,sendResetPasswordEmail,sendVerificationEmail,createTokenUser,createHash} = require('../utils');
 
 const register = async(req,res)=>{
@@ -48,7 +50,6 @@ const login= async(req,res)=>{
     const existingToken=await Token.findOne({user:user._id});
     if(existingToken){
         const {isValid}=existingToken;
-        // If the user is doing something that I strictly doesn't want him to do, somehow I can make isValid to false and throw the following error and ensure that the user will not be able to loginn again
         if(!isValid){
             throw new CustomError.UnauthenticatedError('Invalid Credentials');
         }
@@ -57,7 +58,6 @@ const login= async(req,res)=>{
         return res.status(StatusCodes.OK).json({user:tokenUser});
     }
 
-    // what is the use of ip and userAgent
     refreshToken=crypto.randomBytes(40).toString('hex');
     const userAgent=req.headers['user-agent'];
     const ip=req.ip;
@@ -146,4 +146,28 @@ const resetPassword = async(req,res)=>{
     res.status(StatusCodes.OK).json({msg:"Succesfull password reset"});
 }
 
-module.exports={register,login,verifyEmail,logout,forgotPassword,resetPassword};
+const uploadImage = async(req,res)=>{
+    if(!req.files){
+        throw new CustomError.BadRequestError('No file uploaded');
+    }
+    const productImage = req.files.image;
+    
+    if(!productImage.mimetype.startsWith('image')){
+        throw new CustomError.BadRequestError('Please upload an image');
+    }
+
+    const maxSize = 1024*1024;
+    if(productImage.size > maxSize){
+        throw new CustomError.BadRequestError('Please upload an image of size less than 1MB');
+    }
+    
+    const result = await cloudinary.uploader.upload(productImage.tempFilePath,{
+        use_filename:true,
+        folder:'Pen-and-Pixel',
+    });
+    fs.unlinkSync(productImage.tempFilePath);
+
+    res.status(StatusCodes.OK).json({url:result.secure_url});
+}
+
+module.exports={register,login,verifyEmail,logout,forgotPassword,resetPassword,uploadImage};
