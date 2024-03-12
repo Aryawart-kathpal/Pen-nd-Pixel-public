@@ -2,12 +2,11 @@ import { useState } from 'react'
 import './App.css'
 import {Routes, Route} from 'react-router-dom'
 import Browser from './Pages/Browser/Browser'
-import HomePage from './Home/HomePage'
+import HomePage from './Pages/Home/HomePage'
 import ViewBlog from './Pages/ViewBrowse/ViewBlog'
+import NotFound from './Pages/NotFound'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
     <Routes>
