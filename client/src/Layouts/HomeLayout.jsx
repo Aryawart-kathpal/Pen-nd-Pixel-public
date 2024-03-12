@@ -4,7 +4,7 @@ import Nav from './Nav'
 
 const HomeLayout = ({children}) => {
   return (
-    <div>
+    <div className='relative'>
       <Nav />
       {children}
       <Footer />
