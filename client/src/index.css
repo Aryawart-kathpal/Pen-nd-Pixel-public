@@ -253,3 +253,11 @@
               opacity: 0;
           }
       }
+  
+
+  .customButton{
+    background-color: black;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 5px;
+  }

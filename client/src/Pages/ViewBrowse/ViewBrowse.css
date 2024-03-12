@@ -1,7 +1,7 @@
 
 .viewBlog-container {
     display: flex;
-    background-color: blue;
+    background-color:silver;
     color: black;
     height: 100svh;
     padding: 2%;
@@ -27,9 +27,8 @@
 
 }
 .comment{
-    /* display: flex;
-    flex-direction: column; */
-    justify-content: left;
+    display: flex;
+    flex-direction: column;    
 }
 
   
