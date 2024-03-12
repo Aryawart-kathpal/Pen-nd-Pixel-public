@@ -6,7 +6,7 @@ const HomeLayout = ({children}) => {
   return (
     <div className='relative'>
       <Nav />
-      {children}
+        {children}
       <Footer />
     </div>
   )
