@@ -1,6 +1,7 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import './Browser.css' 
+import HomeLayout from '../../Layouts/HomeLayout.jsx'
 import Card from '../../Components/BrowserCard.jsx'
 const Browser = () => {
   
@@ -59,23 +60,35 @@ const Browser = () => {
     setSearchText(e.target.value);
   };
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchText}
-        onChange={handleSearch}
-      />
-      <button className="bg-white p-4">🔍</button>
-      <div className="cards-container">
-        {
-          searchData.map((data) => {
-            return <Card key={data.id} title={data.title} description={data.description} />
-          })
-        }
+    <HomeLayout >
+      <div className="bg-black text-white min-h-[80svh] flex flex-col  gap-4 ">
+        <div className="flex w-full gap-4">
+          <div className="w-full grid gap-1">
+            <input
+            type="text"
+            placeholder="Search..."
+            value={searchText}
+            onChange={handleSearch}
+            className="bg-gray-200 text-white rounded px-4 py-2 mb-4 focus:outline-none focus:bg-gray-300"
+            />
+          </div>
+          <button className="bg-gray-600 text-white rounded px-4 py-2">Search</button>
+        </div>
+        <div className="grid w-full gap-4">
+          {searchData.map((data) => (
+          <div key={data.id} className="flex items-center space-x-4">
+            <div className='grid gap-1.5 my-2 '>
+              <Card
+              title={data.title}
+              description={data.description}
+              className="grid w-full gap-4"
+              />
+            </div>
+          </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </HomeLayout>
   )
 }
-
 export default Browser
