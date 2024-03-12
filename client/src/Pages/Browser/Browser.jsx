@@ -54,41 +54,55 @@ const Browser = () => {
       id: "3",
       title: "Title 3",
       description: "description 3"
+    },
+    {
+      id: "4",
+      title: "Title 4",
+      description: "description 4"
+    },
+    {
+      id: "5",
+      title: "Title 5",
+      description: "hdvsdcjhsdvhcjvsdvcvjsdvcvsdvjcvsjhdvchksvdhcvshvcshvcjkvscksdvchkvshjvcjvhjsvcjhshshjcvladcvjvjcsdbcvhjdvhjdjvbcj"
+    },
+    {
+      id: "6",
+      title: "Title 6",
+      description: "description 6"
+    },
+    {
+      id: "7",
+      title: "Title 7",
+      description: "description 7"
     }
+
   ])
   const handleSearch = (e) => {
     setSearchText(e.target.value);
   };
   return (
-    <HomeLayout >
-      <div className="bg-black text-white min-h-[80svh] flex flex-col  gap-4 ">
-        <div className="flex w-full gap-4">
-          <div className="w-full grid gap-1">
+      <div className="shadow-lg shadow-black text-white max-h-[90svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center">
+        <div className="flex gap-4 items-center sm:w-[60%] w-full mt-5">
             <input
             type="text"
             placeholder="Search..."
             value={searchText}
             onChange={handleSearch}
-            className="bg-gray-200 text-white rounded px-4 py-2 mb-4 focus:outline-none focus:bg-gray-300"
+            className="bg-white text-black rounded px-4 py-2 outline basis-[100%]"
             />
-          </div>
-          <button className="bg-gray-600 text-white rounded px-4 py-2">Search</button>
+          <button className="bg-black text-white rounded px-4 py-2">Search</button>
         </div>
-        <div className="grid w-full gap-4">
+        <div className="grid w-full gap-4 overflow-x-hidden py-5 pt-3 overflow-y-scroll customScroll">
           {searchData.map((data) => (
-          <div key={data.id} className="flex items-center space-x-4">
-            <div className='grid gap-1.5 my-2 '>
               <Card
+              key={data.id}
               title={data.title}
               description={data.description}
               className="grid w-full gap-4"
               />
-            </div>
-          </div>
           ))}
         </div>
       </div>
-    </HomeLayout>
   )
 }
 export default Browser
