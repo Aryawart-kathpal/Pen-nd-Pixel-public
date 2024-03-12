@@ -2,19 +2,15 @@ import React from 'react'
 import AuthorDetails from './AuthorDetails'
 import Blog from './Blog'
 import Comment from './Comment'
+import './ViewBrowse.css'
 
 const ViewBlog = () => {
   return (
     <>
-    <div>
+      <div className='viewBlog-container'>
         <Blog />
-    </div>
-    <div>
         <Comment />
-    </div>
-    {/* <div>
-        <AuthorDetails />
-    </div> */}
+      </div>
     </>
   )
 }

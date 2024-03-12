@@ -1,0 +1,36 @@
+
+.viewBlog-container {
+    display: flex;
+    background-color: blue;
+    color: black;
+    height: 100svh;
+    padding: 2%;
+    justify-content: space-evenly;
+    
+}
+.comment-container {
+    width: 30svw;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items:left;
+}
+.blog-container {
+    width: 60svw;
+    border: 1px solid black;
+    padding: 2rem;
+    text-align: center;
+    overflow-y: auto;
+    border-radius: 20px;
+
+}
+.comment{
+    /* display: flex;
+    flex-direction: column; */
+    justify-content: left;
+}
+
+  
+  
