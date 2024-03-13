@@ -30,6 +30,16 @@
     display: flex;
     flex-direction: column;    
 }
-
-  
+.icon-Container{
+    top: 20px;
+    left: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 100%;
+    cursor: pointer;
+    transition-duration: 500ms;
+}
+.icon-Container:hover{
+    scale: 1.1;
+}
   
