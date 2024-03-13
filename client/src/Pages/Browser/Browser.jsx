@@ -1,10 +1,12 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import './Browser.css' 
-import HomeLayout from '../../Layouts/HomeLayout.jsx'
+import { IoIosArrowBack } from "react-icons/io";
 import Card from '../../Components/BrowserCard.jsx'
+import { useNavigate } from 'react-router-dom';
+
 const Browser = () => {
-  
+  const navigate = useNavigate()
   // const useDebounce = (value, delay) => {
   //   const [debouncedValue, setDebouncedValue] = useState(value);
   
@@ -82,7 +84,11 @@ const Browser = () => {
   };
   return (
       <div className="shadow-lg shadow-black text-white max-h-[90svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center">
-        <div className="flex gap-4 items-center sm:w-[60%] w-full mt-5">
+        <IoIosArrowBack 
+          className="text-3xl absolute text-black left-10 max-sm:hidden cursor-pointer" 
+          onClick={() => navigate(-1)}
+        />
+        <div className="flex gap-4 items-center sm:w-[60%] w-full mt-5 relative">
             <input
             type="text"
             placeholder="Search..."
@@ -92,7 +98,7 @@ const Browser = () => {
             />
           <button className="bg-black text-white rounded px-4 py-2">Search</button>
         </div>
-        <div className="grid w-full gap-4 overflow-x-hidden py-5 pt-3 overflow-y-scroll customScroll">
+        <div className="grid w-full gap-4 overflow-x-hidden py-5 pt-3 overflow-y-scroll customScrollbar">
           {searchData.map((data) => (
               <Card
               key={data.id}
