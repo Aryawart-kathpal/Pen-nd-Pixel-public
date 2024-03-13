@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const {StatusCodes} = require('http-status-codes');
 const CustomError = require('../errors');
+const { checkPermissions } = require('../utils');
 const cloudinary = require('cloudinary').v2;
 
 const getAllUsers = async(req,res)=>{
@@ -30,34 +31,6 @@ const updateUser = async(req,res)=>{
     }
 
     const user = await User.findOne({_id:req.user.userId});
-
-    // Deletion creating issue
-    /*if(image){
-
-        function getImagePublicId(cloudinaryUrl) {
-            // Split the URL by '/'
-            const parts = cloudinaryUrl.split('/');
-            // Find the part that contains the public ID
-            const publicIdPart = parts[parts.length - 1].split('.')[0];
-            return publicIdPart;
-        }
-        
-        // Example usage
-        const cloudinaryUrl = user.image;
-        const imagePublicId = getImagePublicId(cloudinaryUrl);
-        console.log(imagePublicId); // Output: image_public_id
-        const result = await cloudinary.uploader.destroy(imagePublicId).then(console.log('Deleted success')).catch((error)=>console.log(error));
-
-        await cloudinary.v2.delete_resources([`Pen-and-Pixel/${imagePublicId}`], { type: 'upload', resource_type: 'image' })
-        .then(result => {
-            console.log('Deleted resources:', result);
-        })
-        .catch(error => {
-            console.error('Error deleting resources:', error);
-        });
-
-        user.image=image;
-    }*/
 
     if (image) {
         function getImagePublicId(cloudinaryUrl) {
@@ -94,15 +67,37 @@ const updateUser = async(req,res)=>{
         user.name=name;
     }
     await user.save();
-    res.status(StatusCodes.OK).json({user});
+    res.status(StatusCodes.OK).json({msg:"Successfully updated the user",user});
 }
 
 const deleteUser = async(req,res)=>{
-    res.send("Delete user");
+    const{id} = req.params;  
+    checkPermissions(req.user,id);
+    const user = await User.findOneAndDelete({_id:id});
+
+    // Also deleting the notes of the user, ratings, comments,etc.
+    res.status(StatusCodes.OK).json({msg:"Successfully deleted the user"});
 }
 
 const updateUserPassword = async(req,res)=>{
-    res.send("Update user password");
+    const {userId} = req.user;
+    const {oldPassword,newPassword} = req.body;
+
+    if(!oldPassword || !newPassword){
+        throw new CustomError.BadRequestError(`Please provide oldPassword and newPassword`);
+    }
+
+    if(oldPassword===newPassword){
+        throw new CustomError.BadRequestError("New password can't be same as old password");
+    }
+    const user = await User.findOne({_id:userId});
+    const isPasswordCorrect = await user.comparePassword(oldPassword);
+    if(!isPasswordCorrect){
+        throw new CustomError.UnauthenticatedError("Invalid Password");
+    }
+    user.password = newPassword;
+    await user.save();
+    res.status(StatusCodes.OK).json({msg:"Successfully updated the password"});
 }
 module.exports={getAllUsers,getSingleUser,getCurrentUser,updateUser,deleteUser,updateUserPassword};
 // getAllUsers getSingleUser getCurrentUser(along with notes adding at later stage) updateUser deletUser updateUserPassword
