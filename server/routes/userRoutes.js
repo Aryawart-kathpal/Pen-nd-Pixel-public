@@ -9,6 +9,6 @@ router.route('/current').get(authenticateUser,getCurrentUser);
 router.route('/update').patch(authenticateUser,updateUser);// only same user
 router.route('/update-password').patch(authenticateUser,updateUserPassword);// only the logged in user can change it's own password
 router.route('/delete/:id').delete(authenticateUser,deleteUser);// only admin and same user -> checkPermissions
-router.route('/:id').get([authenticateUser,authorizePermissions('admin')],getSingleUser);//only for admin, when user wants to access it's own then, getCurrentUser will be used
+router.route('/:id').get(authenticateUser,getSingleUser);// anyone can get ohter user to view their dashboard
 
 module.exports=router;

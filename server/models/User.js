@@ -32,6 +32,27 @@ const userSchema = mongoose.Schema({
         type:String,
         default:'https://www.gravatar.com/avatar/000?d=mp',
     },
+    about:{
+        type:String,
+        maxlength:[500,"About can't be more than 500 characters"],
+        minlength:[10,"About can't be less than 10 characters"]
+    },
+    numOfFollowers:{
+        type:Number,
+        default:0,
+    },
+    numOfFollowing:{
+        type:Number,
+        default:0,
+    },
+    followers:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+    }],
+    following:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+    }],
     verificationToken:String,
     isVerified:{
         type:Boolean,
