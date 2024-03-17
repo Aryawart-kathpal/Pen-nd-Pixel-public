@@ -21,6 +21,7 @@ const followRoutes=require('./routes/followRoutes');
 
 //Other packages
 const fileUpload = require('express-fileupload');
+const path = require('path');
 
 //Cloudinary
 const cloudinary = require('cloudinary').v2;
@@ -31,6 +32,7 @@ cloudinary.config({
 })
 
 // Middleware
+app.use(express.static(path.resolve(__dirname,'../client/dist')));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(morgan('tiny'));
@@ -43,6 +45,10 @@ app.use('/api/v1/user',followRoutes);
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'../client/dist','index.html'));
+})
 
 const port = process.env.PORT || 5000;
 
