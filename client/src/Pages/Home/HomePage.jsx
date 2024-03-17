@@ -8,8 +8,8 @@ const HomePage = () => {
   const navigate = useNavigate()
   return (
     <HomeLayout>
-      <section className="flex flex-col items-center justify-center h-[80vh] p-5 poppins-regular pb-20">
-        <h1 className="sm:text-8xl text-5xl font-bold mb-auto self-start">
+      <section className="flex flex-col items-center justify-center h-[90vh] p-5 poppins-regular pb-20 relative">
+        <h1 className="sm:text-8xl text-5xl font-bold max-sm:self-start sm:absolute top-8 left-8 sedgwick-ave">
           Pen and Pixel
         </h1>
         <div className="space-y-3">

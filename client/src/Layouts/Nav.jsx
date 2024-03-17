@@ -2,10 +2,11 @@ import React from 'react'
 import { FaPenNib } from "react-icons/fa6";
 import {Link} from 'react-router-dom';
 
+
 const Nav = () => {
   return (
     <header className="px-4 lg:px-6 h-[10svh] flex items-center bg-black text-white w-full">
-        <Link className="flex items-center justify-center" href="#">
+        <Link className="flex items-center justify-center" to='/'>
           <FaPenNib className="h-6 w-6" />
           <span className="sr-only">Pen and Pixel</span>
         </Link>
@@ -16,10 +17,10 @@ const Nav = () => {
           <Link className="text-sm font-medium hover:underline underline-offset-4">
             Pricing
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4">
+          <Link to='/about' className="text-sm font-medium hover:underline underline-offset-4">
             About
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4">
+          <Link to='/contact' className="text-sm font-medium hover:underline underline-offset-4">
             Contact
           </Link>
         </nav>
