@@ -1,7 +1,7 @@
 // import React from 'react'
 import './Login.css'
 import Login from './Login'
-import SignUp from './SignUp'
+import Signup from './Signup'
 
 
 export default function LoginLayout(){
@@ -11,7 +11,7 @@ export default function LoginLayout(){
             <div className="page">
                 <div className="toggle">
                     <Login />
-                    <SignUp />
+                    <Signup />
                 </div>
             </div>
         </div>
