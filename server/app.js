@@ -18,6 +18,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 const authRouter=require('./routes/authRoutes');
 const userRoutes=require('./routes/userRoutes');
 const followRoutes=require('./routes/followRoutes');
+const noteRoutes = require('./routes/noteRoutes');
 
 //Other packages
 const fileUpload = require('express-fileupload');
@@ -42,6 +43,7 @@ app.use(fileUpload({useTempFiles:true}));
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/user',userRoutes);
 app.use('/api/v1/user',followRoutes);
+app.use('/api/v1/notes',noteRoutes);
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
@@ -70,3 +72,8 @@ start();
 
 //get Current user and it's analytics such as all his notes, as well as for a note ratings comments,etc. have also to be made in a model
 // also some review,contact us,etc. have to be thought of on some later stage, along with setting some pre and post aggregation pipeline for the ratings,etc,
+// linking notes to every use
+// one user one note unique comment like in e-commerce
+// trim:true in all models?
+// comments note model mein nahi alag se bnaye e-commerece ki trah
+//getCurrentUser at the end
