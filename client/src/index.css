@@ -1,263 +1,284 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+.dark {
+	--bg-color: #1a202c;
+	--text-color: #e2e8f0;
+}
 
-*{
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    box-sizing: border-box;
-    font-family: poppins;
+.light {
+	--bg-color: #ffffff;
+	--text-color: #1a202c;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	box-sizing: border-box;
+	font-family: poppins;
+	/* Made the the color scheme dark as for now */
+	/* color-scheme: dark; */
+}
+
+#Pen-And-Pixel {
+	background-color: var(--bg-color);
+	color: var(--text-color);
+}
+
+.sedgwick-ave {
+	font-family: "Sedgwick Ave Display", cursive;
+	font-weight: 400;
+	font-style: normal;
 }
 
 .poppins-thin {
-    font-family: "Poppins", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-  }
-  
-  .poppins-extralight {
-    font-family: "Poppins", sans-serif;
-    font-weight: 200;
-    font-style: normal;
-  }
-  
-  .poppins-light {
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-  }
-  
-  .poppins-regular {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  .poppins-medium {
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-  }
-  
-  .poppins-semibold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    font-style: normal;
-  }
-  
-  .poppins-bold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  .poppins-extrabold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    font-style: normal;
-  }
-  
-  .poppins-black {
-    font-family: "Poppins", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-  }
-  
-  .poppins-thin-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 100;
-    font-style: italic;
-  }
-  
-  .poppins-extralight-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 200;
-    font-style: italic;
-  }
-  
-  .poppins-light-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    font-style: italic;
-  }
-  
-  .poppins-regular-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-  
-  .poppins-medium-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
-    font-style: italic;
-  }
-  
-  .poppins-semibold-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    font-style: italic;
-  }
-  
-  .poppins-bold-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-  }
-  
-  .poppins-extrabold-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    font-style: italic;
-  }
-  
-  .poppins-black-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 900;
-    font-style: italic;
-  }
-  .customScrollbar::-webkit-scrollbar-track{
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0);
-    }
-    .customScrollbar::-webkit-scrollbar{
-    width: 12px;
-    background-color: #fff;
-      backdrop-filter: blur(20px);
-      border-radius: 10px;
-    }
-    .customScrollbar::-webkit-scrollbar-thumb{
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #ffffff35;
-      backdrop-filter: blur(20px);
-    }
-    
-    .customSlideLeft{
-      animation: slideInLeft 500ms forwards;
-    }
-      @keyframes slideInLeft {
-          from {
-              transform: translateX(-100%);
-          }
-          to {
-              transform: translateX(0);
-          }
-      }
-    
-    .customSlideRight{
-      animation: slideInRight 500ms forwards;
-    }
-      @keyframes slideInRight {
-          from {
-              transform: translateX(100%);
-          }
-          to {
-              transform: translateX(0);
-          }
-      }
-    
-    .customSlideUp{
-      animation: slideInUp 500ms forwards;
-    }
-      @keyframes slideInUp {
-          from {
-              transform: translateY(100%);
-          }
-          to {
-              transform: translateY(0);
-          }
-      }
-    
-    .customSlideDown{
-      animation: slideInDown 500ms forwards;
-    }
-      @keyframes slideInDown {
-          from {
-              transform: translateY(-100%);
-          }
-          to {
-              transform: translateY(0);
-          }
-      }
-    
-    /* Animation that zoom in once */
-    .customZoomIn{
-      animation: zoomIn 500ms ease-in-out;
-    }
-      @keyframes zoomIn {
-          from {
-              transform: scale(0);
-          }
-          to {
-              transform: scale(1);
-          }
-      }
-    
-    
-    /* Animation that zoom out once */
-    .customZoomOut{
-      animation: zoomOut 1s forwards;
-    }
-      @keyframes zoomOut {
-          from {
-              transform: scale(1);
-          }
-          to {
-              transform: scale(0);
-          }
-      }
-    
-    /* Animation that fade in once */
-    .customFadeIn{
-      animation: fadeIn 1s forwards;
-    }
-      @keyframes fadeIn {
-          from {
-              opacity: 0;
-          }
-          to {
-              opacity: 1;
-          }
-      }
-    
-    /* Animation that fade out once */
-    .customFadeOut{
-      animation: fadeOut 1s forwards;
-    }
-      @keyframes fadeOut {
-          from {
-              opacity: 1;
-          }
-          to {
-              opacity: 0;
-          }
-      }
-    
-    /* Animation that fade in and out once */
-    .customFadeInOut{
-      animation: fadeInOut 2s forwards;
-    }
-      @keyframes fadeInOut {
-          0% {
-              opacity: 0;
-          }
-          50% {
-              opacity: 1;
-          }
-          100% {
-              opacity: 0;
-          }
-      }
-  
+	font-family: "Poppins", sans-serif;
+	font-weight: 100;
+	font-style: normal;
+}
 
-  .customButton{
-    background-color: black;
-    color: #fff;
-    padding: 8px 10px;
-    border-radius: 5px;
-  }
+.poppins-extralight {
+	font-family: "Poppins", sans-serif;
+	font-weight: 200;
+	font-style: normal;
+}
+
+.poppins-light {
+	font-family: "Poppins", sans-serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+.poppins-regular {
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.poppins-medium {
+	font-family: "Poppins", sans-serif;
+	font-weight: 500;
+	font-style: normal;
+}
+
+.poppins-semibold {
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	font-style: normal;
+}
+
+.poppins-bold {
+	font-family: "Poppins", sans-serif;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.poppins-extrabold {
+	font-family: "Poppins", sans-serif;
+	font-weight: 800;
+	font-style: normal;
+}
+
+.poppins-black {
+	font-family: "Poppins", sans-serif;
+	font-weight: 900;
+	font-style: normal;
+}
+
+.poppins-thin-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 100;
+	font-style: italic;
+}
+
+.poppins-extralight-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 200;
+	font-style: italic;
+}
+
+.poppins-light-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 300;
+	font-style: italic;
+}
+
+.poppins-regular-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.poppins-medium-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 500;
+	font-style: italic;
+}
+
+.poppins-semibold-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	font-style: italic;
+}
+
+.poppins-bold-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 700;
+	font-style: italic;
+}
+
+.poppins-extrabold-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 800;
+	font-style: italic;
+}
+
+.poppins-black-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 900;
+	font-style: italic;
+}
+.customScrollbar::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.239);
+}
+.customScrollbar::-webkit-scrollbar {
+	width: 12px;
+	background-color: var(--bg-color);
+	backdrop-filter: blur(20px);
+	border-radius: 10px;
+}
+.customScrollbar::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	background-color: #ffffff35;
+	backdrop-filter: blur(20px);
+}
+
+.customSlideLeft {
+	animation: slideInLeft 500ms forwards;
+}
+@keyframes slideInLeft {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+.customSlideRight {
+	animation: slideInRight 500ms forwards;
+}
+@keyframes slideInRight {
+	from {
+		transform: translateX(100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+.customSlideUp {
+	animation: slideInUp 500ms forwards;
+}
+@keyframes slideInUp {
+	from {
+		transform: translateY(100%);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+.customSlideDown {
+	animation: slideInDown 500ms forwards;
+}
+@keyframes slideInDown {
+	from {
+		transform: translateY(-100%);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+/* Animation that zoom in once */
+.customZoomIn {
+	animation: zoomIn 500ms ease-in-out;
+}
+@keyframes zoomIn {
+	from {
+		transform: scale(0);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+/* Animation that zoom out once */
+.customZoomOut {
+	animation: zoomOut 1s forwards;
+}
+@keyframes zoomOut {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(0);
+	}
+}
+
+/* Animation that fade in once */
+.customFadeIn {
+	animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Animation that fade out once */
+.customFadeOut {
+	animation: fadeOut 1s forwards;
+}
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+/* Animation that fade in and out once */
+.customFadeInOut {
+	animation: fadeInOut 2s forwards;
+}
+@keyframes fadeInOut {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.customButton {
+	background-color: black;
+	color: #fff;
+	padding: 8px 10px;
+	border-radius: 5px;
+}

@@ -4,12 +4,12 @@ import Nav from './Nav'
 
 const HomeLayout = ({children}) => {
   return (
-    <div className='relative'>
-      <Nav />
-        {children}
-      <Footer />
-    </div>
-  )
+		<div className="relative">
+			<Nav />
+			{children}
+			<Footer />
+		</div>
+	);
 }
 
 export default HomeLayout;

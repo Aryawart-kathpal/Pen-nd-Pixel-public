@@ -1,12 +1,15 @@
 import React from 'react';
 import HomeLayout from '../../Layouts/HomeLayout'
 import { Link } from 'react-router-dom';
+import Button from '../../Components/Button'
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const navigate = useNavigate()
   return (
     <HomeLayout>
-      <section className="flex flex-col items-center justify-center h-[80vh] p-5 poppins-regular pb-20">
-        <h1 className="sm:text-8xl text-5xl font-bold mb-auto self-start">
+      <section className="flex flex-col items-center justify-center h-[90vh] p-5 poppins-regular pb-20 relative">
+        <h1 className="sm:text-8xl text-5xl font-bold max-sm:self-start sm:absolute top-8 left-8 sedgwick-ave">
           Pen and Pixel
         </h1>
         <div className="space-y-3">
@@ -14,19 +17,20 @@ const HomePage = () => {
           <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
             The platform for rapid note taking. Express ypurself, manage day-to-day tasks, spread creativity, collaborate on ideas, only on a single platform.
           </p>
+          <div className="w-full max-w-sm space-y-2 mt-6 font-medium">
+            <Button 
+              text="Get Started" 
+              className="w-max px-2 py-1 mr-10 text-white bg-black border border-black"
+              handleOnClick={() => navigate('/login')}
+            />
+            <Button
+              text="Browse Blogs"
+              className="w-max px-2 py-1 text-black bg-white hover:bg-gray-100 outline"
+              handleOnClick={() => navigate('/browse')}
+            />
+          </div>
         </div>
-        <div className="mx-auto w-full max-w-sm space-y-2">
-          <form className="flex space-x-2">
-            <input className="max-w-lg flex-1 border border-black rounded-lg p-2 m-4 mb-1" placeholder="Enter your email" type="email" />
-            <button type="submit">Sign Up</button>
-          </form>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            Sign up to get notified when we launch.
-            <Link className="underline underline-offset-2" href="#">
-              Terms & Conditions
-            </Link>
-          </p>
-        </div>
+        
       </section>
       <section className="flex flex-col items-center justify-center min-h-[100vh] p-5 poppins-regular pb-20 snap-y">
         <h1 className="text-5xl font-bold mb-5">Features</h1>
