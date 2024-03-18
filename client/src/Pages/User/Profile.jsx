@@ -10,8 +10,8 @@ function Profile() {
   });
   return (
     <>
-      <div className="w-1/3 mx-2 mt-4 h-auto-stretch customSlideLeft sticky top-0">
-        <div className="rounded-lg shadow-lg shadow-black pt-6 ml-2">
+      <div className="w-[480px] mx-2 my-4 customSlideLeft sticky top-0">
+        <div className="rounded-lg shadow-lg shadow-black pt-6 ml-2 min-h-[95svh]">
           <img
             src={userData.img}
             alt="Profile Picture"
