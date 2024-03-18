@@ -77,3 +77,5 @@ start();
 // trim:true in all models?
 // comments note model mein nahi alag se bnaye e-commerece ki trah
 //getCurrentUser at the end
+// ek user ke saari liked posts bhi store krni hain
+// likes bhi delete hone chahiye har tarah se, note ko delete karne par
