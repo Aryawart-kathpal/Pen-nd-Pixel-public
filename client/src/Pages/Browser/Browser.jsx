@@ -1,6 +1,5 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
-import './Browser.css' 
 import { IoIosArrowBack } from "react-icons/io";
 import Card from '../../Components/BrowserCard.jsx'
 import { useNavigate } from 'react-router-dom';
@@ -88,15 +87,15 @@ const Browser = () => {
           className="text-3xl absolute text-black left-10 max-sm:hidden cursor-pointer" 
           onClick={() => navigate(-1)}
         />
-        <div className="flex gap-4 items-center sm:w-[60%] w-full mt-5 relative">
+        <div className="flex  gap-4 items-center w-full  mt-5 relative">
             <input
             type="text"
             placeholder="Search..."
             value={searchText}
             onChange={handleSearch}
-            className="bg-white text-black rounded px-4 py-2 outline basis-[100%]"
+            className="bg-white text-black rounded px-4 py-2 outline w-full sm:self-stretch overflow-x-hidden"
             />
-          <button className="bg-black text-white rounded px-4 py-2">Search</button>
+          <button className="bg-black text-white rounded px-4 py-2 sm:mt-0  sm:w-auto">Search</button>
         </div>
         <div className="grid w-full gap-4 overflow-x-hidden py-5 pt-3 overflow-y-scroll customScrollbar">
           {searchData.map((data) => (
@@ -109,6 +108,7 @@ const Browser = () => {
           ))}
         </div>
       </div>
+
   )
 }
 export default Browser
