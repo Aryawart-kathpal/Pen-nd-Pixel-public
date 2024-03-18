@@ -2,7 +2,7 @@ import React from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { MdDateRange } from "react-icons/md";
 import { FaLink } from "react-icons/fa";
-import {Button} from '../../Components/Button'
+import Button from '../../Components/Button'
 
 const AuthorDetails = (props) => {
   return (
