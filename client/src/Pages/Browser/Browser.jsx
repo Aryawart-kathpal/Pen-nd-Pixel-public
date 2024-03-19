@@ -3,6 +3,7 @@ import {useState,useEffect} from 'react'
 import { IoIosArrowBack } from "react-icons/io";
 import Card from '../../Components/BrowserCard.jsx'
 import { useNavigate } from 'react-router-dom';
+import Nav from '../../Layouts/Nav.jsx'
 
 const Browser = () => {
   const navigate = useNavigate()
@@ -82,7 +83,9 @@ const Browser = () => {
     setSearchText(e.target.value);
   };
   return (
-      <div className="shadow-lg shadow-black text-white max-h-[90svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center">
+    <>
+      <Nav />
+      <div className="shadow-lg shadow-black text-white max-h-[82svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center">
         <IoIosArrowBack 
           className="text-3xl absolute text-black left-10 max-sm:hidden cursor-pointer" 
           onClick={() => navigate(-1)}
@@ -108,7 +111,7 @@ const Browser = () => {
           ))}
         </div>
       </div>
-
+    </>
   )
 }
 export default Browser

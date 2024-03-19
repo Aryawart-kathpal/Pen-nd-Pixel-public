@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Profile from "./Profile";
 import Notes from "./NotesCard";
 import Button from "../../Components/Button";
-import { FaBars } from "react-icons/fa6";
 
 function UserDasboard() {
   const [notes, setNotes] = useState([
@@ -100,9 +99,9 @@ function UserDasboard() {
   ]);
   return (
     <div className="flex max-h-screen">
-      {/* <FaBars /> */}
       <Profile />
-      <div className="flex flex-col items-center basis-[100%] p-4 ">
+
+      <div className="flex flex-col items-center basis-[100%] p-4">
         <div className="banner bg-slate-800 text-white self-stretch h-48 flex items-center justify-center relative rounded-lg text-5xl font-semibold mb-2">
           MY NOTES
         </div>
@@ -113,11 +112,11 @@ function UserDasboard() {
           })}
         </div>
         <div className=" flex justify-center mt-4">
-              <Button
-                text="Create new note"
-                className="bg-slate-800 text-white p-2 border-2 rounded border-black"
-              />
-            </div>
+          <Button
+            text="Create new note"
+            className="bg-slate-800 text-white p-2 border-2 rounded border-black"
+          />
+        </div>
       </div>
     </div>
   );
