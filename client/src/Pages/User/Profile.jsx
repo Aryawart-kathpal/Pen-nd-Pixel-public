@@ -10,7 +10,7 @@ function Profile() {
   });
   return (
     <>
-      <div className="w-[480px] mx-2 my-4 customSlideLeft sticky top-0">
+      <div className="w-[480px] mx-2 my-4 customSlideLeft  top-0">
         <div className="rounded-lg shadow-lg shadow-black pt-6 ml-2 min-h-[95svh]">
           <img
             src={userData.img}
@@ -41,7 +41,12 @@ function Profile() {
             <h3 className="text-lg font-bold mb-2">About Me</h3>
             <p className="text-md">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis
-              lectus at leo malesuada volutpat ut ut eros. Integer dapibus
+              lectus at leo malesuada volutpat ut ut eros. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis
+              lectus at leo malesuada volutpat ut ut eros.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis
+              lectus at leo malesuada volutpat ut ut eros.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
               
             </p>
             <div className="flex justify-end mt-4">
