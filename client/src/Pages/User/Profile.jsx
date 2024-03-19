@@ -9,63 +9,59 @@ function Profile({handleToggle, toggle}) {
     followers: "10",
     following: "10",
     dateJoined: "13/03/2024",
+    about: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   });
   
   return (
-    <>
-      <div className={`w-[480px] mx-2 my-4 customSlideLeft max-sm:absolute max-sm:w-[95svw] max-sm:bg-white z-10 ${toggle ? "" : "max-sm:hidden"}`}>
-        <FaTimes 
-          className="text-3xl text-black absolute right-0 top-0 m-4 cursor-pointer sm:hidden"
-          onClick={handleToggle} 
-        />
-        <div className="rounded-lg shadow-lg shadow-black pt-6 ml-2 min-h-[95svh]">
-          <img
-            src={userData.img}
-            alt="Profile Picture"
-            className="rounded-full w-24 h-24 mx-auto border-4 border-black mb-4"
-          />
-          <h2 className="text-black text-2xl font-bold text-center mb-2">
-            {userData.name}
-          </h2>
-          <p className="text-black text-sm text-center mb-2">
-            Joined on {userData.dateJoined}
-          </p>
-          <div className="flex justify-around text-white">
-            <div>
-              <p className="text-lg text-black font-semibold">
-                {userData.followers}
-              </p>
-              <p className="text-xs text-black">Followers</p>
-            </div>
-            <div>
-              <p className="text-lg text-black font-semibold">
-                {userData.following}
-              </p>
-              <p className="text-xs text-black">Following</p>
-            </div>
-          </div>
-          <div className="bg-white text-gray-800 rounded-lg py-10 px-6 max-h-[100%]">
-            <h3 className="text-lg font-bold mb-2">About Me</h3>
-            <p className="text-md">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis
-              lectus at leo malesuada volutpat ut ut eros. 
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis
-              lectus at leo malesuada volutpat ut ut eros.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis
-              lectus at leo malesuada volutpat ut ut eros.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              
-            </p>
-            <div className="flex justify-end mt-4">
-              <Button
-                text="Edit Profile"
-                className="bg-black text-white p-2 border-2 rounded border-black"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+		<>
+			<div
+				className={`w-[480px] mx-2 my-4 customSlideLeft max-sm:absolute max-sm:w-[95svw] max-sm:bg-white z-10 ${
+					toggle ? "" : "max-sm:hidden"
+				}`}
+			>
+				<FaTimes
+					className="text-3xl text-black absolute right-0 top-0 m-4 cursor-pointer sm:hidden"
+					onClick={handleToggle}
+				/>
+				<div className="rounded-lg shadow-lg shadow-black pt-6 ml-2 h-[95svh]">
+					<img
+						src={userData.img}
+						alt="Profile Picture"
+						className="rounded-full w-24 h-24 mx-auto border-4 border-black mb-4 max-sm:mb-0"
+					/>
+					<h2 className="text-black text-2xl font-bold text-center mb-2 max-sm:mb-0">
+						{userData.name}
+					</h2>
+					<p className="text-black text-sm text-center mb-2 max-sm:mb-1">
+						Joined on {userData.dateJoined}
+					</p>
+					<div className="flex justify-evenly text-white">
+						<div>
+							<p className="text-lg text-black font-semibold">
+								{userData.followers}
+							</p>
+							<p className="text-xs text-black">Followers</p>
+						</div>
+						<div>
+							<p className="text-lg text-black font-semibold">
+								{userData.following}
+							</p>
+							<p className="text-xs text-black">Following</p>
+						</div>
+					</div>
+					<div className="text-gray-800 rounded-lg py-10 px-6 max-h-[100%]">
+						<h3 className="text-lg font-bold mb-2 max-sm:text-md">About Me</h3>
+						<p className="text-sm max-sm:text-xs">{userData.about}</p>
+						<div className="flex justify-center mt-4">
+							<Button
+								text="Edit Profile"
+								className="bg-black text-white p-2 border-2 rounded border-black"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+	);
 }
 export default Profile;

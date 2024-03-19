@@ -6,9 +6,8 @@ import Signup from './Signup'
 
 export default function LoginLayout(){
     return (
-        <div className="container">
-            <img src="" alt="" />
-            <div className="page">
+        <div className="container bg-black">
+            <div className="page customZoomIn">
                 <div className="toggle">
                     <Login />
                     <Signup />
