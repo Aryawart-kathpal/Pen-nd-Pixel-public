@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Profile from "./Profile";
 import Notes from "./NotesCard";
 import Button from "../../Components/Button";
-
+import { FaBars } from "react-icons/fa";
 function UserDasboard() {
   const [notes, setNotes] = useState([
     {
@@ -97,10 +97,18 @@ function UserDasboard() {
       ],
     },
   ]);
+  const [toggle, setToggle] = useState(false);
+  console.log(toggle);
+  function handleToggle() {
+    setToggle(!toggle);
+  }
   return (
-    <div className="flex max-h-screen">
-      <Profile />
-
+    <div className="flex max-h-screen relative">
+      <FaBars 
+        className={`text-3xl text-white cursor-pointer absolute top-5 left-5 z-10 sm:hidden  ${toggle ? "max-sm:hidden" : ""}`}
+        onClick={handleToggle}
+       />
+      <Profile handleToggle={handleToggle} toggle={toggle} />
       <div className="flex flex-col items-center basis-[100%] p-4">
         <div className="banner bg-slate-800 text-white self-stretch h-48 flex items-center justify-center relative rounded-lg text-5xl font-semibold mb-2">
           MY NOTES
