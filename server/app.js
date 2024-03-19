@@ -79,3 +79,4 @@ start();
 //getCurrentUser at the end
 // ek user ke saari liked posts bhi store krni hain
 // likes bhi delete hone chahiye har tarah se, note ko delete karne par
+// using mongoose virtuals populate method at end

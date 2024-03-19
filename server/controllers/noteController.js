@@ -15,10 +15,38 @@ const createNote = async(req,res)=>{
     res.status(StatusCodes.CREATED).json({note});
 }
 
-const getAllNotes= async(req,res)=>{// adding searches and filters here also, sort based on createdAt
-    /*const notes = await Note.find({}).sort('createdAt').populate('user','name');
-    res.status(StatusCodes.OK).json({notes});*/
-    const notes = await Note.find({visibility:'public'});
+// by default sorted to latest(x)
+// categories(x),tags,likes,date(latest,oldest)(x),year(x)
+const getAllNotes= async(req,res)=>{
+    const { year,sort,category } = req.query;
+
+    let queryObject = {};
+    queryObject.visibility='public';
+    
+    if(year){
+        const startDate = new Date(year,0,1);
+        const endDate = new Date(year,11,31);
+
+        queryObject.createdAt ={
+            $gte:startDate,
+            $lte:endDate,
+        }
+    }
+    
+    if(category){
+        queryObject.category=category;
+    }
+
+    let result = Note.find(queryObject);
+
+    if(!sort || sort==='latest' || sort!=='oldest'){
+        result = result.sort('-createdAt');
+    }
+    if(sort==='oldest'){
+        result = result.sort('createdAt');
+    }
+
+    const notes = await result;
     res.status(StatusCodes.OK).json({notes,count:notes.length});
 }
 
