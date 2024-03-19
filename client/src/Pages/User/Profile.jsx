@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Button from "../../Components/Button";
-function Profile() {
+import {FaTimes} from "react-icons/fa";
+
+function Profile({handleToggle, toggle}) {
   const [userData, setUserdata] = useState({
     name: "Random",
     img: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png",
@@ -8,9 +10,14 @@ function Profile() {
     following: "10",
     dateJoined: "13/03/2024",
   });
+  
   return (
     <>
-      <div className="w-[480px] mx-2 my-4 customSlideLeft  top-0">
+      <div className={`w-[480px] mx-2 my-4 customSlideLeft max-sm:absolute max-sm:w-[95svw] max-sm:bg-white z-10 ${toggle ? "" : "max-sm:hidden"}`}>
+        <FaTimes 
+          className="text-3xl text-black absolute right-0 top-0 m-4 cursor-pointer sm:hidden"
+          onClick={handleToggle} 
+        />
         <div className="rounded-lg shadow-lg shadow-black pt-6 ml-2 min-h-[95svh]">
           <img
             src={userData.img}
