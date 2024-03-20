@@ -13,11 +13,11 @@ const openai = new OpenAI({ apiKey : apiKey });
 
 async function main() {
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: "How to use Open AI Api In my project in NodeJS?" }],
+    messages: [{ role: "system", content: "What is meaning of Aryawart?" }],
     model: "gpt-3.5-turbo",
   });
 
-  console.log(completion.choices[0]);
+  console.log(completion.choices[0].message.content);
 }
 
 main();
