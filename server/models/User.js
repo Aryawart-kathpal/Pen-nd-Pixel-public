@@ -65,6 +65,14 @@ const userSchema = mongoose.Schema({
     passwordTokenExpirationDate:{
         type:Date,
     },
+    numOfLikes:{
+        type:Number,
+        default:0,
+    },
+    likes:{
+        type:[mongoose.Schema.Types.ObjectId],
+        ref:'Note',
+    }
 },{timestamps:true});
 
 userSchema.pre('save',async function(){
