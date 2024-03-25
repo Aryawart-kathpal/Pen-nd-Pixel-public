@@ -1,7 +1,8 @@
 const Note = require('../models/Note');
-const {CustomError} = require('../errors');
+const CustomError = require('../errors');
 const {StatusCodes} = require('http-status-codes');
 const {checkPermissions} = require('../utils');
+const User = require('../models/User');
 
 //title,description,content,user,tags,visibility,likes
 const createNote = async(req,res)=>{
@@ -55,7 +56,7 @@ const getSingleNote = async(req,res)=>{
     const {id:noteId} = req.params;
     const note = await Note.findOne({_id:noteId});
     if(!note){
-        throw new CustomError.NotFoundError(`No note with id: ${noteId}`);
+        throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
 
     if((note.visibility==='private' || note.visibility==='unlisted')){
@@ -73,7 +74,7 @@ const updateNote = async(req,res)=>{
     // console.log(tags);
     const note = await Note.findOne({_id:noteId});
     if(!note){
-        throw new CustomError.NotFoundError(`No note with id: ${noteId}`);
+        throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
 
     if(note.user.toString()!==req.user.userId){
@@ -95,14 +96,80 @@ const deleteNote = async(req,res)=>{
     const{id:noteId}=req.params;
     const note = await Note.findOne({_id:noteId});
     if(!note){
-        throw new CustomError.NotFoundError(`No note with id: ${noteId}`);
+        throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
     checkPermissions(req.user,note.user);
     await note.remove();
     res.status(StatusCodes.OK).json({msg:'Note deleted successfully'});
 }
 
+// kis kis ne like kiya vo bhi to aayega model mein
+const likeNote = async(req,res)=>{
+    const {id:noteId} = req.params;
+    const note = await Note.findOne({_id:noteId});
+    const user = await User.findOne({_id:req.user.userId});
+
+    if(!note){
+        throw new CustomError.notFoundError(`No note found with id : ${noteId}`);
+    }
+
+    if(note.visibility !== 'public'){
+        throw new CustomError.BadRequestError(`You can't like a ${note.visibility} note`)
+    }
+
+    if(note.likedBy.includes(req.user.userId)){
+        throw new CustomError.BadRequestError('You have already liked this note');
+    }
+
+    note.likes = note.likes+1;
+    note.likedBy.push(req.user.userId); // user ke likes update krne ke liye and list ke liye pipeline -> no
+
+    user.numOfLikes=user.numOfLikes+1;
+    user.likes.push(noteId);
+
+    // for ex. in E-commerece-API I had productReview instead of like, in which I asked multiple things, so I had to create a different model for review and then update the ratings, and all realtime, but here is's just a like so to update the likes for the user here only
+    await note.save();
+    await user.save();
+
+    res.status(StatusCodes.OK).json({msg:"Liked succesfully!!"});
+}
+
+// can't send the unlike request if already not liked
+const unlikeNote = async(req,res)=>
+{
+    const {id:noteId} = req.params;
+    const note = await Note.findOne({_id:noteId});
+    const user = await User.findOne({_id:req.user.userId});
+
+    if(!note){
+        throw new CustomError.notFoundError(`No note found with id : ${noteId}`);
+    }
+
+    if(!(note.visibility === 'public')){
+        throw new CustomError.BadRequestError(`You can't unlike a ${note.visibility} note`);
+    }
+
+    if(!note.likedBy.includes(req.user.userId)){
+        throw new CustomError.BadRequestError(`You have not liked this note`);
+    }
+
+    note.likes=note.likes-1;
+    note.likedBy=note.likedBy.filter((id)=>id.toString()!==req.user.userId); // removing specific element from array
+
+    user.numOfLikes=user.numOfLikes-1;
+    user.likes= user.likes.filter((id)=>id.toString()!==noteId);
+
+    await note.save();
+    await user.save();
+
+    res.status(StatusCodes.OK).json({msg:"Unliked succesfully!!"});
+}
+
+// user ki ek liked valie list bhi hogi
 // getAllNotes getSingleNote createNote updateNote deleteNote
 //Add Likes Controller
+//comments 
+// removing many things at deletion
+//likes pipeline
 
-module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote};
+module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote,likeNote,unlikeNote};
