@@ -43,7 +43,7 @@
     height: 90svh;
     border-radius: 1.25rem;
     border: 1px solid #AFAFAF;
-    background: #3535355b;
+    /* background: #3535355b; */
     box-shadow: -8px 4px 5px 0px rgba(0, 0, 0, 0.075);
     backdrop-filter: blur(30%);
 }
@@ -139,8 +139,8 @@
 .form1>button{
     border-radius: 0.75rem;
     width: 100%;
-    background: linear-gradient(91deg, #628EFF 9.91%, #8740CD 53.29%, #580475 91.56%);
     color: #FFF;
+    background-color: #628EFF;
     margin: 20px auto;
     padding: 0.5rem;
     font-family: "Noto Sans";
@@ -149,5 +149,7 @@
     font-weight: 600;
     line-height: normal;
     text-shadow: 0px 0px 5px rgba(251, 238, 238, 0.788);
-
+}
+button:hover{
+    text-shadow: none;
 }
