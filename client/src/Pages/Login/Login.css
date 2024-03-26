@@ -2,24 +2,6 @@
     background: url(../../assets/Photo/bg.png);
     background-size: cover;
 }
-.nav>a{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
-    color: #000;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin: 0.5rem;
-    padding: 0.2rem 1rem;
-    background-color: #628EFF;
-    border-radius: 2px;
-    transition-duration: 1s;
-    transition-timing-function: linear;
-    box-shadow: 1px 1px 2px #8740CD;
-}
-.nav>a:hover{
-    background-color: #580475;
-    color: #fff;
-}
 .container{
     min-height: 100svh;
     min-width: 100svw;
@@ -63,7 +45,7 @@
 }
 
 .form-container>p{
-    color: #FFF;
+    /* color: #FFF; */
     font-family: "Noto Sans";
     font-size: 1rem;
     font-style: normal;
@@ -82,7 +64,7 @@
     gap: 0.875rem;
 }
 .form-container>.form>h2{
-    color: #FFF;
+    /* color: #FFF; */
     font-family: "Noto Sans";
     font-size: 2.25rem;
     font-style: normal;
@@ -91,7 +73,7 @@
     text-shadow: 0px 0px 5px rgba(251, 238, 238, 0.788);
 }
 .form-container>.form>h5{
-    color: #FFF;
+    /* color: #FFF; */
     font-family: "Noto Sans";
     font-size: 1rem;
     font-style: normal;
@@ -109,11 +91,11 @@
     gap: 0.625rem;
 }
 .form1>input{
-    border: 1px solid #fff;
+    border: 1px solid grey;
     border-radius: 0.625rem;
     padding: 0.625rem 1rem;
     width: 100%;
-    color: #FFF;
+    /* color: #FFF; */
     font-family: "Noto Sans";
     font-size: 1rem;
     font-style: normal;
@@ -121,7 +103,7 @@
     line-height: normal;
 }
 .form1>input::placeholder{
-    color: #FFF;
+    /* color: #FFF; */
     font-family: "Noto Sans";
     font-size: 1rem;
     font-style: normal;
@@ -134,12 +116,12 @@
     gap: 0.625rem;
     margin: 0.2rem 1rem;
     font-size: 1.2rem;
-    color: #fff;
+    /* color: #fff; */
 }
 .form1>button{
     border-radius: 0.75rem;
     width: 100%;
-    color: #FFF;
+    /* color: #FFF; */
     background-color: #628EFF;
     margin: 20px auto;
     padding: 0.5rem;
