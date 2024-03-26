@@ -64,6 +64,14 @@ const start = async()=>{
     }
 }
 
+//searching on tags
+//getCurrentUser (may be any pipeline linked to it)
+//comments
+// Handling all the things on removal such as comments,likes,etc.
+//finishing -> populate,trim:true,
+// summary 
+// contactus,review,etc.
+
 start();
 // follow settings have to be made in the user model only, numOfFollowers and List Of Followers have to be made in the user model only -> aggregate pipleine has to be made for realtime updating the followers and following, also list of following and numOfFollowing has to be made too
 // authenticateUser to be stick at the follow also
@@ -80,3 +88,4 @@ start();
 // ek user ke saari liked posts bhi store krni hain
 // likes bhi delete hone chahiye har tarah se, note ko delete karne par
 // using mongoose virtuals populate method at end
+//summary route

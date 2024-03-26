@@ -19,7 +19,7 @@ const createNote = async(req,res)=>{
 // by default sorted to latest(x)
 // categories(x),tags,likes,date(latest,oldest)(x),year(x)
 const getAllNotes= async(req,res)=>{
-    const { year,sort,category } = req.query;
+    const { year,sort,category,search,orderBy } = req.query;
 
     let queryObject = {};
     queryObject.visibility='public';
@@ -32,6 +32,12 @@ const getAllNotes= async(req,res)=>{
             $gte:startDate,
             $lte:endDate,
         }
+    } 
+
+    //search based on tags
+    //We use the $in operator to find documents where the tags array contains any of the tags provided in the search query.
+    if(search){
+        queryObject.tags = { $in:search.split(',').map(tag => new RegExp(tag, 'i'))}; // Use the RegExp constructor with the 'i' flag to perform a case-insensitive search
     }
     
     if(category){
@@ -40,12 +46,32 @@ const getAllNotes= async(req,res)=>{
 
     let result = Note.find(queryObject);
 
+    // Any of the both below ways can be used to sort based on likes and the createdAt
+
     if(!sort || sort==='latest' || sort!=='oldest'){
-        result = result.sort('-createdAt');
+        if(orderBy==='likes')
+            result = result.sort('-likes -createdAt');
+        else 
+            result = result.sort('-createdAt');
     }
     if(sort==='oldest'){
-        result = result.sort('createdAt');
+        if(orderBy==='likes')
+            result = result.sort('-likes createdAt');
+        else
+            result = result.sort('createdAt');
     }
+
+    // if (!sort || sort === 'latest') {
+    //     if (orderBy === 'likes')
+    //         result = result.sort({ likes:-1,createdAt:-1 });
+    //     else
+    //         result = result.sort({ createdAt: -1 });
+    // } else if (sort === 'oldest') {
+    //     if (orderBy === 'likes')
+    //         result = result.sort({ likes: -1,createdAt: 1});
+    //     else
+    //         result = result.sort({ createdAt: 1 });
+    // }
 
     const notes = await result;
     res.status(StatusCodes.OK).json({notes,count:notes.length});
