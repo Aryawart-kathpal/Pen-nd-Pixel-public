@@ -27,6 +27,7 @@
 #Pen-And-Pixel {
 	background-color: var(--bg-color);
 	color: var(--text-color);
+	min-height: 100svh;
 }
 
 .sedgwick-ave {
