@@ -8,14 +8,14 @@ const Toggle = ({ onToggle }) => {
 		onToggle(!isDarkMode);
 	};
 
-	useEffect(() => {
-		const penNpixel = document.getElementById("Pen-And-Pixel");
-		if (isDarkMode) {
-			penNpixel.classList.add("dark");
-		} else {
-			penNpixel.classList.remove("dark");
-		}
-	}, [isDarkMode]);
+	// useEffect(() => {
+	// 	const penNpixel = document.getElementById("Pen-And-Pixel");
+	// 	if (isDarkMode) {
+	// 		penNpixel.classList.add("dark");
+	// 	} else {
+	// 		penNpixel.classList.remove("dark");
+	// 	}
+	// }, [isDarkMode]);
 
 	return (
 		<div className="flex items-center">

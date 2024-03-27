@@ -5,13 +5,13 @@
 @tailwind utilities;
 
 .dark {
-	--bg-color: #1a202c;
-	--text-color: #e2e8f0;
+	--bg-color: #111111;
+	--text-color: #f5f5f5;
 }
 
 .light {
-	--bg-color: #ffffff;
-	--text-color: #1a202c;
+	--bg-color: #f5f5f5;
+	--text-color: #111111;
 }
 
 * {

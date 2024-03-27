@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 
 const ThemeContext = createContext();
 
@@ -8,6 +8,14 @@ export const ThemeProvider = ({ children }) => {
 	const toggleTheme = () => {
 		setIsDarkMode((prevMode) => !prevMode);
 	};
+	useEffect(() => {
+		const penNpixel = document.getElementById("Pen-And-Pixel");
+		if (isDarkMode) {
+			penNpixel.classList.add("dark");
+		} else {
+			penNpixel.classList.remove("dark");
+		}
+	}, [isDarkMode]);
 
 	return (
 		<ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
