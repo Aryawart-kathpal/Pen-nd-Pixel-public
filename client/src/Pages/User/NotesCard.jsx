@@ -17,6 +17,7 @@ function Notes({ title, description, likes, comments }) {
               alt="Likes Icon"
               className="w-4 h-5 sm:w-6 sm:h-6"
             ></img>
+            
             <p className="text-sm sm:text-base">{likes}</p>
           </div>
           <div className="flex">
