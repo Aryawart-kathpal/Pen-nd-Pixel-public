@@ -1,5 +1,5 @@
 import React from "react";
-
+import { FaRegHeart ,FaRegComment} from "react-icons/fa";
 function Notes({ title, description, likes, comments }) {
   console.log(title, description, likes, comments);
   return (
@@ -12,20 +12,12 @@ function Notes({ title, description, likes, comments }) {
         <div></div>{" "}
         <div className="flex items-center space-x-2">
           <div className="flex">
-            <img
-              src="https://i.pinimg.com/564x/c6/7d/a0/c67da01511fe76591011a81094846e87.jpg"
-              alt="Likes Icon"
-              className="w-4 h-5 sm:w-6 sm:h-6"
-            ></img>
+            <FaRegHeart className="h-6 w-8"/>
             
             <p className="text-sm sm:text-base">{likes}</p>
           </div>
           <div className="flex">
-            <img
-              src="https://www.pngitem.com/pimgs/m/584-5843167_icon-of-comment-in-white-hd-png-download.png"
-              alt="Comments Icon"
-              className="w-4 h-5 sm:w-6 sm:h-6"
-            ></img>
+            <FaRegComment className="h-6 w-8"/>
             <p className="text-sm sm:text-base">{comments.length}</p>
           </div>
         </div>
