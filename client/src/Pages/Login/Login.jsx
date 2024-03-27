@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { InputText , Button } from '../../Components/FormInput';
 import { useToast } from '@chakra-ui/react'
 import validateEmail from '../../Helpers/emailValidator';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
     const toast = useToast();
     const [login, setLogin] = useState({
         email: "",
@@ -20,6 +22,7 @@ const Login = () => {
                     duration: 9000,
                     isClosable: true,
                 })
+                navigate('/user')
             }
             else{
                 toast({
