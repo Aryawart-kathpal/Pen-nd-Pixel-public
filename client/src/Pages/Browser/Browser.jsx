@@ -90,6 +90,7 @@ const Browser = () => {
   const handleSearch = (e) => {
     setSearchText(e.target.value);
   };
+
   return (
     <>
       <Nav />

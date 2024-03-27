@@ -1,8 +1,8 @@
 import React from "react";
-import { useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Card ({title, description, topics, content, authorDetails}){
-      const navigate = useNavigation()
+      const navigate = useNavigate()
       const data = {
         title,
         content,
