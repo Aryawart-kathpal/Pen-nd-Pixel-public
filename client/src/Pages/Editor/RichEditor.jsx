@@ -1,34 +1,31 @@
-import React from "react";
-import {
-                EditorBubble,
-                EditorBubbleItem,
-                EditorCommand,
-                EditorCommandItem,
-                EditorContent,
-                EditorRoot,
-        } from "novel";
-    
-const RichEditor = () => (
-        <EditorRoot>
-            <EditorContent>
-                <EditorCommand>
-                    <EditorCommandItem onCommand={function ({ editor, range }) {
-                        throw new Error("Function not implemented.");
-                    }} />
-                    <EditorCommandItem onCommand={function ({ editor, range }) {
-                        throw new Error("Function not implemented.");
-                    }} />
-                    <EditorCommandItem onCommand={function ({ editor, range }) {
-                        throw new Error("Function not implemented.");
-                    }} />
-                </EditorCommand>
-                <EditorBubble>
-                    <EditorBubbleItem children={undefined} />
-                    <EditorBubbleItem children={undefined} />
-                    <EditorBubbleItem children={undefined} />
-                </EditorBubble>
-            </EditorContent>
-        </EditorRoot>
-    );
+import React, { useRef, useState, useMemo } from 'react';
+import JoditEditor from 'jodit-react';
+
+const RichEditor = ({ placeholder }) => {
+  const editor = useRef(null);
+  const [content, setContent] = useState('');
+
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      placeholder: placeholder || 'Start typing...'
+    }),
+    [placeholder]
+  );
+
+  const handleBlur = (newContent) => {
+    setContent(newContent);
+  };
+
+  return (
+    <JoditEditor
+      ref={editor}
+      value={content}
+      config={config}
+      onBlur={handleBlur}
+      tabIndex={1} // tabIndex of textarea
+    />
+  );
+};
+
 export default RichEditor;
-  
