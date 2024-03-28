@@ -15,12 +15,12 @@ function Profile({handleToggle, toggle}) {
   return (
 		<>
 			<div
-				className={`w-[480px] mx-2 my-4 customSlideLeft max-sm:absolute max-sm:w-[95svw] max-sm:bg-white z-10 ${
+				className={`w-[480px] mx-2 my-4 customSlideLeft max-sm:absolute max-sm:w-[95svw] max-sm:backdrop-blur-3xl z-10 ${
 					toggle ? "" : "max-sm:hidden"
 				}`}
 			>
 				<FaTimes
-					className="text-3xl text-black absolute right-0 top-0 m-4 cursor-pointer sm:hidden"
+					className="text-3xl  absolute right-0 top-0 m-4 cursor-pointer sm:hidden"
 					onClick={handleToggle}
 				/>
 				<div className="rounded-lg shadow-lg shadow-black pt-6 ml-2 h-[95svh]">
@@ -29,33 +29,33 @@ function Profile({handleToggle, toggle}) {
 						alt="Profile Picture"
 						className="rounded-full w-24 h-24 mx-auto border-4 border-black mb-4 max-sm:mb-0"
 					/>
-					<h2 className="text-black text-2xl font-bold text-center mb-2 max-sm:mb-0">
+					<h2 className=" text-2xl font-bold text-center mb-2 max-sm:mb-0">
 						{userData.name}
 					</h2>
-					<p className="text-black text-sm text-center mb-2 max-sm:mb-1">
+					<p className=" text-sm text-center mb-2 max-sm:mb-1">
 						Joined on {userData.dateJoined}
 					</p>
-					<div className="flex justify-evenly text-white">
+					<div className="flex justify-evenly ">
 						<div>
-							<p className="text-lg text-black font-semibold">
+							<p className="text-lg  font-semibold">
 								{userData.followers}
 							</p>
-							<p className="text-xs text-black">Followers</p>
+							<p className="text-xs ">Followers</p>
 						</div>
 						<div>
-							<p className="text-lg text-black font-semibold">
+							<p className="text-lg  font-semibold">
 								{userData.following}
 							</p>
-							<p className="text-xs text-black">Following</p>
+							<p className="text-xs ">Following</p>
 						</div>
 					</div>
-					<div className="text-gray-800 rounded-lg py-10 px-6 max-h-[100%]">
+					<div className=" rounded-lg py-10 px-6 max-h-[100%]">
 						<h3 className="text-lg font-bold mb-2 max-sm:text-md">About Me</h3>
 						<p className="text-sm max-sm:text-xs">{userData.about}</p>
 						<div className="flex justify-center mt-4">
 							<Button
 								text="Edit Profile"
-								className="bg-black text-white p-2 border-2 rounded border-black"
+								className="bg-gray-500 font-semibold p-2 border-2 rounded border-black"
 							/>
 						</div>
 					</div>

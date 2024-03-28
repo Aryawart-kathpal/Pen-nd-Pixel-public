@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Toggle = ({ onToggle }) => {
+const Toggle = ({ onToggle, tailwind }) => {
 	const [isDarkMode, setIsDarkMode] = useState(false);
 
 	const handleToggle = () => {
@@ -18,7 +18,7 @@ const Toggle = ({ onToggle }) => {
 	// }, [isDarkMode]);
 
 	return (
-		<div className="flex items-center">
+		<div className={`flex items-center ${tailwind}`}>
 			<span className="mr-2">{isDarkMode ? 'Light' : 'Dark'}</span>
 			<label htmlFor="toggle" className="flex items-center cursor-pointer">
 				<div className="relative">
