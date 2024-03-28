@@ -9,6 +9,7 @@ import ContactUs from './Pages/Home/ContactUs'
 import AboutUs from './Pages/Home/AboutUs'
 import LoginLayout from './Pages/Login/LoginLayout'
 import UserDashboard from './Pages/User/UserDashboard'
+import CreateNote from './Pages/Editor/CreateNote'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
     <Routes>
       <Route path='/' element={<HomePage />}></Route>
       <Route path='/blog/:id' element={<ViewBlog />}></Route>
+      <Route path='/blog/new' element={<CreateNote />}></Route>
       <Route path='/browse' element={<Browser />}></Route>
 
       <Route path='/user' element={<UserDashboard />}></Route>
