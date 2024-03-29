@@ -40,7 +40,15 @@ cloudinary.config({
 // Middleware
 
 app.use(helmet());
-app.use(cors());
+// app.use(cors());
+
+app.use(cors(
+    {
+        origin:process.env.FRONTEND_URL,
+        credentials:true,
+    }
+));
+
 app.use(xss());
 app.use(mongoSanitize());
 app.use(rateLimiter({
