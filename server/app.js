@@ -23,6 +23,11 @@ const noteRoutes = require('./routes/noteRoutes');
 //Other packages
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const xss=require('xss-clean');
+const cors = require('cors');
+const rateLimiter = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 //Cloudinary
 const cloudinary = require('cloudinary').v2;
@@ -33,6 +38,16 @@ cloudinary.config({
 })
 
 // Middleware
+
+app.use(helmet());
+app.use(cors());
+app.use(xss());
+app.use(mongoSanitize());
+app.use(rateLimiter({
+    windowMs:15*60*1000,
+    max:60,
+}));
+
 app.use(express.static(path.resolve(__dirname,'../client/dist')));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET))
@@ -64,7 +79,7 @@ const start = async()=>{
     }
 }
 
-//searching on tags
+//searching on tags -> done
 //getCurrentUser (may be any pipeline linked to it)
 //comments
 // Handling all the things on removal such as comments,likes,etc.
