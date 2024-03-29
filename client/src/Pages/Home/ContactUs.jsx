@@ -1,8 +1,29 @@
-import React from "react";
+import {React,useState} from "react";
 import Nav from "../../Layouts/Nav";
 import { FaHouse , FaPhoneFlip} from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+
 function ContactUs() {
+
+const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //console.log("Form submitted with data:", formData);
+    
+  };
   return (
     <div>
       <Nav />
@@ -58,26 +79,40 @@ function ContactUs() {
                 <form>
                   <input
                     type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
                     placeholder="Full Name"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Email"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
+                  
                   <input
                     type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="Phone"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
                   <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Type your Message..."
                     rows="4"
                     className="w-full mb-5 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   ></textarea>
                   <button
                     type="submit"
+                    onClick={handleSubmit}
                     className="bg-blue-600  px-4 py-2 rounded-md hover:bg-blue-700 mb-1 w-full font-semibold text-red-50"
                   >
                     Send Message
