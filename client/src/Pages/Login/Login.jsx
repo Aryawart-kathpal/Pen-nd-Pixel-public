@@ -36,17 +36,19 @@ const Login = () => {
 			const res = axiosInstance.post("/auth/login", login);
 			toast.promise(res, {
 				success: { title: "Login Successful", description: "Welcome back" },
+				error: { title: "Login Failed" },
 				loading: { title: "Authenticating...", description: "Please wait" },
 			});
             const response = await res;
             console.log('Response:', response)
-            localStorage.setItem("token", response.user.tokenUser);
+            // localStorage.setItem("token", response.user.tokenUser);
+			localStorage.setItem("user", JSON.stringify(response.data.user));
             localStorage.setItem("isLoggedIn", true);
-			navigate("/dashboard");
+			navigate("/user");
 		} catch (error) {
 			console.log(error);
 			toast({
-				title: error.message,
+				title: error.response.data.msg,
 				status: "error",
 				duration: 2000,
 				isClosable: true,
