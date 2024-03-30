@@ -14,11 +14,11 @@ const Nav = () => {
 				<span className="sr-only">Pen and Pixel</span>
 			</Link>
 			<nav className="ml-auto flex gap-4 sm:gap-6 items-center">
-				<Link className="text-sm font-medium hover:underline underline-offset-4">
-					Features
-				</Link>
-				<Link className="text-sm font-medium hover:underline underline-offset-4">
-					Pricing
+				<Link
+					to="/"
+					className="text-sm font-medium hover:underline underline-offset-4"
+				>
+					Home
 				</Link>
 				<Link
 					to="/about"
