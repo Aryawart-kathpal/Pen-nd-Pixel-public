@@ -5,7 +5,11 @@ import Button from "../../Components/Button";
 import { FaBars } from "react-icons/fa";
 import Toggle from "../../Components/Toggle";
 import { useTheme } from "../../Context/ThemeProvider";
+import CreateNote from "../Editor/CreateNote";
+import {useNavigate} from 'react-router-dom';
+
 function UserDasboard() {
+	const navigate = useNavigate();
 	const { isDarkMode, toggleTheme } = useTheme();
 	const [notes, setNotes] = useState([
 		{
@@ -129,6 +133,12 @@ function UserDasboard() {
 					<Button
 						text="Create new note"
 						className="bg-slate-500 font-semibold p-2 border-2 rounded border-black"
+						handleOnClick={
+							() => {
+								console.log("Clicked");
+								navigate('/blog/new')
+							}
+						}
 					/>
 				</div>
 			</div>
