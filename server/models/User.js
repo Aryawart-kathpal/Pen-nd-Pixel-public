@@ -72,14 +72,6 @@ const userSchema = mongoose.Schema({
     likes:{
         type:[mongoose.Schema.Types.ObjectId],
         ref:'Note',
-    },
-    numOfNotes:{
-        type:Number,
-        default:0,
-    },
-    noteLikes:{
-        type:Number,
-        default:0,
     }
 },{timestamps:true});
 
