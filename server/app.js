@@ -88,12 +88,13 @@ const start = async()=>{
 }
 
 //searching on tags -> done
-//getCurrentUser (may be any pipeline linked to it)
+//getCurrentUser (may be any pipeline linked to it) ->sending exact thing instead of id, using populate
 //comments
 // Handling all the things on removal such as comments,likes,etc.
 //finishing -> populate,trim:true,
 // summary 
 // contactus,review,etc.
+// searching on name also
 
 start();
 // follow settings have to be made in the user model only, numOfFollowers and List Of Followers have to be made in the user model only -> aggregate pipleine has to be made for realtime updating the followers and following, also list of following and numOfFollowing has to be made too

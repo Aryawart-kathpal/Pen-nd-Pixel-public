@@ -59,4 +59,18 @@ const noteSchema = new mongoose.Schema({
     }
 },{timestamps:true});
 
+noteSchema.methods.calculateLikes = async function (userId){
+    const stats = await this.aggregate([
+        {match:{user:userId}},
+        {
+            group:{
+                _id:'$user',
+                numOfLikes:{$sum:'$likes'},
+            }
+        }
+    ])
+    console.log(stats);
+    return stats;
+}
+
 module.exports = mongoose.model('Note',noteSchema);

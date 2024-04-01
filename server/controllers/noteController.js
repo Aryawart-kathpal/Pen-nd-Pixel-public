@@ -73,8 +73,18 @@ const getAllNotes= async(req,res)=>{
     //         result = result.sort({ createdAt: 1 });
     // }
 
+    //Pagination
+    const page=req.query.page||1;
+    const limit = req.query.limit||10;
+    const skip = (page-1)*limit;
+
+    result.skip(skip).limit(limit);
+
+    const totalNotes = await Note.countDocuments(queryObject);
+    const numOfPages = Math.ceil(totalNotes/limit);
+
     const notes = await result;
-    res.status(StatusCodes.OK).json({notes,count:notes.length});
+    res.status(StatusCodes.OK).json({notes,totalNotes,numOfPages});
 }
 
 // user can access it's own private notes
@@ -96,7 +106,7 @@ const getSingleNote = async(req,res)=>{
 //frontend send me the complete tags array
 const updateNote = async(req,res)=>{
     const{id:noteId} = req.params;
-    const {title,description,content,tags,visibility}=req.body;
+    const {title,description,content,tags,visibility,category}=req.body;
     // console.log(tags);
     const note = await Note.findOne({_id:noteId});
     if(!note){
@@ -112,7 +122,7 @@ const updateNote = async(req,res)=>{
         await note.save();
     }
 
-    const updatedNote = await Note.findOneAndUpdate({_id:noteId},{title,description,content,visibility},{new:true,runValidators:true});
+    const updatedNote = await Note.findOneAndUpdate({_id:noteId},{title,description,content,visibility,category},{new:true,runValidators:true});
     // console.log(updatedNote.tags);
 
     res.status(StatusCodes.OK).json({updatedNote});
