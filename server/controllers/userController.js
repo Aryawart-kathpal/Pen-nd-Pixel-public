@@ -3,6 +3,8 @@ const {StatusCodes} = require('http-status-codes');
 const CustomError = require('../errors');
 const { checkPermissions } = require('../utils');
 const cloudinary = require('cloudinary').v2;
+const Note = require('../models/Note');
+const mongoose = require('mongoose');
 
 const getAllUsers = async(req,res)=>{
     const users= await User.find({}).select('-password');
@@ -21,11 +23,27 @@ const getCurrentUser = async(req,res)=>{
     const {userId} = req.user;
     const user = await User.findOne({_id:userId}).select('-password');
     // later also have to give some more data including notes and may be setting pipeline too..
-    //name,image,about me of user
-    // About note :  title,description,name,content,status
-    // followers aur following vgera bhi dena hai
-    // background image
-    res.status(StatusCodes.OK).json({user});
+    //name,image,about me of user ->done
+    // About note :  title,description,name,content,status-> done
+    // followers aur following vgera bhi dena hai ->done
+    // background image->done
+
+    // const notes=await Note.find({user:userId}).sort({createdAt:-1}).populate('user',['name','image']).populate('likedBy',['name','image']).populate('comments.user',['name','image']).populate('comments.replies.user',['name','image']).populate('comments.replies.replies.user',['name','image']);
+    const notes=await Note.find({user:userId});
+
+    const stats = await Note.aggregate([
+        {$match:{user:mongoose.Types.ObjectId(userId)}},
+        {
+            $group:{
+                _id:null,
+                numOfLikes:{$sum:'$likes'},
+            }
+        }
+    ])
+    // console.log(stats[0].numOfLikes);
+    const noteLikes= stats[0].numOfLikes;
+
+    res.status(StatusCodes.OK).json({user,notes,numOfNotes:notes.length,noteLikes});
 }
 
 const updateUser = async(req,res)=>{
