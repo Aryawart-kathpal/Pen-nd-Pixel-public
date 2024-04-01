@@ -22,7 +22,7 @@ const getSingleUser = async(req,res)=>{
 const getCurrentUser = async(req,res)=>{
     const {userId} = req.user;
     const user = await User.findOne({_id:userId}).select('-password');
-    // later also have to give some more data including notes and may be setting pipeline too..
+    // later also have to give some more data including notes and may be setting pipeline too.. -> done
     //name,image,about me of user ->done
     // About note :  title,description,name,content,status-> done
     // followers aur following vgera bhi dena hai ->done
@@ -35,7 +35,7 @@ const getCurrentUser = async(req,res)=>{
         {$match:{user:mongoose.Types.ObjectId(userId)}},
         {
             $group:{
-                _id:null,
+                _id:null,// '$user' -> error has match only for one user
                 numOfLikes:{$sum:'$likes'},
             }
         }

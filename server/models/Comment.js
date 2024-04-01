@@ -13,12 +13,12 @@ const commentSchema = new mongoose.Schema({
         required:[true,'Please provide name'],
     },
     user:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:'User',
         required:[true,'Please provide user'],
     },
     note:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:'Note',
         required:[true,'Please provide note'],
     },
