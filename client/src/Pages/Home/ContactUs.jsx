@@ -1,8 +1,68 @@
-import React from "react";
+import {React,useState} from "react";
 import Nav from "../../Layouts/Nav";
 import { FaHouse , FaPhoneFlip} from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { useToast } from "@chakra-ui/react";
+import validateEmail from "../../Helpers/emailValidator";
+
 function ContactUs() {
+  const toast = useToast();
+
+const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    console.log("Form submitted with data:", formData);
+    if (!formData.fullName || !formData.email || !formData.message || !formData.phone) {
+			toast({
+				title: "Please fill all fields",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		if (!validateEmail(formData.email)) {
+			toast({
+				title: "Invalid email",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		try {
+			const examplePromise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(200), 5000)
+      })
+			toast.promise(examplePromise, {
+				success: { title: "Message Sent Successfully", description: "Thanks for contacting us!" },
+				error: { title: "Message not sent" },
+				loading: { title: "Sending...", description: "Please wait" },
+			});
+		} catch (error) {
+			console.log(error);
+			toast({
+				title: error.response.data.msg,
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+		}
+	}
+    
   return (
     <div>
       <Nav />
@@ -58,26 +118,40 @@ function ContactUs() {
                 <form>
                   <input
                     type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
                     placeholder="Full Name"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Email"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
+                  
                   <input
                     type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="Phone"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
                   <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Type your Message..."
                     rows="4"
                     className="w-full mb-5 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   ></textarea>
                   <button
                     type="submit"
+                    onClick={handleSubmit}
                     className="bg-blue-600  px-4 py-2 rounded-md hover:bg-blue-700 mb-1 w-full font-semibold text-red-50"
                   >
                     Send Message
