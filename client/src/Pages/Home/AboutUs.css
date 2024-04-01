@@ -1,0 +1,26 @@
+.card-container{
+    height: 500px;
+}
+.card-container>.card{
+    transition-duration: 1000ms;
+    padding: 10px;
+    flex-shrink: 3;
+}
+.card>img{
+    height: 100%;
+    width: fit-content;
+    filter: grayscale(100%);
+    transition-duration: 1000ms;
+    border-radius: 10px;
+}
+
+.card>img:hover{
+    filter: grayscale(0%);
+    width: min-content;
+}
+
+.card:hover{
+    flex: auto;
+    overflow: hidden;
+    background-color: antiquewhite;
+}

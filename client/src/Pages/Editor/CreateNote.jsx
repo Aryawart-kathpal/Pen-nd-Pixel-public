@@ -1,10 +1,10 @@
 import RichEditor from "./RichEditor"
+import EditorAside from "./EditorAside"
 
 export default function CreateNote(){
     return (
-        <div>
-            CREATE NOTE PAGE
-            {/* CODE HERE */}
+        <div className="flex relative">
+            <EditorAside />
             <RichEditor />
         </div>
     )

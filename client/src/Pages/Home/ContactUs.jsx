@@ -44,8 +44,8 @@ const [formData, setFormData] = useState({
               below.
             </p>
           </div>
-          <div className="max-w-4xl rounded-lg shadow-lg flex flex-row md:flex-row pl-10 bg-[#a3a0a017]">
-            <div className="md:w-1/2 flex flex-col justify-center items-center md:items-start ">
+          <div className="max-w-4xl rounded-lg shadow-lg sm:flex flex-row md:flex-row sm:pl-10 bg-[#a3a0a017]">
+            <div className="md:w-1/2 flex flex-col justify-center sm:items-center max-sm:p-10 md:items-start ">
               <div className="flex items-center mb-14">
                 <div className="mr-4">
                   <FaHouse />
