@@ -2,8 +2,11 @@ import {React,useState} from "react";
 import Nav from "../../Layouts/Nav";
 import { FaHouse , FaPhoneFlip} from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { useToast } from "@chakra-ui/react";
+import validateEmail from "../../Helpers/emailValidator";
 
 function ContactUs() {
+  const toast = useToast();
 
 const [formData, setFormData] = useState({
     fullName: "",
@@ -19,11 +22,47 @@ const [formData, setFormData] = useState({
     });
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    //console.log("Form submitted with data:", formData);
+    console.log("Form submitted with data:", formData);
+    if (!formData.fullName || !formData.email || !formData.message || !formData.phone) {
+			toast({
+				title: "Please fill all fields",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		if (!validateEmail(formData.email)) {
+			toast({
+				title: "Invalid email",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		try {
+			const examplePromise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(200), 5000)
+      })
+			toast.promise(examplePromise, {
+				success: { title: "Message Sent Successfully", description: "Thanks for contacting us!" },
+				error: { title: "Message not sent" },
+				loading: { title: "Sending...", description: "Please wait" },
+			});
+		} catch (error) {
+			console.log(error);
+			toast({
+				title: error.response.data.msg,
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+		}
+	}
     
-  };
   return (
     <div>
       <Nav />
