@@ -3,6 +3,7 @@ const CustomError = require('../errors');
 const {StatusCodes} = require('http-status-codes');
 const {checkPermissions} = require('../utils');
 const User = require('../models/User');
+const {summarizer} = require('../utils');
 
 //title,description,content,user,tags,visibility,likes
 const createNote = async(req,res)=>{
@@ -34,20 +35,25 @@ const getAllNotes= async(req,res)=>{
         }
     } 
 
-    //search based on tags
     //We use the $in operator to find documents where the tags array contains any of the tags provided in the search query.
     // if(search){
     //     queryObject.tags = { $in:search.split(',').map(tag => new RegExp(tag, 'i'))}; // Use the RegExp constructor with the 'i' flag to perform a case-insensitive search
+    //     queryObject.title = {$regex:search, $options:'i'};
     // }
 
-    // using search for both the name and tags
+    // new RegExp(tag,'i') eq to $regex:search,$options:'i'    
     if (search) {
-        const searchRegex = new RegExp(search, 'i');
         queryObject.$or = [
             { tags: { $in: search.split(',').map(tag => new RegExp(tag, 'i')) } }, // Search by tags
-            { name: { $regex: searchRegex } } // Search by name (assuming 'name' property exists in the Note model)
+            // { title: { $regex: search , $options:'i' } } // Search by name (assuming 'name' property exists in the Note model)
+            {title :{$in : search.split(',').map(tag => new RegExp(tag,'i'))}} // instead of searching on just one title value as above I can do on all the search items
         ];
     }
+
+    //The $or operator in MongoDB allows you to perform a logical OR operation between multiple query conditions. It's commonly used when you want to find documents that match any of the specified conditions, so the second method works
+
+    // console.log(queryObject['$or'].title);
+    // console.log(queryObject['$or'][0].tags['$in']);
     
     if(category){
         queryObject.category=category;
@@ -59,7 +65,7 @@ const getAllNotes= async(req,res)=>{
 
     if(!sort || sort==='latest' || sort!=='oldest'){
         if(orderBy==='likes')
-            result = result.sort('-likes -createdAt');
+            result = result.sort('-likes -createdAt'); //result = result.sort({ likes:-1,createdAt:-1 }) ->same and order matters in both
         else 
             result = result.sort('-createdAt');
     }
@@ -69,18 +75,6 @@ const getAllNotes= async(req,res)=>{
         else
             result = result.sort('createdAt');
     }
-
-    // if (!sort || sort === 'latest') {
-    //     if (orderBy === 'likes')
-    //         result = result.sort({ likes:-1,createdAt:-1 });
-    //     else
-    //         result = result.sort({ createdAt: -1 });
-    // } else if (sort === 'oldest') {
-    //     if (orderBy === 'likes')
-    //         result = result.sort({ likes: -1,createdAt: 1});
-    //     else
-    //         result = result.sort({ createdAt: 1 });
-    // }
 
     //Pagination
     const page=req.query.page||1;
@@ -210,6 +204,22 @@ const unlikeNote = async(req,res)=>
     res.status(StatusCodes.OK).json({msg:"Unliked succesfully!!"});
 }
 
+const generateSummary = async(req,res)=>{
+    const {id:noteId} = req.params;
+    
+    const note = await Note.findOne({_id:noteId});
+    if(!note){
+        throw new CustomError.notFoundError(`No note exists with noteId : ${noteId}`);
+    }
+
+    if(note.visibility!== 'public'){
+        throw new CustomError.BadRequestError(`You can't generate summary for a ${note.visibility} note`);
+    }
+
+    const summary = await summarizer(note);
+    res.status(StatusCodes.OK).json({summary}); 
+}
+
 // user ki ek liked valie list bhi hogi
 // getAllNotes getSingleNote createNote updateNote deleteNote
 //Add Likes Controller
@@ -217,4 +227,4 @@ const unlikeNote = async(req,res)=>
 // removing many things at deletion
 //likes pipeline
 
-module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote,likeNote,unlikeNote};
+module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote,likeNote,unlikeNote,generateSummary};

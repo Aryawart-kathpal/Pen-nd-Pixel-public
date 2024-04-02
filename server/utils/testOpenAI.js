@@ -7,17 +7,18 @@ const OpenAI = require("openai");
 require('dotenv').config();
 
 const apiKey = process.env.OPENAI_API_KEY;
-console.log(apiKey);
+// console.log(apiKey);
 
 const openai = new OpenAI({ apiKey : apiKey });
 
-async function main() {
+async function main(note) {
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: "What is meaning of Aryawart?" }],
+    messages: [{ role: "system", content: `Summarize the following text with title as : ${note.title}, in easy english, use bullet points for easy read. Content is :  ${note.content}, please limit the summary to 300 words` }],
     model: "gpt-3.5-turbo",
   });
 
-  console.log(completion.choices[0].message.content);
+  // console.log(completion.choices[0].message.content);
+  return completion.choices[0].message.content;
 }
 
-main();
+module.exports=main;
