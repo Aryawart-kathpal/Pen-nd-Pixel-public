@@ -36,8 +36,17 @@ const getAllNotes= async(req,res)=>{
 
     //search based on tags
     //We use the $in operator to find documents where the tags array contains any of the tags provided in the search query.
-    if(search){
-        queryObject.tags = { $in:search.split(',').map(tag => new RegExp(tag, 'i'))}; // Use the RegExp constructor with the 'i' flag to perform a case-insensitive search
+    // if(search){
+    //     queryObject.tags = { $in:search.split(',').map(tag => new RegExp(tag, 'i'))}; // Use the RegExp constructor with the 'i' flag to perform a case-insensitive search
+    // }
+
+    // using search for both the name and tags
+    if (search) {
+        const searchRegex = new RegExp(search, 'i');
+        queryObject.$or = [
+            { tags: { $in: search.split(',').map(tag => new RegExp(tag, 'i')) } }, // Search by tags
+            { name: { $regex: searchRegex } } // Search by name (assuming 'name' property exists in the Note model)
+        ];
     }
     
     if(category){

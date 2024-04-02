@@ -20,6 +20,7 @@ const userRoutes=require('./routes/userRoutes');
 const followRoutes=require('./routes/followRoutes');
 const noteRoutes = require('./routes/noteRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+const otherRoutes = require('./routes/otherRoutes');
 
 //Other packages
 const fileUpload = require('express-fileupload');
@@ -69,6 +70,7 @@ app.use('/api/v1/user',userRoutes);
 app.use('/api/v1/user',followRoutes);
 app.use('/api/v1/notes',noteRoutes);
 app.use('/api/v1/notes',commentRoutes);
+app.use('/api/v1/',otherRoutes);
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
@@ -91,11 +93,11 @@ const start = async()=>{
 
 //searching on tags -> done
 //getCurrentUser (may be any pipeline linked to it) ->sending exact thing instead of id, using populate->done
-//comments
-// Handling all the things on removal such as comments,likes,etc.
+//comments->done
+// Handling all the things on removal such as comments,likes,etc. -> done
 //finishing -> populate,trim:true,
 // summary 
-// contactus,review,etc.
+// contactus(name,email,phone,message),review,etc.->done
 // searching on name also
 // deleting on deletion
 // populate at last
