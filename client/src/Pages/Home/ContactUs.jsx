@@ -9,9 +9,9 @@ import validatePhone from "../../Helpers/phoneValidator";
 
 function ContactUs() {
   const toast = useToast();
-
+// const {name,email,phone,message}= req.body; -- backend requirement according to routes
 const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     phone: "",
     message: "",
@@ -27,7 +27,7 @@ const [formData, setFormData] = useState({
   async function handleSubmit(e) {
     e.preventDefault();
     console.log("Form submitted with data:", formData);
-    if (!formData.fullName || !formData.email || !formData.message || !formData.phone) {
+    if (!formData.name || !formData.email || !formData.message || !formData.phone) {
 			toast({
 				title: "Please fill all fields",
 				status: "error",
@@ -56,12 +56,15 @@ const [formData, setFormData] = useState({
 			return;
     }
 		try {
-			const res = await axiosInstance.post("/contact", formData);
+      console.log(formData);
+			const res = axiosInstance.post("/contact", formData);
 			toast.promise(res, {
 				success: { title: "Message Sent Successfully", description: "Thanks for contacting us!" },
 				error: { title: "Message not sent" },
 				loading: { title: "Sending...", description: "Please wait" },
 			});
+      const response =  await res;
+      console.log(response);
 		} catch (error) {
 			console.log(error);
 			toast({
@@ -124,12 +127,12 @@ const [formData, setFormData] = useState({
               </div>
             </div>
             <div className="md:w-1/2 md:mt-0  rounded-lg">
-              <div className="bg-[#f5f5f5] p-8 rounded-lg shadow-md underline">
+              <div className="bg-[#f5f5f5] p-8 rounded-lg shadow-md underline text-gray-900">
                 <form>
                   <input
                     type="text"
-                    name="fullName"
-                    value={formData.fullName}
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
                     placeholder="Full Name"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
