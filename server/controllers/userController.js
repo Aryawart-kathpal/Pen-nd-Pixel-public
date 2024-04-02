@@ -5,6 +5,7 @@ const { checkPermissions } = require('../utils');
 const cloudinary = require('cloudinary').v2;
 const Note = require('../models/Note');
 const mongoose = require('mongoose');
+const {sendEmail} = require('../utils');
 
 const getAllUsers = async(req,res)=>{
     const users= await User.find({}).select('-password');
@@ -127,5 +128,26 @@ const updateUserPassword = async(req,res)=>{
     await user.save();
     res.status(StatusCodes.OK).json({msg:"Successfully updated the password"});
 }
-module.exports={getAllUsers,getSingleUser,getCurrentUser,updateUser,deleteUser,updateUserPassword};
+
+const contactUs = async(req,res)=>{
+    //to,html,subject
+    const {name,email,phone,message}= req.body;
+
+    if(!name || !email || !phone || !message){
+        throw new CustomError.BadRequestError("Please provide all the fields");
+    }
+
+    const html = `
+        <p>Name: ${name}</p>
+        <p>Email: ${email}</p>
+        <p>Phone: ${phone}</p>
+        <p>Message: ${message}</p>
+    `;
+
+    await sendEmail({to:'uncannydevs@gmail.com',html,subject:'Contact Us Form Submission'});
+
+    res.status(StatusCodes.OK).json({msg:"Email sent successfully"});
+}
+
+module.exports={getAllUsers,getSingleUser,getCurrentUser,updateUser,deleteUser,updateUserPassword,contactUs};
 // getAllUsers getSingleUser getCurrentUser(along with notes adding at later stage) updateUser deletUser updateUserPassword

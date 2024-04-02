@@ -2,7 +2,7 @@ const express=require('express');
 const router = express.Router();
 
 const {authorizePermissions,authenticateUser}=require('../middleware/authentication');
-const{getAllUsers,getSingleUser,getCurrentUser,updateUser,deleteUser,updateUserPassword}=require('../controllers/userController');
+const{getAllUsers,getSingleUser,getCurrentUser,updateUser,deleteUser,updateUserPassword,contactUs}=require('../controllers/userController');
 
 router.route('/').get([authenticateUser,authorizePermissions('admin')],getAllUsers);
 router.route('/current').get(authenticateUser,getCurrentUser);
