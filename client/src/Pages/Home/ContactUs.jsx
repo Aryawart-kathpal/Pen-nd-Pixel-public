@@ -4,6 +4,8 @@ import { FaHouse , FaPhoneFlip} from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { useToast } from "@chakra-ui/react";
 import validateEmail from "../../Helpers/emailValidator";
+import axiosInstance from "../../Helpers/axiosInstance";
+import validatePhone from "../../Helpers/phoneValidator";
 
 function ContactUs() {
   const toast = useToast();
@@ -43,11 +45,19 @@ const [formData, setFormData] = useState({
 			});
 			return;
 		}
+    if(!validatePhone(formData.phone)){
+      console.log("phone check");
+      toast({
+				title: "Invalid Mobile Number",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+    }
 		try {
-			const examplePromise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve(200), 5000)
-      })
-			toast.promise(examplePromise, {
+			const res = await axiosInstance.post("/contact", formData);
+			toast.promise(res, {
 				success: { title: "Message Sent Successfully", description: "Thanks for contacting us!" },
 				error: { title: "Message not sent" },
 				loading: { title: "Sending...", description: "Please wait" },
