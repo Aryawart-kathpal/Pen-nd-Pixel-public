@@ -19,18 +19,7 @@ const Browser = () => {
       id: "1",
       title: "Title 1",
       description: "description 1",
-	  category: "Travel",
-      tags: [
-        "frontend",
-        "react",
-        "nextJS",
-        "frontend",
-        "react",
-        "nextJS",
-        "frontend",
-        "react",
-        "nextJS",
-      ],
+      topics: ["frontend", "react"],
       content: `<html><title></title><body><h1>Title</h1><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae eaque tenetur asperiores maiores atque ipsa sint! Molestias sint, corporis natus delectus optio quibusdam, ea quae iste, voluptatem accusantium explicabo exercitationem.</p></body></html>`,
       authorDetails: {
         profilePhoto: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
@@ -45,8 +34,7 @@ const Browser = () => {
       id: "2",
       title: "Title 2",
       description: "description 2",
-	  category: "Travel",
-      tags: ["frontend", "react"],
+      topics: ["frontend", "react"],
       content: `<html><title></title><body><h1>Title</h1><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae eaque tenetur asperiores maiores atque ipsa sint! Molestias sint, corporis natus delectus optio quibusdam, ea quae iste, voluptatem accusantium explicabo exercitationem.</p></body></html>`,
       authorDetails: {
         profilePhoto: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
@@ -61,8 +49,7 @@ const Browser = () => {
       id: "3",
       title: "Title 3",
       description: "description 3",
-	  category: "Travel",
-      tags: ["frontend", "react"],
+      topics: ["frontend", "react"],
       content: `<html><title></title><body><h1>Title</h1><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae eaque tenetur asperiores maiores atque ipsa sint! Molestias sint, corporis natus delectus optio quibusdam, ea quae iste, voluptatem accusantium explicabo exercitationem.</p></body></html>`,
       authorDetails: {
         profilePhoto: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
@@ -77,8 +64,7 @@ const Browser = () => {
       id: "4",
       title: "Title 4",
       description: "description 4",
-	  category: "Travel",
-      tags: ["frontend", "react"],
+      topics: ["frontend", "react"],
       content: `<html><title></title><body><h1>Title</h1><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae eaque tenetur asperiores maiores atque ipsa sint! Molestias sint, corporis natus delectus optio quibusdam, ea quae iste, voluptatem accusantium explicabo exercitationem.</p></body></html>`,
       authorDetails: {
         profilePhoto: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
@@ -94,18 +80,7 @@ const Browser = () => {
       title: "Title 5",
       description:
         "hdvsdcjhsdvhcjvsdvcvjsdvcvsdvjcvsjhdvchksvdhcvshvcshvcjkvscksdvchkvshjvcjvhjsvcjhshshjcvladcvjvjcsdbcvhjdvhjdjvbcj",
-		category: "Travel",
-      tags: [
-        "frontend",
-        "react",
-        "nextJS",
-        "frontend",
-        "react",
-        "nextJS",
-        "frontend",
-        "react",
-        "nextJS",
-      ],
+      topics: ["frontend", "react"],
       content: `<html><title></title><body><h1>Title</h1><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae eaque tenetur asperiores maiores atque ipsa sint! Molestias sint, corporis natus delectus optio quibusdam, ea quae iste, voluptatem accusantium explicabo exercitationem.</p></body></html>`,
       authorDetails: {
         profilePhoto: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
@@ -120,15 +95,14 @@ const Browser = () => {
       id: "6",
       title: "Title 6",
       description: "description 6",
-	  category: "Travel",
-      tags: ["frontend", "react"],
+      topics: ["frontend", "react"],
       content: `<html><title></title><body><h1>Title</h1><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae eaque tenetur asperiores maiores atque ipsa sint! Molestias sint, corporis natus delectus optio quibusdam, ea quae iste, voluptatem accusantium explicabo exercitationem.</p></body></html>`,
       authorDetails: {
         profilePhoto: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
         name: "John Doe",
-        date: "",
-        location: "",
-        website: "",
+        date: "2/2/2024",
+        location: "Thanesar,Haryana",
+        website: "www.google.com",
       },
       comments: ["Comment 1", "Comment 2"],
     },
@@ -136,8 +110,7 @@ const Browser = () => {
       id: "7",
       title: "Title 7",
       description: "description 7",
-      tags: ["frontend", "react"],
-	  category: "Travel",
+      topics: ["frontend", "react"],
       content: `<html><title></title><body><h1>Title</h1><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae eaque tenetur asperiores maiores atque ipsa sint! Molestias sint, corporis natus delectus optio quibusdam, ea quae iste, voluptatem accusantium explicabo exercitationem.</p></body></html>`,
       authorDetails: {
         profilePhoto: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
@@ -156,7 +129,7 @@ const Browser = () => {
   return (
     <>
       <Nav />
-      <div className="shadow-lg shadow-black max-h-[82svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center bg-[#d3c9c917]">
+      <div className="shadow-lg shadow-black max-h-[82svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center">
         <IoIosArrowBack
           className="text-3xl absolute left-10 max-sm:hidden cursor-pointer"
           onClick={() => navigate(-1)}
@@ -180,10 +153,10 @@ const Browser = () => {
               id={data.id}
               title={data.title}
               description={data.description}
-              tags={data.tags}
-			  category={data.category}
+              topics={data.topics}
               content={data.content}
               authorDetails={data.authorDetails}
+			  comments={data.comments}
               className="grid w-full gap-4"
             />
           ))}
