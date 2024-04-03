@@ -22,6 +22,7 @@ const getSingleUser = async(req,res)=>{
 
 const getCurrentUser = async(req,res)=>{
     const {userId} = req.user;
+
     const user = await User.findOne({_id:userId}).select('-password');
     // later also have to give some more data including notes and may be setting pipeline too.. -> done
     //name,image,about me of user ->done
@@ -41,8 +42,12 @@ const getCurrentUser = async(req,res)=>{
             }
         }
     ])
-    // console.log(stats[0].numOfLikes);
-    const noteLikes= stats[0].numOfLikes;
+    // console.log(stats[0]?.numOfLikes);
+    let noteLikes=0;
+    if(stats.length!==0){
+        noteLikes=stats[0].numOfLikes;
+    }
+    console.log(noteLikes);
 
     res.status(StatusCodes.OK).json({user,notes,numOfNotes:notes.length,noteLikes});
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Profile from "./Profile";
 import Notes from "./NotesCard";
 import Button from "../../Components/Button";
@@ -7,10 +7,23 @@ import Toggle from "../../Components/Toggle";
 import { useTheme } from "../../Context/ThemeProvider";
 import CreateNote from "../Editor/CreateNote";
 import {useNavigate} from 'react-router-dom';
+import axiosInstance from "../../Helpers/axiosInstance"
+import { useToast } from '@chakra-ui/react'
 
 function UserDasboard() {
 	const navigate = useNavigate();
+	const toast = useToast();
 	const { isDarkMode, toggleTheme } = useTheme();
+	const [user, setUser] = useState({
+		name: "",
+		email: "",
+		about: "",
+		image: "",
+		followers: [],
+		following: [],
+		numOfFollowers: 0,
+		numOfFollowing: 0
+	})
 	const [notes, setNotes] = useState([
 		{
 			id: 1,
@@ -104,8 +117,35 @@ function UserDasboard() {
 			],
 		},
 	]);
+
+	const fetchUser = async () => {
+		const res = axiosInstance.get("/user/current");
+		toast.promise(res, {
+			success: { title: 'Welcome'},
+			error: { title: 'Failed to Fetch your Dashboard'},
+			loading: { title: 'Loading Details', description: 'Please wait' },
+		  })
+		const response = await res;
+		console.log(response.data);
+		setUser(
+			user.name = response.data.user.name,
+			user.email = response.data.user.email,
+			user.about = response.data.user.about,
+			user.image = response.data.user.image,
+			user.followers = response.data.user.followers,
+			user.following = response.data.user.following,
+			user.numOfFollowers = response.data.user.numOfFollowers,
+			user.numOfFollowing = response.data.user.numOfFollowing
+		)
+		setNotes(response.data.notes);
+	}
+
+	useEffect(() => {
+		// Get User from server
+		fetchUser();
+	}, []);
+
 	const [toggle, setToggle] = useState(false);
-	console.log(toggle);
 	function handleToggle() {
 		setToggle(!toggle);
 	}
@@ -117,16 +157,16 @@ function UserDasboard() {
 				}`}
 				onClick={handleToggle}
 			/>
-			<Profile handleToggle={handleToggle} toggle={toggle} />
+			<Profile handleToggle={handleToggle} toggle={toggle} user={user} />
 			<div className="flex flex-col items-center basis-[100%] p-4">
 				<div className="banner bg-slate-500 self-stretch h-48 flex items-center justify-center relative rounded-lg text-5xl font-semibold mb-2">
 					<Toggle onToggle={toggleTheme} tailwind="absolute top-1 right-1 text-base" />
 					MY NOTES
 				</div>
 
-				<div className="grid w-full gap-5 overflow-x-hidden overflow-y-scroll customScrollbar py-5 pt-3 max-h-[65%] sticky ">
-					{notes.map((note) => {
-						return <Notes {...note} key={note.id} />;
+				<div className="flex flex-col w-full gap-5 overflow-x-hidden overflow-y-scroll customScrollbar py-5 pt-3 h-[65%] sticky ">
+					{notes.map((note, index) => {
+						return <Notes note={note} key={index} />;
 					})}
 				</div>
 				<div className=" flex justify-center mt-4">
