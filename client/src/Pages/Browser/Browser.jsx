@@ -4,12 +4,16 @@ import { IoIosArrowBack } from "react-icons/io";
 import Card from "../../Components/BrowserCard.jsx";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../Layouts/Nav.jsx";
+import axiosInstance from "../../Helpers/axiosInstance.js";
 
 const Browser = () => {
 	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState();
 	const fetchData = async () => {
-		// CODE
+		// Get all notes
+		// const res = await axiosInstance.get("/notes");
+		// console.log(res.data.notes[0]);
+		// setSearchData(res.data.notes);
 	};
 	useEffect(() => {
 		fetchData();
@@ -154,17 +158,18 @@ const Browser = () => {
 					</button>
 				</div>
 				<div className="grid w-full gap-4 overflow-x-hidden py-5 pt-3 overflow-y-scroll customScrollbar">
-					{searchData.map((data) => (
+					{
+						searchData.map((data, index) => (
 						<Card
-							key={data.id}
-							id={data.id}
+							key={index}
+							id={data._id}
 							title={data.title}
 							description={data.description}
-              category={data.category}
+							category={data.category}
 							topics={data.topics}
 							content={data.content}
 							authorDetails={data.authorDetails}
-							comments={data.comments}
+							comments={data?.comments || []}
 							className="grid w-full gap-4"
 						/>
 					))}

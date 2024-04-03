@@ -1,16 +1,38 @@
 import React, { useState } from "react";
 import Button from "../../Components/Button";
 import {FaTimes} from "react-icons/fa";
+import axiosInstance from "../../Helpers/axiosInstance";
+import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-function Profile({handleToggle, toggle}) {
-  const [userData, setUserdata] = useState({
-    name: "Random",
-    img: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png",
-    followers: "10",
-    following: "10",
-    dateJoined: "13/03/2024",
-    about: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-  });
+function Profile({handleToggle, toggle, user}) {
+	const navigate = useNavigate();
+	const toast = useToast();
+//   const [userData, setUserdata] = useState({
+//     name: "Random",
+//     img: "https://cdn-icons-png.flaticon.com/512/3177/3177440.png",
+//     followers: "10",
+//     following: "10",
+//     dateJoined: "13/03/2024",
+//     about: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis lectus at leo malesuada volutpat ut ut eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+//   });
+
+	const handleLogout = async () => {
+		const res = axiosInstance.delete("/auth/logout");
+		toast.promise(res, {
+			loading: "Logging out...",
+			success: "Logged out successfully",
+			error: "Error logging out",
+		});
+
+		localStorage.removeItem("user");
+		localStorage.setItem("isLoggedIn", false);
+
+		navigate("/login");
+	}
+
+	const [userData, setUserdata] = useState(user);
+	console.log(userData);
   
   return (
 		<>
@@ -23,7 +45,7 @@ function Profile({handleToggle, toggle}) {
 					className="text-3xl  absolute right-0 top-0 m-4 cursor-pointer sm:hidden"
 					onClick={handleToggle}
 				/>
-				<div className="rounded-lg shadow-lg shadow-black pt-6 ml-2 h-[95svh]">
+				<div className="rounded-lg shadow-lg shadow-black py-6 ml-2 h-[95svh] flex flex-col">
 					<img
 						src={userData.img}
 						alt="Profile Picture"
@@ -38,24 +60,29 @@ function Profile({handleToggle, toggle}) {
 					<div className="flex justify-evenly ">
 						<div>
 							<p className="text-lg  font-semibold">
-								{userData.followers}
+								{userData.numOfFollowers}
 							</p>
 							<p className="text-xs ">Followers</p>
 						</div>
 						<div>
 							<p className="text-lg  font-semibold">
-								{userData.following}
+								{userData.numOfFollowing}
 							</p>
 							<p className="text-xs ">Following</p>
 						</div>
 					</div>
-					<div className=" rounded-lg py-10 px-6 max-h-[100%]">
+					<div className="rounded-lg pt-10 px-6 max-h-[100%] flex flex-col self-stretch grow">
 						<h3 className="text-lg font-bold mb-2 max-sm:text-md">About Me</h3>
 						<p className="text-sm max-sm:text-xs">{userData.about}</p>
-						<div className="flex justify-center mt-4">
+						<div className="flex justify-evenly mt-auto my-4">
 							<Button
 								text="Edit Profile"
 								className="bg-gray-500 font-semibold p-2 border-2 rounded border-black"
+							/>
+							<Button
+								text="Logout"
+								className="bg-gray-500 font-semibold p-2 border-2 rounded border-black"
+								handleOnClick={handleLogout}
 							/>
 						</div>
 					</div>
