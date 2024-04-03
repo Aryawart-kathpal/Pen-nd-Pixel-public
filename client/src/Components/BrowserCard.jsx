@@ -20,4 +20,4 @@ function Card ({id, title, description, topics, content, authorDetails, comments
           </div>
       )
 }
-export default Card
+export default Card;

@@ -4,5 +4,7 @@ const checkPermissions=require('./checkPermissions');
 const sendVerificationEmail = require('./sendVerificationEmail');
 const sendResetPasswordEmail = require('./sendResetPasswordEmail');
 const createHash = require('./createHash');
+const sendEmail = require('./sendEmail');
+const summarizer = require('./testOpenAI');
 
-module.exports ={createJWT,isTokenValid,attachCookiesToResponse,createTokenUser,checkPermissions,sendVerificationEmail,sendResetPasswordEmail,createHash};
+module.exports ={summarizer,sendEmail,createJWT,isTokenValid,attachCookiesToResponse,createTokenUser,checkPermissions,sendVerificationEmail,sendResetPasswordEmail,createHash};

@@ -19,6 +19,8 @@ const authRouter=require('./routes/authRoutes');
 const userRoutes=require('./routes/userRoutes');
 const followRoutes=require('./routes/followRoutes');
 const noteRoutes = require('./routes/noteRoutes');
+const commentRoutes = require('./routes/commentRoutes');
+const otherRoutes = require('./routes/otherRoutes');
 
 //Other packages
 const fileUpload = require('express-fileupload');
@@ -58,7 +60,7 @@ app.use(rateLimiter({
 
 app.use(express.static(path.resolve(__dirname,'../client/dist')));
 app.use(express.json());
-app.use(cookieParser(process.env.JWT_SECRET))
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan('tiny'));
 app.use(fileUpload({useTempFiles:true}));
  
@@ -67,6 +69,8 @@ app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/user',userRoutes);
 app.use('/api/v1/user',followRoutes);
 app.use('/api/v1/notes',noteRoutes);
+app.use('/api/v1/notes',commentRoutes);
+app.use('/api/v1/',otherRoutes);
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
@@ -88,12 +92,15 @@ const start = async()=>{
 }
 
 //searching on tags -> done
-//getCurrentUser (may be any pipeline linked to it)
-//comments
-// Handling all the things on removal such as comments,likes,etc.
+//getCurrentUser (may be any pipeline linked to it) ->sending exact thing instead of id, using populate->done
+//comments->done
+// Handling all the things on removal such as comments,likes,etc. -> done
 //finishing -> populate,trim:true,
 // summary 
-// contactus,review,etc.
+// contactus(name,email,phone,message),review,etc.->done
+// searching on title also ->done
+// deleting on deletion
+// populate at last, public finishing
 
 start();
 // follow settings have to be made in the user model only, numOfFollowers and List Of Followers have to be made in the user model only -> aggregate pipleine has to be made for realtime updating the followers and following, also list of following and numOfFollowing has to be made too

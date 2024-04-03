@@ -15,7 +15,7 @@ const AuthorDetails = (props) => {
           <Button 
           handleOnClick={()=>{}}
           text={"Follow"}
-          className="px-2 py-1 text-black bg-white text-xs border-2 border-black rounded-md m-2 bg-slate-400"
+          className="px-2 py-1 text-black text-xs border-2 border-black rounded-md m-2 bg-slate-400"
           />
           </div>
         </div>

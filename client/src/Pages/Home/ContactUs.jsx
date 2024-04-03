@@ -1,8 +1,81 @@
-import React from "react";
+import {React,useState} from "react";
 import Nav from "../../Layouts/Nav";
 import { FaHouse , FaPhoneFlip} from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { useToast } from "@chakra-ui/react";
+import validateEmail from "../../Helpers/emailValidator";
+import axiosInstance from "../../Helpers/axiosInstance";
+import validatePhone from "../../Helpers/phoneValidator";
+
 function ContactUs() {
+  const toast = useToast();
+// const {name,email,phone,message}= req.body; -- backend requirement according to routes
+const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    console.log("Form submitted with data:", formData);
+    if (!formData.name || !formData.email || !formData.message || !formData.phone) {
+			toast({
+				title: "Please fill all fields",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		if (!validateEmail(formData.email)) {
+			toast({
+				title: "Invalid email",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+    if(!validatePhone(formData.phone)){
+      console.log("phone check");
+      toast({
+				title: "Invalid Mobile Number",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+    }
+		try {
+      console.log(formData);
+			const res = axiosInstance.post("/contact", formData);
+			toast.promise(res, {
+				success: { title: "Message Sent Successfully", description: "Thanks for contacting us!" },
+				error: { title: "Message not sent" },
+				loading: { title: "Sending...", description: "Please wait" },
+			});
+      const response =  await res;
+      console.log(response);
+		} catch (error) {
+			console.log(error);
+			toast({
+				title: error.response.data.msg,
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+			});
+		}
+	}
+    
   return (
     <div>
       <Nav />
@@ -54,30 +127,44 @@ function ContactUs() {
               </div>
             </div>
             <div className="md:w-1/2 md:mt-0  rounded-lg">
-              <div className="bg-[#f5f5f5] p-8 rounded-lg shadow-md underline">
+              <div className="bg-[#f5f5f5] p-8 rounded-lg shadow-md underline text-gray-900">
                 <form>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="Full Name"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Email"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
+                  
                   <input
                     type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="Phone"
                     className="w-full mb-6 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   />
                   <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Type your Message..."
                     rows="4"
                     className="w-full mb-5 p-2 rounded-lg bg-transparent border-b-2 border-gray-300 focus:border-gray-600"
                   ></textarea>
                   <button
                     type="submit"
+                    onClick={handleSubmit}
                     className="bg-blue-600  px-4 py-2 rounded-md hover:bg-blue-700 mb-1 w-full font-semibold text-red-50"
                   >
                     Send Message

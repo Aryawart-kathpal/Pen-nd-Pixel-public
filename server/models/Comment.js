@@ -13,12 +13,12 @@ const commentSchema = new mongoose.Schema({
         required:[true,'Please provide name'],
     },
     user:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:'User',
         required:[true,'Please provide user'],
     },
     note:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:'Note',
         required:[true,'Please provide note'],
     },
@@ -30,6 +30,6 @@ const commentSchema = new mongoose.Schema({
     }
 },{timestamps:true});
 
-commentSchema.index({user:1,note:1},{unique:true});
+commentSchema.index({user:1,note:1},{unique:true});// it type of creates a composite index on user and note and uniquely identifies the object now on the basis of user and note(CHAT GPT)
 
 module.exports=mongoose.model('Comment',commentSchema);
