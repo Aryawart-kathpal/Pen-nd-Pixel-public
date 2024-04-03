@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Blog = ({blog, topics}) => {
+const Blog = ({blog, topics, title, description, category}) => {
+  console.log(topics, title, description, category);
   return (
     <div className='blog-container customScrollbar'>
       {blog.includes('<html>') ? <div dangerouslySetInnerHTML={{__html: blog}}></div> : <p>{blog}</p>}

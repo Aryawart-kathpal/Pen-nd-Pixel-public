@@ -19,11 +19,13 @@ const ViewBlog = () => {
   const [blog, setBlog] = useState(data.content);
   const [title, setTitle] = useState(data.title);
   const [topics, setTopics] = useState(data.topics);
+  const [category, setCategory] = useState(data.category);
   const [description, setDescription] = useState(data.description);
   const [comments, setComments] = useState(data.comments);
 
   const newComments = (comment) => {
     setComments([...comments, comment]);
+    console.log("new comment", comments);
   };
 
   return (
@@ -44,8 +46,17 @@ const ViewBlog = () => {
             <AuthorDetails {...author} />
           </>
         )}
-        <Blog topics={topics} blog={blog} />
-        <Comment addComment={newComments} oldComments={comments} />
+        <Blog 
+          topics={topics}
+          title={title}
+          category={category}
+          description={description}
+          blog={blog}  
+        />
+        <Comment 
+          addComment={newComments} 
+          oldComments={comments} 
+        />
       </div>
     </>
   );
