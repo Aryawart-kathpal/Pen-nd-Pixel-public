@@ -14,15 +14,17 @@ const getAllUsers = async(req,res)=>{
 
 const getSingleUser = async(req,res)=>{
     const {id}=req.params;
-    const user = await User.findOne({_id:id}).select('-password');
-    // followers aur following vgera bhi dena hai
-    // currentUser jaisa kaafi kuch dena hai isko bhi
+    // dono followers aur following ko use kar skta hu path mein space deke bas
+    // unneccessary space dene se error aa rha 'following ' ke end mein
+    const user = await User.findOne({_id:id}).select('-password').populate({path:'followers following',select:'name image'}).populate({ path : 'likes' , select : 'title description'}); 
+    // another way, don't even have to make a diff populate statment in schema
+    
     res.status(StatusCodes.OK).json({user});
 }   
 
 const getCurrentUser = async(req,res)=>{
     const {userId} = req.user;
-    const user = await User.findOne({_id:userId}).select('-password');
+    const user = await User.findOne({_id:userId}).select('-password').populate({path:'followers following',select:'name image'}).populate({ path : 'likes' , select : 'title description'}); 
     // later also have to give some more data including notes and may be setting pipeline too.. -> done
     //name,image,about me of user ->done
     // About note :  title,description,name,content,status-> done
@@ -30,7 +32,7 @@ const getCurrentUser = async(req,res)=>{
     // background image->done
 
     // const notes=await Note.find({user:userId}).sort({createdAt:-1}).populate('user',['name','image']).populate('likedBy',['name','image']).populate('comments.user',['name','image']).populate('comments.replies.user',['name','image']).populate('comments.replies.replies.user',['name','image']);
-    const notes=await Note.find({user:userId});
+    const notes=await Note.find({user:userId}).populate('comments',['name','user','comment']);
 
     const stats = await Note.aggregate([
         {$match:{user:mongoose.Types.ObjectId(userId)}},
@@ -50,8 +52,8 @@ const getCurrentUser = async(req,res)=>{
 const updateUser = async(req,res)=>{
     // name,email and image only
     const {name,image,about} = req.body;
-    if(!name && !image){
-        throw new CustomError.BadRequestError("Please Update name or image");
+    if(!name && !image && !about){
+        throw new CustomError.BadRequestError("Please Update name or image or about");
     }
 
     const user = await User.findOne({_id:req.user.userId}).select('-password');

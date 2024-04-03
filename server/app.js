@@ -96,7 +96,7 @@ const start = async()=>{
 //comments->done
 // Handling all the things on removal such as comments,likes,etc. -> done
 //finishing -> populate,trim:true,
-// summary 
+// summary ->done
 // contactus(name,email,phone,message),review,etc.->done
 // searching on title also ->done
 // deleting on deletion

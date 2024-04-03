@@ -34,6 +34,7 @@ const userSchema = mongoose.Schema({
     },
     about:{
         type:String,
+        required:[true,'Please add about me'],
         maxlength:[500,"About can't be more than 500 characters"],
         minlength:[10,"About can't be less than 10 characters"]
     },
@@ -73,7 +74,14 @@ const userSchema = mongoose.Schema({
         type:[mongoose.Schema.Types.ObjectId],
         ref:'Note',
     }
-},{timestamps:true});
+},{timestamps:true ,toJSON : {virtuals:true}, toObject : {virtuals:true}});
+
+userSchema.virtual('Followers',{
+    ref:'User',
+    localField:'followers',
+    foreignField:'_id',
+    justOne:false,
+})// not working
 
 userSchema.pre('save',async function(){
     const salt = await bcrypt.genSalt(10);
