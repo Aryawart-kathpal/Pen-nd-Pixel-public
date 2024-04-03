@@ -57,7 +57,21 @@ const noteSchema = new mongoose.Schema({
         type:[mongoose.Schema.Types.ObjectId],
         ref:'User',
     }
-},{timestamps:true});
+},{timestamps:true ,toJSON : {virtuals:true}, toObject : {virtuals:true}});
+
+noteSchema.virtual('comments',{
+    ref:'Comment',
+    localField : '_id',
+    foreignField : 'note',
+    justOne:false,
+});
+
+noteSchema.virtual('likedby',{
+    ref:'User',
+    localField:'likedBy',
+    foreignField:'_id',
+    justOne:false,
+});
 
 noteSchema.methods.calculateLikes = async function (userId){
     const stats = await this.aggregate([

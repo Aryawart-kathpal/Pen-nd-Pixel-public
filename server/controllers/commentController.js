@@ -40,7 +40,7 @@ const getCommentForSingleNote = async(req,res)=>{
         throw new CustomError.BadRequestError(`No note exists with id : ${noteId}`);
     }
 
-    const comments = await Comment.find({note:noteId});
+    const comments = await Comment.find({note:noteId}).select('name user comment');
     res.status(StatusCodes.OK).json({comments,count:comments.length});
 }
 

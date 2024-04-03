@@ -59,7 +59,7 @@ const getAllNotes= async(req,res)=>{
         queryObject.category=category;
     }
 
-    let result = Note.find(queryObject);
+    let result = Note.find(queryObject).populate('comments',['name','comment','user']).populate('likedBy',['name','image']); // this way, will get only the name,image
 
     // Any of the both below ways can be used to sort based on likes and the createdAt
 
@@ -93,7 +93,8 @@ const getAllNotes= async(req,res)=>{
 // user can access it's own private notes
 const getSingleNote = async(req,res)=>{
     const {id:noteId} = req.params;
-    const note = await Note.findOne({_id:noteId});
+    const note = await Note.findOne({_id:noteId}).populate('comments').populate({
+        path:'likedBy',select : 'name image'});
     if(!note){
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
@@ -219,12 +220,5 @@ const generateSummary = async(req,res)=>{
     const summary = await summarizer(note);
     res.status(StatusCodes.OK).json({summary}); 
 }
-
-// user ki ek liked valie list bhi hogi
-// getAllNotes getSingleNote createNote updateNote deleteNote
-//Add Likes Controller
-//comments 
-// removing many things at deletion
-//likes pipeline
 
 module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote,likeNote,unlikeNote,generateSummary};
