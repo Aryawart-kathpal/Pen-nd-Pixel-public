@@ -5,7 +5,7 @@ function Card({
 	id,
 	title,
 	description,
-  category,
+    category,
 	topics,
 	content,
 	authorDetails,
@@ -15,7 +15,7 @@ function Card({
 	const data = {
 		title,
 		description,
-    category,
+        category,
 		content,
 		topics,
 		authorDetails,

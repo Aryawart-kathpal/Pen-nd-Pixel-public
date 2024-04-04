@@ -178,7 +178,7 @@ const Browser = () => {
 						searchData.map((data, index) => (
 						<Card
 							key={index}
-							id={data._id}
+							id={data?._id || data.id}
 							title={data.title}
 							description={data.description}
 							category={data.category}
