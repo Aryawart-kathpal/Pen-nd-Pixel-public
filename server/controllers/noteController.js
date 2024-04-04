@@ -59,7 +59,10 @@ const getAllNotes= async(req,res)=>{
         queryObject.category=category;
     }
 
-    let result = Note.find(queryObject).populate('comments',['name','comment','user']).populate('likedBy',['name','image']); // this way, will get only the name,image
+    let result = Note.find(queryObject).populate({
+        path : 'user',
+        select : 'name image createdAt about numOfFollowers'
+    }).populate('comments',['name','comment','user']).populate('likedBy',['name','image']); // this way, will get only the name,image
 
     // Any of the both below ways can be used to sort based on likes and the createdAt
 
