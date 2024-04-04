@@ -89,9 +89,47 @@ userSchema.pre('save',async function(){
     this.password= await bcrypt.hash(this.password,salt);
 })
 
+userSchema.pre('remove',async function(){
+    console.log("Inside user remove");
+    const notes = await this.model('Note').find({user:this._id});
+    console.log("Initiating note remove");
+    notes.forEach(async(note)=>{
+        const Note = await this.model('Note').findOne({_id:note._id});
+        await Note.remove();
+    })
+    console.log("note remove completed");
+    await this.model('Comment').deleteMany({user:this._id}); 
+    // likes,remove,followers,following remove , likes array mein saare notes pe ek like reduce krna hai, and likedBy array mein se bhi remove krna hai
+    console.log("Comments deleted");
+
+    await this.likes.forEach(async(noteId)=>{
+        const NOTE = await this.model('Note').findOne({_id:noteId});
+        NOTE.likes=NOTE.likes-1;
+        NOTE.likedBy=NOTE.likedBy.filter((id)=>id.toString()!==this._id.toString());
+        await NOTE.save();
+    });
+    console.log("Likes removed");
+    await this.followers.forEach(async(followerId)=>{
+        const Follower = await this.model('User').findOne({_id:followerId});
+        Follower.numOfFollowing=Follower.numOfFollowing-1;
+        Follower.following=Follower.following.filter((id)=>id.toString()!==this._id.toString());
+        await Follower.save();
+    });
+    console.log("Followers removed");
+    await this.following.forEach(async(followingId)=>{
+        const Following = await this.model('User').findOne({_id:followingId});
+        Following.numOfFollowers=Following.numOfFollowers-1;
+        Following.followers=Following.followers.filter((id)=>id.toString()!==this._id.toString());
+        await Following.save();
+    });
+    console.log("Following removed");
+    console.log("User remove completed");
+})
+
 userSchema.methods.comparePassword= async function(candidatePassword){
     const isMatch = await bcrypt.compare(candidatePassword,this.password);
     return isMatch;
 }
 
 module.exports= mongoose.model('User',userSchema);
+// if user has liked his own note or like that

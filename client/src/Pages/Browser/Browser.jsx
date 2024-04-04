@@ -11,13 +11,26 @@ const Browser = () => {
 	const [searchText, setSearchText] = useState();
 	const fetchData = async () => {
 		// Get all notes
-		// const res = await axiosInstance.get("/notes");
-		// console.log(res.data.notes[0]);
-		// setSearchData(res.data.notes);
-	};
-	useEffect(() => {
-		fetchData();
-	}, []);
+		const res = await axiosInstance.get("/notes");
+		console.log(res.data.notes);
+		const data = res.data.notes;
+		setSearchData(
+			data.map((note, index) => ({
+				id: note._id,
+				title: note.title,
+				description: note.description,
+				category: note.category,
+				topics: note.tags,
+				content: note.content,
+				authorDetails: {
+					profilePhoto: "",
+					name: "",
+					date: "",
+				},
+				comments: note.comments,
+			}))
+			)
+		};
 	const [searchData, setSearchData] = useState([
 		{
 			id: "1",
@@ -136,6 +149,9 @@ const Browser = () => {
 	const handleSearch = (e) => {
 		setSearchText(e.target.value);
 	};
+	useEffect(() => {
+		fetchData();
+	}, []);
 
 	return (
 		<>
@@ -151,7 +167,7 @@ const Browser = () => {
 						placeholder="Search..."
 						value={searchText}
 						onChange={handleSearch}
-						className="rounded px-4 py-2 outline w-full sm:self-stretch overflow-x-hidden"
+						className="rounded px-4 py-2 outline w-full sm:self-stretch overflow-x-hidden text-black"
 					/>
 					<button className="bg-black text-white rounded px-4 py-2 sm:mt-0  sm:w-auto">
 						Search
@@ -162,7 +178,7 @@ const Browser = () => {
 						searchData.map((data, index) => (
 						<Card
 							key={index}
-							id={data._id}
+							id={data?._id || data.id}
 							title={data.title}
 							description={data.description}
 							category={data.category}

@@ -85,6 +85,19 @@ noteSchema.methods.calculateLikes = async function (userId){
     ])
     console.log(stats);
     return stats;
-}
+}// not using
+
+noteSchema.pre('remove',async function(next){
+    console.log("Inside note remove");
+    await this.likedBy.forEach(async(userId)=>{
+        const user = await this.model('User').findOne({_id:userId});
+        user.likes= user.likes.filter((noteId)=>noteId.toString()!==this._id.toString());
+        user.numOfLikes=user.numOfLikes-1;
+        await user.save();
+    })
+    await this.model('Comment').deleteMany({note:this._id});
+    console.log("finished note remove");
+    next();
+})
 
 module.exports = mongoose.model('Note',noteSchema);
