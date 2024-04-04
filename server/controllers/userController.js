@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const {sendEmail} = require('../utils');
 
 const getAllUsers = async(req,res)=>{
-    const users= await User.find({}).select('-password');
+    const users= await User.find({}).select('-password').populate({path:'followers following',select:'name image'}).populate({ path : 'likes' , select : 'title description'}); 
     res.status(StatusCodes.OK).json({users,count:users.length});
 }
 
@@ -25,7 +25,13 @@ const getSingleUser = async(req,res)=>{
 const getCurrentUser = async(req,res)=>{
     const {userId} = req.user;
 
-    const user = await User.findOne({_id:userId}).select('-password');
+    const user = await User.findOne({_id:userId}).select('-password').populate({
+        path : 'followers following',
+        select : 'name image'
+    }).populate({
+        path:'likes',
+        select : 'title description',
+    });
     // later also have to give some more data including notes and may be setting pipeline too.. -> done
     //name,image,about me of user ->done
     // About note :  title,description,name,content,status-> done
@@ -33,7 +39,10 @@ const getCurrentUser = async(req,res)=>{
     // background image->done
 
     // const notes=await Note.find({user:userId}).sort({createdAt:-1}).populate('user',['name','image']).populate('likedBy',['name','image']).populate('comments.user',['name','image']).populate('comments.replies.user',['name','image']).populate('comments.replies.replies.user',['name','image']);
-    const notes=await Note.find({user:userId}).populate('comments',['name','user','comment']);
+    const notes=await Note.find({user:userId}).populate('comments',['name','user','comment']).populate({
+        path:'likedBy',
+        select : 'name image',
+    });
 
     const stats = await Note.aggregate([
         {$match:{user:mongoose.Types.ObjectId(userId)}},
@@ -44,12 +53,12 @@ const getCurrentUser = async(req,res)=>{
             }
         }
     ])
-    // console.log(stats[0]?.numOfLikes);
+    // console.log(stats[0]?.numOfLikes);// was giving error if no notes were there
     let noteLikes=0;
     if(stats.length!==0){
         noteLikes=stats[0].numOfLikes;
     }
-    console.log(noteLikes);
+    // console.log(noteLikes);
 
     res.status(StatusCodes.OK).json({user,notes,numOfNotes:notes.length,noteLikes});
 }
