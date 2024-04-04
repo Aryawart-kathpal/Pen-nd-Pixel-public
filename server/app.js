@@ -100,7 +100,7 @@ const start = async()=>{
 // contactus(name,email,phone,message),review,etc.->done
 // searching on title also ->done
 // deleting on deletion
-// populate at last, public finishing
+// populate at last, public finishing ->done
 
 start();
 // follow settings have to be made in the user model only, numOfFollowers and List Of Followers have to be made in the user model only -> aggregate pipleine has to be made for realtime updating the followers and following, also list of following and numOfFollowing has to be made too
