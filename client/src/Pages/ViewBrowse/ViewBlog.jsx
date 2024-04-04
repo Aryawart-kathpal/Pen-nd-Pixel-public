@@ -9,12 +9,10 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { LiaWindowCloseSolid } from "react-icons/lia";
 
 const ViewBlog = () => {
-  const { id } = useParams();
   const location = useLocation();
   const data = location.state;
   console.log(data);
   const [isOpen, setIsOpen] = useState(false); 
-
   const [author, setAuthor] = useState(data.authorDetails);
   const [blog, setBlog] = useState(data.content);
   const [title, setTitle] = useState(data.title);
@@ -22,6 +20,7 @@ const ViewBlog = () => {
   const [category, setCategory] = useState(data.category);
   const [description, setDescription] = useState(data.description);
   const [comments, setComments] = useState(data.comments);
+  const [id, setId] = useState(data.id);
 
   const newComments = (comment) => {
     setComments([...comments, comment]);
@@ -47,6 +46,7 @@ const ViewBlog = () => {
           </>
         )}
         <Blog 
+          id={id}
           topics={topics}
           title={title}
           category={category}

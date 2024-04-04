@@ -1,8 +1,20 @@
 import { Button } from "@chakra-ui/react";
+import axiosInstance from "../../Helpers/axiosInstance";
 import React from "react";
+import { useState } from "react";
 
-const Blog = ({ blog, topics, title, description, category }) => {
-  console.log(topics, title, description, category);
+const Blog = ({id, blog, topics, title, description, category }) => {
+  console.log(id,topics, title, description, category);
+  const [summary, setSummary] = useState("");
+  const summarize = async () => {
+    try {
+      const res = await axiosInstance.get(`/notes/summary/${id}`);
+      console.log(res);
+      setSummary(res?.data?.summary);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="blog-container customScrollbar">
@@ -29,9 +41,10 @@ const Blog = ({ blog, topics, title, description, category }) => {
             </span>
           ))}
         </div>
-        <Button className="mt-4 bg-black text-white">Summarization</Button>
-        <div>
-          {/* Div for storing summary */}
+        <Button className="mt-4 bg-black text-white" onClick={summarize}>Summarization</Button>
+        <div className="py-5">
+          <h1 className="text-xl font-semibold">Summary:</h1>
+          <p>{summary}</p>
         </div>
       </div>
     </>

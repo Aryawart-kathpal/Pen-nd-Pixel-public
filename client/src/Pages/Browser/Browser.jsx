@@ -23,11 +23,13 @@ const Browser = () => {
 				topics: note.tags,
 				content: note.content,
 				authorDetails: {
-					profilePhoto: "",
-					name: "",
-					date: "",
+					profilePhoto: note?.user?.image,
+					name: note?.user?.name,
+					date: note?.user?.createdAt,
+					followers: note?.user?.numOfFollowers,
+					about: note?.user?.about,
 				},
-				comments: note.comments,
+				comments: note.comments.map((c) => c.comment),
 			}))
 			)
 		};
