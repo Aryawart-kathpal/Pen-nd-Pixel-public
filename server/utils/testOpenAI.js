@@ -13,7 +13,7 @@ const openai = new OpenAI({ apiKey : apiKey });
 
 async function main(note) {
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: `Summarize the following text with title as : ${note.title}, in easy english, use bullet points for easy read. Content is :  ${note.content}, please limit the summary to 300 words` }],
+    messages: [{ role: "system", content: `Summarize the following text with title as : ${note.title}, in easy english.Please generate HTML Tags having bullet points as well as appropriate headings. Content is :  ${note.content}, please limit the summary to 300 words` }],
     model: "gpt-3.5-turbo",
   });
 

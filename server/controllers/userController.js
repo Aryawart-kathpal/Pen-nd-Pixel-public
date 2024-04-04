@@ -118,6 +118,10 @@ const deleteUser = async(req,res)=>{
     const{id} = req.params;  
     checkPermissions(req.user,id);
     const user = await User.findOne({_id:id});
+    if(!user){
+        throw new CustomError.BadRequestError(`No user exists with id : ${id}`);
+    }
+    console.log("Delete user called");
     await user.remove(); // to delete the info at post remove hook, followers, updating lists of followers and following, rating,review,comments,etc.
 
     // Also deleting the notes of the user, ratings, comments,etc.
