@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
     },
     about:{
         type:String,
-        required:[true,'Please add about me'],
+        // required:[true,'Please add about me'],
         maxlength:[500,"About can't be more than 500 characters"],
         minlength:[10,"About can't be less than 10 characters"]
     },

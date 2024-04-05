@@ -8,7 +8,7 @@ const {register,login,logout,verifyEmail,forgotPassword,resetPassword,uploadImag
 router.route('/register').post(register);
 router.route('/login').post(login);
 router.route('/logout').delete(authenticateUser,logout);
-router.route('/verify-email').post(verifyEmail);
+router.route('/verify-email').get(verifyEmail);
 router.route('/forgot-password').post(forgotPassword);
 router.route('/reset-password').post(authenticateUser,resetPassword);
 router.route('/upload-image').post(uploadImage);

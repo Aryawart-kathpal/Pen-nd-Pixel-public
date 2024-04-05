@@ -70,7 +70,7 @@ const login= async(req,res)=>{
 
 const verifyEmail = async(req,res)=>{
     const {token,email}=req.query;
-
+    
     const user = await User.findOne({email});
     if(!user){
         throw new CustomError.UnauthenticatedError("Verification Failed, user not found");
