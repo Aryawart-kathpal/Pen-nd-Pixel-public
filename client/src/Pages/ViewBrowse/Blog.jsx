@@ -2,14 +2,21 @@ import { Button } from "@chakra-ui/react";
 import axiosInstance from "../../Helpers/axiosInstance";
 import React from "react";
 import { useState } from "react";
+import {useToast} from "@chakra-ui/react";
 
 const Blog = ({id, blog, topics, title, description, category }) => {
+  const toast = useToast();
   console.log(id,topics, title, description, category);
   const [summary, setSummary] = useState("");
   const summarize = async () => {
     try {
-      const res = await axiosInstance.get(`/notes/summary/${id}`);
-      console.log(res);
+      const resp = axiosInstance.get(`/notes/summary/${id}`);
+      toast.promise(resp, {
+        loading: {title: "Loading", description: "Summarizing the blog..."},
+        success: {title: "Success", description: "Blog summarized successfully", status: "success"},
+        error: {title: "Error", description: "Error occurred while summarizing the blog", status: "error"}
+      })
+      const res = await resp;
       setSummary(res?.data?.summary);
     } catch (error) {
       console.log(error);
@@ -43,8 +50,8 @@ const Blog = ({id, blog, topics, title, description, category }) => {
         </div>
         <Button className="mt-4 bg-black text-white" onClick={summarize}>Summarization</Button>
         <div className="py-5">
-          <h1 className="text-xl font-semibold">Summary:</h1>
-          <p>{summary}</p>
+          {summary && <h1 className="text-xl font-semibold">Summary:</h1>}
+          <div dangerouslySetInnerHTML={{ __html: summary }} className="list-disc"></div>
         </div>
       </div>
     </>
