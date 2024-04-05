@@ -7,7 +7,7 @@ import Button from "../../Components/Button";
 const AuthorDetails = (props) => {
   return (
     <>
-      <div className="h-screen min-w-[250px] backdrop-blur-3xl absolute z-20 left-0 p-3 flex flex-col customSlideLeft ">
+      <div className="h-screen min-w-[250px] backdrop-blur-3xl fixed top-0 z-20 left-0 p-3 flex flex-col customSlideLeft ">
         <div>
           <div className="flex flex-col items-center">
             <img src={props.profilePhoto} className="w-20 h-20 rounded-full" />

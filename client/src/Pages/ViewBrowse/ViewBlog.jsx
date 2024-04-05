@@ -32,7 +32,7 @@ const ViewBlog = () => {
       <div className='viewBlog-container relative lg:flex'>
         {!isOpen && (
           <GiHamburgerMenu
-            className='icon-Container absolute text-3xl'
+            className='icon-Container fixed text-3xl'
             onClick={() => setIsOpen(!isOpen)}
           />
         )}
