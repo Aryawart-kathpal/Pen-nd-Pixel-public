@@ -159,8 +159,11 @@ function UserDasboard() {
 			/>
 			<Profile handleToggle={handleToggle} toggle={toggle} user={user} />
 			<div className="flex flex-col items-center basis-[100%] p-4">
-				<div className="banner bg-slate-500 self-stretch h-48 flex items-center justify-center relative rounded-lg text-5xl font-semibold mb-2">
-					<Toggle onToggle={toggleTheme} tailwind="absolute top-1 right-1 text-base" />
+				<div className="banner bg-slate-400 self-stretch h-48 flex items-center justify-center relative rounded-lg text-5xl font-semibold mb-2">
+					<Toggle
+						onToggle={toggleTheme}
+						tailwind="absolute top-1 right-1 text-base"
+					/>
 					MY NOTES
 				</div>
 
@@ -172,13 +175,11 @@ function UserDasboard() {
 				<div className=" flex justify-center mt-4">
 					<Button
 						text="Create new note"
-						className="bg-slate-500 font-semibold p-2 border-2 rounded border-black"
-						handleOnClick={
-							() => {
-								console.log("Clicked");
-								navigate('/blog/new')
-							}
-						}
+						className="bg-slate-400 font-semibold p-2 border-2 rounded hover:bg-slate-500 hover:text-white transition-all duration-300 ease-in-out"
+						handleOnClick={() => {
+							console.log("Clicked");
+							navigate("/blog/new");
+						}}
 					/>
 				</div>
 			</div>

@@ -20,9 +20,9 @@ function Profile({handleToggle, toggle, user}) {
 	const handleLogout = async () => {
 		const res = axiosInstance.delete("/auth/logout");
 		toast.promise(res, {
-			loading: "Logging out...",
-			success: "Logged out successfully",
-			error: "Error logging out",
+			loading: {title: "Logging out..."},
+			success: {title: "Logged out successfully"},
+			error: {title: "Error logging out"},
 		});
 
 		localStorage.removeItem("user");
@@ -47,7 +47,7 @@ function Profile({handleToggle, toggle, user}) {
 				/>
 				<div className="rounded-lg shadow-lg shadow-black py-6 ml-2 h-[95svh] flex flex-col">
 					<img
-						src={userData.img}
+						src={userData.image}
 						alt="Profile Picture"
 						className="rounded-full w-24 h-24 mx-auto border-4 border-black mb-4 max-sm:mb-0"
 					/>
@@ -77,11 +77,11 @@ function Profile({handleToggle, toggle, user}) {
 						<div className="flex justify-evenly mt-auto my-4">
 							<Button
 								text="Edit Profile"
-								className="bg-gray-500 font-semibold p-2 border-2 rounded border-black"
+								className="bg-slate-400 font-semibold p-2 border-1 rounded hover:bg-slate-500 hover:text-white transition-all duration-300 ease-in-out"
 							/>
 							<Button
 								text="Logout"
-								className="bg-gray-500 font-semibold p-2 border-2 rounded border-black"
+								className="bg-slate-400 font-semibold p-2 border-1 rounded hover:bg-slate-500 hover:text-white transition-all duration-300 ease-in-out"
 								handleOnClick={handleLogout}
 							/>
 						</div>
