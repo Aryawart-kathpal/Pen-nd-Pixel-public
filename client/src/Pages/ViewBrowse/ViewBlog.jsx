@@ -6,7 +6,6 @@ import Comment from './Comment';
 import './ViewBrowse.css';
 import Button from '../../Components/Button';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { LiaWindowCloseSolid } from "react-icons/lia";
 
 const ViewBlog = () => {
   const location = useLocation();
@@ -38,11 +37,7 @@ const ViewBlog = () => {
         )}
         {isOpen && (
           <>
-            <LiaWindowCloseSolid
-              className='close-icon absolute z-30 top-2 left-2 text-3xl cursor-pointer'
-              onClick={() => setIsOpen(false)}
-            />
-            <AuthorDetails {...author} />
+            <AuthorDetails {...author} handleClose={() => setIsOpen(false)} />
           </>
         )}
         <Blog 
