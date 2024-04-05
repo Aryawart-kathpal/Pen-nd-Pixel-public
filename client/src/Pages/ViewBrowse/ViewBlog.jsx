@@ -5,7 +5,8 @@ import Blog from './Blog';
 import Comment from './Comment';
 import './ViewBrowse.css';
 import Button from '../../Components/Button';
-import { GiHamburgerMenu } from 'react-icons/gi';
+import Nav from '../../Layouts/Nav';
+import { VscChevronRight } from "react-icons/vsc";
 
 const ViewBlog = () => {
   const location = useLocation();
@@ -27,34 +28,32 @@ const ViewBlog = () => {
   };
 
   return (
-    <>
-      <div className='viewBlog-container relative lg:flex'>
-        {!isOpen && (
-          <GiHamburgerMenu
-            className='icon-Container fixed text-3xl'
-            onClick={() => setIsOpen(!isOpen)}
-          />
-        )}
-        {isOpen && (
-          <>
-            <AuthorDetails {...author} handleClose={() => setIsOpen(false)} />
-          </>
-        )}
-        <Blog 
-          id={id}
-          topics={topics}
-          title={title}
-          category={category}
-          description={description}
-          blog={blog}  
-        />
-        <Comment 
-          addComment={newComments} 
-          oldComments={comments} 
-        />
-      </div>
-    </>
-  );
+		<>
+			<Nav />
+			<div className="viewBlog-container relative lg:flex">
+				{!isOpen && (
+					<VscChevronRight
+						className="icon-Container fixed top-[50%] left-0 text-3xl hover:scale-110"
+						onClick={() => setIsOpen(!isOpen)}
+					/>
+				)}
+				{isOpen && (
+					<>
+						<AuthorDetails {...author} handleClose={() => setIsOpen(false)} />
+					</>
+				)}
+				<Blog
+					id={id}
+					topics={topics}
+					title={title}
+					category={category}
+					description={description}
+					blog={blog}
+				/>
+				<Comment addComment={newComments} oldComments={comments} />
+			</div>
+		</>
+	);
 };
 
 export default ViewBlog;
