@@ -18,12 +18,13 @@ function UserDasboard() {
 		name: "",
 		email: "",
 		about: "",
-		image: "",
+		image:
+			"https://t3.ftcdn.net/jpg/03/58/90/78/360_F_358907879_Vdu96gF4XVhjCZxN2kCG0THTsSQi8IhT.jpg",
 		followers: [],
 		following: [],
 		numOfFollowers: 0,
-		numOfFollowing: 0
-	})
+		numOfFollowing: 0,
+	});
 	const [notes, setNotes] = useState([
 		{
 			id: 1,
@@ -128,15 +129,17 @@ function UserDasboard() {
 		const response = await res;
 		console.log(response.data);
 		setUser(
-			user.name = response.data.user.name,
-			user.email = response.data.user.email,
-			user.about = response.data.user.about,
-			user.image = response.data.user.image,
-			user.followers = response.data.user.followers,
-			user.following = response.data.user.following,
-			user.numOfFollowers = response.data.user.numOfFollowers,
-			user.numOfFollowing = response.data.user.numOfFollowing
-		)
+			(user.name = response.data.user.name),
+			(user.email = response.data.user.email),
+			(user.about = response.data.user.about),
+			(user.image = response.data.user.image
+				? response.data.user.image
+				: "https://t3.ftcdn.net/jpg/03/58/90/78/360_F_358907879_Vdu96gF4XVhjCZxN2kCG0THTsSQi8IhT.jpg"),
+			(user.followers = response.data.user.followers),
+			(user.following = response.data.user.following),
+			(user.numOfFollowers = response.data.user.numOfFollowers),
+			(user.numOfFollowing = response.data.user.numOfFollowing)
+		);
 		setNotes(response.data.notes);
 	}
 

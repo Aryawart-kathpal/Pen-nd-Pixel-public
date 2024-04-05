@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../Context/ThemeProvider";
 
 function Card({
 	id,
@@ -11,6 +12,7 @@ function Card({
 	authorDetails,
 	comments,
 }) {
+  	const { isDarkMode, toggleTheme } = useTheme();
 	const navigate = useNavigate();
 	const data = {
 		id,
@@ -24,7 +26,7 @@ function Card({
 	};
 	return (
 		<div
-			className="shadow-sm shadow-black rounded-md px-4 py-3 min-w-[90%] max-w-[90%] mx-auto cursor-pointer"
+			className={`shadow-sm ${isDarkMode ? 'shadow-white shadow-sm' : 'shadow-black'} rounded-md px-4 py-3 min-w-[90%] max-w-[90%] mx-auto cursor-pointer`}
 			onClick={() => navigate(`/blog/${id}`, { state: { ...data } })}
 		>
 			<div className="flex justify-between items-center">

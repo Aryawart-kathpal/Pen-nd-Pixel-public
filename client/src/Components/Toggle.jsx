@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { MdBrightnessHigh, MdBrightness2 } from "react-icons/md";
 
 const Toggle = ({ onToggle, tailwind }) => {
 	const [isDarkMode, setIsDarkMode] = useState(false);
@@ -19,7 +20,6 @@ const Toggle = ({ onToggle, tailwind }) => {
 
 	return (
 		<div className={`flex items-center ${tailwind}`}>
-			<span className="mr-2">{isDarkMode ? 'Light' : 'Dark'}</span>
 			<label htmlFor="toggle" className="flex items-center cursor-pointer">
 				<div className="relative">
 					<input
@@ -31,10 +31,16 @@ const Toggle = ({ onToggle, tailwind }) => {
 					/>
 					<div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
 					<div
-						className={`absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition transform ${
+						className={`absolute top-1 left-1  w-6 h-6 rounded-full transition transform ${
 							isDarkMode ? "translate-x-full" : ""
 						}`}
-					></div>
+					>
+						{!isDarkMode ? (
+							<MdBrightness2 className="w-6 h-6 text-white" />
+						) : (
+							<MdBrightnessHigh className="w-6 h-6 text-white" />
+						)}
+					</div>
 				</div>
 			</label>
 		</div>

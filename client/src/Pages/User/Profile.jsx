@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "../../Components/Button";
+import { BiSolidHome } from "react-icons/bi";
 import {FaTimes} from "react-icons/fa";
 import axiosInstance from "../../Helpers/axiosInstance";
 import { useToast } from "@chakra-ui/react";
@@ -28,7 +29,7 @@ function Profile({handleToggle, toggle, user}) {
 		localStorage.removeItem("user");
 		localStorage.setItem("isLoggedIn", false);
 
-		navigate("/login");
+		navigate("/");
 	}
 
 	const [userData, setUserdata] = useState(user);
@@ -37,10 +38,15 @@ function Profile({handleToggle, toggle, user}) {
   return (
 		<>
 			<div
+				// A button to go back to the home page
 				className={`w-[480px] mx-2 my-4 customSlideLeft max-sm:absolute max-sm:w-[95svw] max-sm:backdrop-blur-3xl z-10 ${
 					toggle ? "" : "max-sm:hidden"
 				}`}
 			>
+				<BiSolidHome
+					className="text-3xl absolute left-0 top-0 m-4 cursor-pointer"
+					onClick={() => navigate("/")}
+				/>
 				<FaTimes
 					className="text-3xl  absolute right-0 top-0 m-4 cursor-pointer sm:hidden"
 					onClick={handleToggle}

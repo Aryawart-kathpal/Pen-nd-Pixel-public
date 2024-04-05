@@ -4,7 +4,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import Card from "../../Components/BrowserCard.jsx";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../Layouts/Nav.jsx";
-import { useTheme } from "../../Context/ThemeProvider.js";
+import { useTheme } from "../../Context/ThemeProvider";
 import axiosInstance from "../../Helpers/axiosInstance.js";
 
 const Browser = () => {
@@ -160,7 +160,7 @@ const Browser = () => {
 	return (
 		<>
 			<Nav />
-			<div className="shadow-lg shadow-black max-h-[82svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center">
+			<div className={`shadow-lg ${isDarkMode ? 'shadow-white shadow-sm' : 'shadow-black'} max-h-[82svh] rounded-md  flex flex-col  gap-8 sm:max-w-[60svw] mx-auto my-5 p-4 items-center`}>
 				<IoIosArrowBack
 					className="text-3xl absolute left-10 max-sm:hidden cursor-pointer"
 					onClick={() => navigate(-1)}
