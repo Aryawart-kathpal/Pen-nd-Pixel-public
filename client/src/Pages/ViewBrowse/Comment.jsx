@@ -48,7 +48,7 @@ const NewComment = ({addComment}) => {
       <textarea
         placeholder="Comment"
         name="comment"
-        className="border border-gray-300 p-2 rounded-md"
+        className="border border-gray-300 p-2 rounded-md text-black"
         value={comment.comment}
         onChange={handleChange}
       />
