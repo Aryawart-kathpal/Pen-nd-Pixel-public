@@ -1,5 +1,5 @@
 .card-container{
-    height: 500px;
+    height: 400px;
 }
 .card-container>.card{
     transition-duration: 1000ms;
@@ -9,13 +9,13 @@
 .card>img{
     height: 100%;
     width: fit-content;
-    filter: grayscale(100%);
+    /* filter: grayscale(100%); */
     transition-duration: 1000ms;
     border-radius: 10px;
 }
 
 .card>img:hover{
-    filter: grayscale(0%);
+    /* filter: grayscale(0%); */
     width: min-content;
 }
 
