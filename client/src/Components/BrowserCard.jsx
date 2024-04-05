@@ -13,6 +13,7 @@ function Card({
 }) {
 	const navigate = useNavigate();
 	const data = {
+		id,
 		title,
 		description,
         category,
