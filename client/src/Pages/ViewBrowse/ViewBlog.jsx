@@ -6,7 +6,6 @@ import Comment from './Comment';
 import './ViewBrowse.css';
 import Button from '../../Components/Button';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { LiaWindowCloseSolid } from "react-icons/lia";
 
 const ViewBlog = () => {
   const location = useLocation();
@@ -32,17 +31,13 @@ const ViewBlog = () => {
       <div className='viewBlog-container relative lg:flex'>
         {!isOpen && (
           <GiHamburgerMenu
-            className='icon-Container absolute text-3xl'
+            className='icon-Container fixed text-3xl'
             onClick={() => setIsOpen(!isOpen)}
           />
         )}
         {isOpen && (
           <>
-            <LiaWindowCloseSolid
-              className='close-icon absolute z-30 top-2 left-2 text-3xl cursor-pointer'
-              onClick={() => setIsOpen(false)}
-            />
-            <AuthorDetails {...author} />
+            <AuthorDetails {...author} handleClose={() => setIsOpen(false)} />
           </>
         )}
         <Blog 
