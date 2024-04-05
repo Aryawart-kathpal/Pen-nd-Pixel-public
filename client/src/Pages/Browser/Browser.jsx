@@ -4,9 +4,11 @@ import { IoIosArrowBack } from "react-icons/io";
 import Card from "../../Components/BrowserCard.jsx";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../Layouts/Nav.jsx";
+import { useTheme } from "../../Context/ThemeProvider.js";
 import axiosInstance from "../../Helpers/axiosInstance.js";
 
 const Browser = () => {
+  	const { isDarkMode, toggleTheme } = useTheme();
 	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState();
 	const fetchData = async () => {

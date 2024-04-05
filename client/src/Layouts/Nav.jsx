@@ -15,10 +15,10 @@ const Nav = () => {
 			</Link>
 			<nav className="ml-auto flex gap-4 sm:gap-6 items-center">
 				<Link
-					to="/"
+					to="/browse"
 					className="text-sm font-medium hover:underline underline-offset-4"
 				>
-					Home
+					Browse
 				</Link>
 				<Link
 					to="/about"

@@ -29,8 +29,10 @@ const ViewBlog = () => {
 
   return (
 		<>
-			<Nav />
-			<div className="viewBlog-container relative lg:flex">
+			<div className='fixed top-0 w-full z-20'>
+				<Nav />
+			</div>
+			<div className="viewBlog-container relative lg:flex mt-[10svh]">
 				{!isOpen && (
 					<VscChevronRight
 						className="icon-Container fixed top-[50%] left-0 text-3xl hover:scale-110"
