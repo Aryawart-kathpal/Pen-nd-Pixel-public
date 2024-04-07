@@ -15,6 +15,7 @@ const RichEditor = ({ placeholder }) => {
 
   const handleBlur = (newContent) => {
     setContent(newContent);
+    console.log(newContent);
   };
 
   return (
@@ -24,6 +25,7 @@ const RichEditor = ({ placeholder }) => {
       config={config}
       onBlur={handleBlur}
       tabIndex={1} // tabIndex of textarea
+      className='w-full h-screen'
     />
   );
 };
