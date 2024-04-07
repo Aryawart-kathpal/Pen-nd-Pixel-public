@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { MdBrightnessHigh, MdBrightness2 } from "react-icons/md";
+import { useTheme } from "../Context/ThemeProvider";
 
 const Toggle = ({ onToggle, tailwind }) => {
-	const [isDarkMode, setIsDarkMode] = useState(false);
+	// const [isDarkMode, setIsDarkMode] = useState(false);
+	const { isDarkMode, toggleTheme } = useTheme();
 
 	const handleToggle = () => {
 		setIsDarkMode(!isDarkMode);
@@ -27,7 +29,8 @@ const Toggle = ({ onToggle, tailwind }) => {
 						id="toggle"
 						className="sr-only"
 						checked={isDarkMode}
-						onChange={handleToggle}
+						// onChange={handleToggle}
+						onChange={toggleTheme}
 					/>
 					<div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
 					<div
