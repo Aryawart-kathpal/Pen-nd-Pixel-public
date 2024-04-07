@@ -35,7 +35,7 @@ const Toggle = ({ onToggle, tailwind }) => {
 							isDarkMode ? "translate-x-full" : ""
 						}`}
 					>
-						{!isDarkMode ? (
+						{isDarkMode ? (
 							<MdBrightness2 className="w-6 h-6 text-white" />
 						) : (
 							<MdBrightnessHigh className="w-6 h-6 text-white" />
