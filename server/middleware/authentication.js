@@ -2,13 +2,13 @@ const CustomError = require('../errors');
 const {isTokenValid, attachCookiesToResponse}= require('../utils');
 const Token = require('../models/Token');
 
-const authenticateUser = async(req,res)=>{
+const authenticateUser = async(req,res,next)=>{
     const {refreshToken,accessToken} =req.signedCookies;
     try {
         if(accessToken){// access Token exists mein that it is valid, as it's existing check is made in the controller only
             const payload = isTokenValid(accessToken);
             req.user=payload.user;
-            return ;
+            return next();
         }
         const payload = isTokenValid(refreshToken);
         
