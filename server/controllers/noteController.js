@@ -100,14 +100,15 @@ const getAllNotes= async(req,res)=>{
 const getSingleNote = async(req,res)=>{
     const {id:noteId} = req.params;
     const note = await Note.findOne({_id:noteId}).populate('comments').populate({
-        path:'likedBy',select : 'name image'});
+        path:'likedBy',select : 'name image'}).populate({path : 'user' ,select : 'name image createdAt about numOfFollowers'});
     if(!note){
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
-
+    // console.log(req.signedCookies);
+    
     if(note.visibility === 'private')
     {
-        authenticateUser();
+        await authenticateUser(req,res);
         if(!note.sharedWith.includes(req.user.userId)){
             throw new CustomError.UnauthorizedError('You are not authorized to view this note');
         }
