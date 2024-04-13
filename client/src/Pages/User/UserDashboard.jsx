@@ -170,7 +170,7 @@ function UserDasboard() {
 		// Collect the title
 		const title = document.getElementById("noteTitle").value;
 		// Make an api call
-		const res = axiosInstance.post("/note/create", {
+		const res = axiosInstance.post("/notes/create", {
 			title: title,
 		});
 		toast.promise(res, {
@@ -181,7 +181,7 @@ function UserDasboard() {
 		const response = await res;
 		console.log(response.data);
 		// Redirect to the new note
-		navigate(`/blog/new/${response.data.noteId}`);
+		navigate(`/blog/new/${response.data.note.id}`);
 	};
 	return (
 		<div className="flex max-h-screen relative">
