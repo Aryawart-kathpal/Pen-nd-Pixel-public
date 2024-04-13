@@ -1,16 +1,19 @@
+require('dotenv').config();
 const Note = require('../models/Note');
 const CustomError = require('../errors');
 const {StatusCodes} = require('http-status-codes');
 const {checkPermissions} = require('../utils');
 const User = require('../models/User');
 const {summarizer} = require('../utils');
+const sendEmail = require('../utils/sendEmail');
+const {authenticateUser} = require('../middleware/authentication');
 
 //title,description,content,user,tags,visibility,likes
 const createNote = async(req,res)=>{
-    const {tags}= req.body;
-    if(!tags){
-        throw new CustomError.BadRequestError('Please provide at least one tag');
-    }
+    const {title}= req.body;
+    // if(!tags){
+    //     throw new CustomError.BadRequestError('Please provide at least one tag');
+    // }
     req.body.user = req.user.userId;
 
     const note = await Note.create(req.body);// only the required things will go in the database, others will be ignored if added
@@ -102,8 +105,12 @@ const getSingleNote = async(req,res)=>{
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
 
-    if((note.visibility==='private' || note.visibility==='unlisted')){
-        throw new CustomError.UnauthorizedError('You are not authorized to access this note');
+    if(note.visibility === 'private')
+    {
+        authenticateUser();
+        if(!note.sharedWith.includes(req.user.userId)){
+            throw new CustomError.UnauthorizedError('You are not authorized to view this note');
+        }
     }
 
     res.status(StatusCodes.OK).json({note}); 
@@ -224,4 +231,44 @@ const generateSummary = async(req,res)=>{
     res.status(StatusCodes.OK).json({summary}); 
 }
 
-module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote,likeNote,unlikeNote,generateSummary};
+const shareNote = async(req,res)=>{
+    // category,tags,description
+    const {id:noteId} = req.params;
+    const {email}=req.body;
+    const note = await Note.findOne({_id:noteId});
+    if(!note){
+        throw new CustomError.notFoundError(`No note exists with id : ${noteId}`);
+    }
+
+    // handle differently for public and private
+    if(!note.category || !note.tags || !note.description){
+        throw new CustomError.BadRequestError("Category, tags and description are required to share a note");
+    }
+
+    const user = await User.findOne({email});
+    if(!user){
+        throw new CustomError.notFoundError(`No user exists with email : ${email}`);
+    }
+
+    if(note.visibility!=='private'){
+        throw new CustomError.BadRequestError(`Can use this only for private notes`);
+    }
+    
+    note.sharedWith = [...note.sharedWith,user._id];
+    await note.save();
+
+    link=`${process.env.FRONTEND_URL}/blog/${note._id}`
+    // send email to the user
+    html = `
+        <h3> ${req.user.name} shared a private note with you</h3>
+        <p>Title : ${note.title}</p>
+        <p>Category : ${note.category}</p>
+        <p>Description : ${note.description}</p>
+        <p> Here is a link to it : ${link}
+    `
+    await sendEmail({to:`${email}`,subject : `Pen and Pixel Note Sharing`,html});
+    res.status(StatusCodes.OK).json({msg : "Note succesfully shared with the user"});
+}
+
+// change getSingleNote
+module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote,likeNote,unlikeNote,generateSummary,shareNote};

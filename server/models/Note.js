@@ -9,13 +9,13 @@ const noteSchema = new mongoose.Schema({
     },
     description:{
         type:String,
-        required:[true,'Please provide description'],   
+        // required:[true,'Please provide description'],   
         maxlength:[200,'Description cannot be more than 200 characters'],
         minlength:[10,'Description cannot be less than 10 characters'],
     },
     content:{
         type:String,//HTML?
-        required:[true,"Content can't be empty"],
+        // required:[true,"Content can't be empty"],
         // should I add minlength or maxlength
     },
     user:{
@@ -25,7 +25,7 @@ const noteSchema = new mongoose.Schema({
     },
     category:{
         type:String,
-        required:[true,'Please provide category'],
+        // required:[true,'Please provide category'],
         enum:{
             values:['tech','travel','food','music','movies','books','disaster','personal','work','study','ideas','innovation','journal','recipes','health','finance','fitness','fashion','lifestyle','sports','politics','science','history','art','culture','education','environment','religion','philosophy','psychology','self-help','spirituality','technology','movies','quotes','other'],
             message:'{VALUE} is not supported category',
@@ -39,7 +39,7 @@ const noteSchema = new mongoose.Schema({
             },
             message:'Tags cannot be more than 7',
         },
-        required:[true,"Provide at least one tag"],
+        // required:[true,"Provide at least one tag"],
     },
     visibility:{
         type:String,
@@ -56,7 +56,11 @@ const noteSchema = new mongoose.Schema({
     likedBy:{
         type:[mongoose.Schema.Types.ObjectId],
         ref:'User',
-    }
+    },
+    sharedWith : {
+        type:[mongoose.Schema.Types.ObjectId],
+        ref:'User',
+    },
 },{timestamps:true ,toJSON : {virtuals:true}, toObject : {virtuals:true}});
 
 noteSchema.virtual('comments',{
