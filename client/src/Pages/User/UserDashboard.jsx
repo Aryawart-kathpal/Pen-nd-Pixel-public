@@ -5,14 +5,27 @@ import Button from "../../Components/Button";
 import { FaBars } from "react-icons/fa";
 import Toggle from "../../Components/Toggle";
 import { useTheme } from "../../Context/ThemeProvider";
-import CreateNote from "../Editor/CreateNote";
-import {useNavigate} from 'react-router-dom';
-import axiosInstance from "../../Helpers/axiosInstance"
-import { useToast } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../Helpers/axiosInstance";
+import { useToast } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import {
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	FormControl,
+	FormLabel,
+	Input,
+} from "@chakra-ui/react";
 
 function UserDasboard() {
 	const navigate = useNavigate();
 	const toast = useToast();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isDarkMode, toggleTheme } = useTheme();
 	const [user, setUser] = useState({
 		name: "",
@@ -49,7 +62,8 @@ function UserDasboard() {
 		{
 			id: 2,
 			title: "Note 2",
-			description: "Description of Note 2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus quasi distinctio minus vitae. Iste, enim fuga libero cum ea itaque consequatur excepturi reprehenderit quos nihil consectetur, dolore rerum vitae explicabo?",
+			description:
+				"Description of Note 2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus quasi distinctio minus vitae. Iste, enim fuga libero cum ea itaque consequatur excepturi reprehenderit quos nihil consectetur, dolore rerum vitae explicabo?",
 			likes: "56",
 			comments: [],
 		},
@@ -122,10 +136,10 @@ function UserDasboard() {
 	const fetchUser = async () => {
 		const res = axiosInstance.get("/user/current");
 		toast.promise(res, {
-			success: { title: 'Welcome'},
-			error: { title: 'Failed to Fetch your Dashboard'},
-			loading: { title: 'Loading Details', description: 'Please wait' },
-		  })
+			success: { title: "Welcome" },
+			error: { title: "Failed to Fetch your Dashboard" },
+			loading: { title: "Loading Details", description: "Please wait" },
+		});
 		const response = await res;
 		console.log(response.data);
 		setUser(
@@ -141,7 +155,7 @@ function UserDasboard() {
 			(user.numOfFollowing = response.data.user.numOfFollowing)
 		);
 		setNotes(response.data.notes);
-	}
+	};
 
 	useEffect(() => {
 		// Get User from server
@@ -152,6 +166,23 @@ function UserDasboard() {
 	function handleToggle() {
 		setToggle(!toggle);
 	}
+	const createNote = async () => {
+		// Collect the title
+		const title = document.getElementById("noteTitle").value;
+		// Make an api call
+		const res = axiosInstance.post("/note/create", {
+			title: title,
+		});
+		toast.promise(res, {
+			success: { title: "Note Created" },
+			error: { title: "Failed to Create Note" },
+			loading: { title: "Creating Note", description: "Please wait" },
+		});
+		const response = await res;
+		console.log(response.data);
+		// Redirect to the new note
+		navigate(`/blog/new/${response.data.noteId}`);
+	};
 	return (
 		<div className="flex max-h-screen relative">
 			<FaBars
@@ -179,11 +210,36 @@ function UserDasboard() {
 					<Button
 						text="Create new note"
 						className="bg-slate-400 font-semibold p-2 border-2 rounded hover:bg-slate-500 hover:text-white transition-all duration-300 ease-in-out"
-						handleOnClick={() => {
-							console.log("Clicked");
-							navigate("/blog/new");
-						}}
+						handleOnClick={onOpen}
 					/>
+
+					{/* ChakraUI modal to take the title of the note*/}
+					<Modal isOpen={isOpen} onClose={onClose}>
+						<ModalOverlay />
+						<ModalContent>
+							<ModalHeader>Create a new note</ModalHeader>
+							<ModalCloseButton />
+							<ModalBody>
+								<FormControl>
+									<FormLabel>Title</FormLabel>
+									<Input
+										type="text"
+										id="noteTitle"
+										placeholder="Title of the note"
+									/>
+								</FormControl>
+							</ModalBody>
+
+							<ModalFooter>
+								<Button
+									text="Create"
+									className="bg-blue-500 text-white font-semibold px-2 py-1 border-2 rounded-md hover:bg-blue-600 hover:text-white transition-all duration-300 ease-in-out"
+									// OnClick I will make a api Call with the title, i will get an Id in response and Then I will navigate to /blog/new/:id
+									handleOnClick={createNote}
+								/>
+							</ModalFooter>
+						</ModalContent>
+					</Modal>
 				</div>
 			</div>
 		</div>
