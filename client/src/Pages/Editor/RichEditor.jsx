@@ -1,14 +1,14 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo } from "react";
 import { useTheme } from "../../Context/ThemeProvider";
-import JoditEditor from 'jodit-react';
+import JoditEditor from "jodit-react";
 
-const RichEditor = ({ placeholder }) => {
+const RichEditor = ({ content, handleOnBlur }) => {
 	const { isDarkMode, toggleTheme } = useTheme();
 
-  const editor = useRef(null);
-  const [content, setContent] = useState('<h1>Hello I am a rich text editor!</h1>');
+	const editor = useRef(null);
+	
 
-  const config = useMemo(
+	const config = useMemo(
 		() => ({
 			readonly: false, // all options from https://xdsoft.net/jodit/docs/,
 			// placeholder: placeholder || "Start typing...",
@@ -19,21 +19,17 @@ const RichEditor = ({ placeholder }) => {
 		[isDarkMode]
 	);
 
-  const handleBlur = (newContent) => {
-    setContent(newContent);
-    console.log(newContent);
-  };
 
-  return (
-    <JoditEditor
-      ref={editor}
-      value={content}
-      config={config}
-      onBlur={handleBlur}
-      tabIndex={1} // tabIndex of textarea
-      className='w-full h-screen'
-    />
-  );
+	return (
+		<JoditEditor
+			ref={editor}
+			value={content}
+			config={config}
+			onBlur={handleOnBlur}
+			tabIndex={1} // tabIndex of textarea
+			className="w-full h-screen"
+		/>
+	);
 };
 
 export default RichEditor;

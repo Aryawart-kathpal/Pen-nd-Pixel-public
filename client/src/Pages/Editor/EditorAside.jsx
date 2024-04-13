@@ -9,9 +9,9 @@ import { AiOutlineExport } from "react-icons/ai";
 import { AiOutlineCopy } from "react-icons/ai";
 import { RiCloseCircleFill } from "react-icons/ri";
 
-const EditorAside = ({ open, handleOpen }) => {
+const EditorAside = ({ open, handleOpen, handlePublic, handlePrivate, save }) => {
 	const { isDarkMode, toggleTheme } = useTheme();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	return (
 		<div
 			className={`customSlideLeft w-[250px] h-[90svh] ${
@@ -38,6 +38,7 @@ const EditorAside = ({ open, handleOpen }) => {
 					className={`flex items-center  justify-center gap-6 cursor-pointer ${
 						isDarkMode ? `hover:bg-slate-700` : `hover:bg-slate-300`
 					} duration-500 hover:text hover:shadow-slate-300 px-4 border-slate-500 h-14`}
+					onClick={save}
 				>
 					<MdOutlineCreateNewFolder className="w-6 h-6" />
 					<span className="w-full">Save Note</span>
@@ -58,11 +59,12 @@ const EditorAside = ({ open, handleOpen }) => {
 					className={`flex items-center  justify-center gap-6 cursor-pointer ${
 						isDarkMode ? `hover:bg-slate-700` : `hover:bg-slate-300`
 					} duration-500 hover:text hover:shadow-slate-300 px-4 border-slate-500 h-14`}
+					onClick={handlePublic}
 				>
 					<AiOutlineShareAlt className="w-6 h-6" />
 					<span className="w-full">Share</span>
 				</div>
-				
+
 				{/* Export Button */}
 				{/* <div
 					className={`flex items-center  justify-center gap-6 cursor-pointer ${
