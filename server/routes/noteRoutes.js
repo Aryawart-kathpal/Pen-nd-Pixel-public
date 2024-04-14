@@ -3,10 +3,14 @@ const router = express.Router();
 
 const{authenticateUser,authorizePermissions}=require('../middleware/authentication');
 const {getAllNotes,getSingleNote,createNote,deleteNote,updateNote,likeNote,unlikeNote,generateSummary,shareNote}= require('../controllers/noteController');
+const { noteEdit } = require('../controllers/collaborationController');
 
 router.route('/').get(getAllNotes);
 router.route('/create').post(authenticateUser,createNote);
 router.route('/share/:id').post(authenticateUser,shareNote);
+
+router.route('/:id/edit').patch(authenticateUser,noteEdit);
+
 router.route('/update/:id').patch(authenticateUser,updateNote);// issi bande ka note hona chahiye bs
 router.route('/delete/:id').delete(authenticateUser,deleteNote);//checkPermissions
 router.route('/like/:id').post(authenticateUser,likeNote);

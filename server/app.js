@@ -1,8 +1,15 @@
 require('express-async-errors');
 require('dotenv').config();
+const http = require('http');
+const socketIo= require('socket.io');
+const {Server}= require('socket.io');
 
 const express = require('express');
 const app = express();
+
+const server = http.createServer(app);
+const io = new Server(server);
+module.exports = {app,io};
 
 const morgan = require('morgan');
 
@@ -101,7 +108,6 @@ const start = async()=>{
 // searching on title also ->done
 // deleting on deletion
 // populate at last, public finishing ->done
-
 start();
 // follow settings have to be made in the user model only, numOfFollowers and List Of Followers have to be made in the user model only -> aggregate pipleine has to be made for realtime updating the followers and following, also list of following and numOfFollowing has to be made too
 // authenticateUser to be stick at the follow also
