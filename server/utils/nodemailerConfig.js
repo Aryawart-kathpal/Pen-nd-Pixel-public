@@ -2,7 +2,7 @@ require('dotenv').config();
 module.exports={
     service:'Gmail',
     auth: {
-        user: 'aryawart.kathpal2909@gmail.com',
+        user: 'uncannydevs@gmail.com',
         pass: process.env.MAIL_PASSWORD,
     }
 };
