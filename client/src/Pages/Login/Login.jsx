@@ -12,6 +12,27 @@ const Login = () => {
 		email: "",
 		password: "",
 	});
+	async function handleForgotPassword(){
+		try {
+			if(login.email === ""){
+				toast({
+					title: "Please enter your email",
+					status: "error",
+					duration: 2000,
+					isClosable: true,
+				})
+				return;
+			};
+			const res = axiosInstance.post("/auth/forgot-password", {email: login.email});
+			toast.promise(res, {
+				success: { title: "Password reset link sent", description: "Check your email" },
+				error: { title: "Failed to send email" },
+				loading: { title: "Sending email...", description: "Please wait" },
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}
 	async function handleLogin() {
 		if (!login.email || !login.password) {
 			toast({
@@ -96,6 +117,11 @@ const Login = () => {
 						<input type="checkbox" name="remember" id="remember" /> remember me
 					</label>
 					<Button name={"Login"} handleOnSubmit={handleLogin} />
+					{/* create forget password link */}
+					<p className="text-blue-500 cursor-pointer">
+						<span onClick={handleForgotPassword}>Forgot Password?</span>
+					</p>
+					
 				</div>
 			</div>
 			<p>

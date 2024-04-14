@@ -10,6 +10,7 @@ import AboutUs from './Pages/Home/AboutUs'
 import LoginLayout from './Pages/Login/LoginLayout'
 import UserDashboard from './Pages/User/UserDashboard'
 import CreateNote from './Pages/Editor/CreateNote'
+import ForgotPassword from './Components/ForgetPassword'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path='/blog/:id' element={<ViewBlog />}></Route>
       <Route path='/blog/new/:id' element={<CreateNote />}></Route>
       <Route path='/browse' element={<Browser />}></Route>
+      <Route path='/forgot-password' element={<ForgotPassword />}></Route>
 
       <Route path='/user' element={<UserDashboard />}></Route>
       {/* Check About page element */}
