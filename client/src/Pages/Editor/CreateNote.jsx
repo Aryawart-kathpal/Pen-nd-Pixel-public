@@ -26,7 +26,6 @@ export default function CreateNote() {
 
 	// Fetch note details
 	const fetchNoteDetails = async () => {
-		console.log("Fetching note details");
 		try {
 			const res = await axiosInstance.get(`/notes/${id}`);
 			console.log(res.data.note);
@@ -62,6 +61,7 @@ export default function CreateNote() {
 	};
 	const handleDescription = (e) => {
 		setNoteDetails({ ...noteDetails, description: e.target.value });
+		console.log(noteDetails);
 	};
 	const handleTags = async (tagsStr) => {
 		const tagArray = tagsStr.split(",");
@@ -87,20 +87,21 @@ export default function CreateNote() {
 			tagArray.splice(7, tagArray.length - 7);
 		}
 		setNoteDetails({ ...noteDetails, tags: tagArray });
-		try {
-			const res = await axiosInstance.patch(`/notes/update/${id}`, {
-				tags: noteDetails.tags,
-			});
-			toast({
-				title: "Tags Updated",
-				status: "success",
-				duration: 2000,
-				isClosable: true,
-			});
-			fetchNoteDetails();
-		} catch (err) {
-			console.log(err);
-		}
+		console.log(noteDetails);
+		// try {
+		// 	const res = await axiosInstance.patch(`/notes/update/${id}`, {
+		// 		tags: noteDetails.tags,
+		// 	});
+		// 	toast({
+		// 		title: "Tags Updated",
+		// 		status: "success",
+		// 		duration: 2000,
+		// 		isClosable: true,
+		// 	});
+		// 	// fetchNoteDetails();
+		// } catch (err) {
+		// 	console.log(err);
+		// }
 	};
 	const handleSharedWith = (emailStr) => {
 		// Split by comma
@@ -115,13 +116,15 @@ export default function CreateNote() {
 				emailArray.splice(index, 1);
 			}
 		});
-		setNoteDetails({ ...noteDetails, sharedWith: email });
+		console.log(emailArray);
+		setNoteDetails({ ...noteDetails, sharedWith: emailArray });
 		toast({
 			title: "Email Added",
 			status: "success",
 			duration: 1000,
 			isClosable: true
 		})
+		console.log(noteDetails);
 	};
 	const handleTitle = (e) => {
 		setNoteDetails({ ...noteDetails, title: e.target.value });
@@ -154,6 +157,7 @@ export default function CreateNote() {
 		}
 	};
 	const handlePublic = async () => {
+		console.log(noteDetails);
 		if (
 			content === "<h1>Hello I am a rich text editor!</h1>" ||
 			content === ""
