@@ -218,7 +218,7 @@ export default function CreateNote() {
 			return;
 		}
 		// Description, tags are necessary
-		if (noteDetails.description === "" || noteDetails.tags.length === 0) {
+		if (noteDetails.description === "" || noteDetails.tags.length === 0 || noteDetails.sharedWith.length === 0) {
 			toast({
 				title: "Description and Tags are necessary",
 				description: "Please provide a description and tags",

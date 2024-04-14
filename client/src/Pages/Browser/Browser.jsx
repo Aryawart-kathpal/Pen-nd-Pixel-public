@@ -151,7 +151,16 @@ const Browser = () => {
 		},
 	]);
 	const handleSearch = (e) => {
+		e.preventDefault();
 		setSearchText(e.target.value);
+		const filteredData = searchData.filter((data) => data.title.toLowerCase().includes(searchText.toLowerCase()));
+		setSearchData(filteredData);
+		try{
+			const res = axiosInstance.get(`/notes/search/${searchText}`);
+		}
+		catch(err){
+			console.log(err);
+		}
 	};
 	useEffect(() => {
 		fetchData();
@@ -165,7 +174,7 @@ const Browser = () => {
 					className="text-3xl absolute left-10 max-sm:hidden cursor-pointer"
 					onClick={() => navigate(-1)}
 				/>
-				<div className="flex gap-4 items-center w-full sm:max-w-[720px] mt-5 relative">
+				<form className="flex gap-4 items-center w-full sm:max-w-[720px] mt-5 relative">
 					<input
 						type="text"
 						placeholder="Search..."
@@ -173,10 +182,13 @@ const Browser = () => {
 						onChange={handleSearch}
 						className="rounded px-4 py-2 outline w-full sm:self-stretch overflow-x-hidden text-black"
 					/>
-					<button className="bg-black text-white rounded px-4 py-2 sm:mt-0  sm:w-auto">
+					<button 
+						className="bg-black text-white rounded px-4 py-2 sm:mt-0  sm:w-auto"
+						onClick={handleSearch}
+					>
 						Search
 					</button>
-				</div>
+				</form>
 				<div className="grid w-full gap-4 overflow-x-hidden py-5 pt-3 overflow-y-scroll customScrollbar">
 					{
 						searchData.map((data, index) => (
