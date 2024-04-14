@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Nav from "../../Layouts/Nav.jsx";
 import { useTheme } from "../../Context/ThemeProvider";
 import axiosInstance from "../../Helpers/axiosInstance.js";
+import _ from "lodash";
 
 const Browser = () => {
   	const { isDarkMode, toggleTheme } = useTheme();
@@ -150,17 +151,46 @@ const Browser = () => {
 			comments: ["Comment 1", "Comment 2"],
 		},
 	]);
-	const handleSearch = (e) => {
-		e.preventDefault();
-		setSearchText(e.target.value);
-		const filteredData = searchData.filter((data) => data.title.toLowerCase().includes(searchText.toLowerCase()));
-		setSearchData(filteredData);
+	const debouncedHandleSearch = _.debounce(async(searchText)=>{
+		// doing api call
 		try{
-			const res = axiosInstance.get(`/notes/search/${searchText}`);
+			console.log("Making Request");
+			const res = await axiosInstance.get(`/notes?search=${searchText}`);
+			console.log(res.data.notes);
+			const data = res.data.notes;
+			setSearchData(
+				data.map((note, index) => ({
+					id: note._id,
+					title: note.title,
+					description: note.description,
+					category: note.category,
+					topics: note.tags,
+					content: note.content,
+					authorDetails: {
+						profilePhoto: note?.user?.image,
+						name: note?.user?.name,
+						date: note?.user?.createdAt,
+						followers: note?.user?.numOfFollowers,
+						about: note?.user?.about,
+					},
+					comments: note.comments.map((c) => c.comment),
+				}))
+			)
 		}
 		catch(err){
 			console.log(err);
 		}
+	}, 1000);
+
+	const handleSearch = async (e) => {
+		e.preventDefault();
+		const searchText = e.target.value;
+		const trimmedText = searchText.trim();
+		const replacedText = trimmedText.replace(/\s+/g, ',');
+		setSearchText(replacedText);
+		const filteredData = searchData.filter((data) => data.title.toLowerCase().includes(searchText.toLowerCase()));
+		setSearchData(filteredData);
+		debouncedHandleSearch(searchText);
 	};
 	useEffect(() => {
 		fetchData();
@@ -174,7 +204,7 @@ const Browser = () => {
 					className="text-3xl absolute left-10 max-sm:hidden cursor-pointer"
 					onClick={() => navigate(-1)}
 				/>
-				<form className="flex gap-4 items-center w-full sm:max-w-[720px] mt-5 relative">
+				<div className="flex gap-4 items-center w-full sm:max-w-[720px] mt-5 relative">
 					<input
 						type="text"
 						placeholder="Search..."
@@ -184,11 +214,11 @@ const Browser = () => {
 					/>
 					<button 
 						className="bg-black text-white rounded px-4 py-2 sm:mt-0  sm:w-auto"
-						onClick={handleSearch}
+						onSubmit={handleSearch}
 					>
 						Search
 					</button>
-				</form>
+				</div>
 				<div className="grid w-full gap-4 overflow-x-hidden py-5 pt-3 overflow-y-scroll customScrollbar">
 					{
 						searchData.map((data, index) => (
