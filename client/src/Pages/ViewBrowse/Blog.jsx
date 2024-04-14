@@ -74,8 +74,8 @@ const Blog = ({ id, blog, topics, title, description, category }) => {
 						// dangerouslySetInnerHTML={{ __html: summary }}
 						className="list-disc"
 					>
-            {parse(summary)}
-          </div>
+						{parse(summary)}
+					</div>
 				</div>
 			</div>
 		</>

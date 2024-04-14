@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../Context/ThemeProvider";
 import { MdOutlineCreateNewFolder } from "react-icons/md";
@@ -72,11 +72,21 @@ const EditorAside = ({
 	handleSharedWith,
 	handleTitle,
 	handleCategory,
+	handleUnShare,
 	noteDetails,
 }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isDarkMode, toggleTheme } = useTheme();
+	const [tags, setTags] = useState("");
+	const [visibility, setVisibility] = useState("");
+	const [shareWith, setShareWith] = useState("");
 	const navigate = useNavigate();
+	useEffect(() => {
+		console.log("Use Effect Ran");
+		setTags(noteDetails.tags.join(", "));
+		setVisibility(noteDetails.visibility);
+		setShareWith(noteDetails.sharedWith.join(","));
+	}, [noteDetails]);
 	return (
 		<div
 			className={`customSlideLeft w-[250px] h-[90svh] ${
@@ -134,71 +144,111 @@ const EditorAside = ({
 					<Modal isOpen={isOpen} onClose={onClose}>
 						<ModalOverlay />
 						<ModalContent>
-						<ModalHeader>Share Note</ModalHeader>
-						<ModalCloseButton />
-						<ModalBody>
-							<FormControl>
-								<FormLabel>Title</FormLabel>
-								<Input
-									type="text"
-									id="noteTitle"
-									placeholder="Title of the note"
-									value={noteDetails.title}
-									onChange={handleTitle}
-								/>
-								<FormLabel>Category</FormLabel>
-								<select
-									id="noteCategory"
-									className="w-full p-2 border-2 rounded-md"
-									onChange={handleCategory}
-									value={noteDetails.category}
-								>
-									{values.map((value, index) => {
-										return (
-											<option key={index} value={value}>
-												{value}
-											</option>
-										);
-									})}
-								</select>
-								<FormLabel>Description</FormLabel>
-								<Input
-									type="text"
-									id="noteDescription"
-									placeholder="Description of the note"
-									onChange={handleDescription}
-								/>
-								<FormLabel>Tags</FormLabel>
-								<Input
-									type="text"
-									id="noteTags"
-									placeholder="Tags of the note separated by ','"
-									onChange={handleTags}
-								/>
-								<FormLabel>Shared With</FormLabel>
-								<Input
-									type="text"
-									id="noteSharedWith"
-									placeholder="In case Private Share Enter Emails separated by ','"
-									onChange={handleSharedWith}
-								/>
+							<ModalHeader>Share Note</ModalHeader>
+							<ModalCloseButton />
+							<ModalBody>
+								<FormControl>
+									<FormLabel>Title</FormLabel>
+									<Input
+										type="text"
+										id="noteTitle"
+										placeholder="Title of the note"
+										value={noteDetails.title}
+										onChange={handleTitle}
+									/>
+									<FormLabel>Category</FormLabel>
+									<select
+										id="noteCategory"
+										className="w-full p-2 border-2 rounded-md"
+										onChange={handleCategory}
+										value={noteDetails.category}
+									>
+										{values.map((value, index) => {
+											return (
+												<option key={index} value={value}>
+													{value}
+												</option>
+											);
+										})}
+									</select>
+									<FormLabel>Description</FormLabel>
+									<Input
+										type="text"
+										id="noteDescription"
+										placeholder="Description of the note"
+										value={noteDetails.description}
+										onChange={handleDescription}
+									/>
 
-							</FormControl>
-						</ModalBody>
-						<ModalFooter className="gap-5">
-							<button
-								className="bg-blue-400 px-2 py-1 rounded-md text-white"
-								onClick={handlePublic}
-							>
-								Public
-							</button>
-							<button
-								className="bg-blue-400 px-2 py-1 rounded-md text-white"
-								onClick={handlePrivate}
-							>
-								Private
-							</button>
-						</ModalFooter>
+									<FormLabel>Tags</FormLabel>
+									<div className="flex gap-2 items-center justify-between">
+										<Input
+											type="text"
+											id="noteTags"
+											placeholder="Tags of the note separated by ','"
+											value={tags}
+											onChange={(e) => setTags(e.target.value)}
+										/>
+										{/* Button to ADD tags */}
+										<button
+											className="bg-black px-2 py-1 rounded-md text-white"
+											onClick={() => handleTags(tags)}
+										>
+											Add
+										</button>
+									</div>
+									<FormLabel>Shared With</FormLabel>
+									<div className="flex gap-2 items-center justify-between">
+										<Input
+											type="text"
+											id="noteSharedWith"
+											placeholder="In case Private Share Enter Emails separated by ','"
+											value={shareWith}
+											onChange={(e) => {
+												setShareWith(e.target.value);
+											}}
+										/>
+										<button
+											className="bg-black px-2 py-1 rounded-md text-white"
+											onClick={() => handleSharedWith(shareWith)}
+										>
+											Add
+										</button>
+									</div>
+								</FormControl>
+							</ModalBody>
+							<ModalFooter className="gap-5">
+								{visibility == "private" ? (
+									<button
+										className="bg-black px-2 py-1 rounded-md text-white"
+										onClick={() => {
+											handlePublic();
+											onClose();
+										}}
+									>
+										Public
+									</button>
+								) : (
+									<button
+										className="bg-black px-2 py-1 rounded-md text-white"
+										onClick={() => {
+											handleUnShare();
+											onClose();
+										}}
+									>
+										UnShare
+									</button>
+								)}
+								<button
+									className="bg-black px-2 py-1 rounded-md text-white"
+									onClick={() => {
+										handlePrivate();
+										onClose();
+									}}
+								>
+									Private
+								</button>
+							</ModalFooter>
 						</ModalContent>
 					</Modal>
 				</div>
