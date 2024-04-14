@@ -91,8 +91,9 @@ const updateUser = async (req, res) => {
 	}
 
 	const user = await User.findOne({ _id: req.user.userId }).select("-password");
-
-	if (image) {
+    console.log(image);
+    console.log(user.image);
+	if (image!=="") {
 		if (image === "https://www.gravatar.com/avatar/000?d=mp") {
 			user.image = image;
 		} else {

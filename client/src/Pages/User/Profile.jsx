@@ -74,12 +74,20 @@ function Profile({ handleToggle, toggle, user }) {
 
 	const handleEdit = async () => {
 		// If there is a new image upload image to a given router
-		if (userData.image) {
+		let url;
+		if(!userData.image || userData.image === "https://www.gravatar.com/avatar/000?d=mp"){
+			setUserData({
+				...userData,
+				image: "https://www.gravatar.com/avatar/000?d=mp",
+			});
+		}
+		else{
 			const formData = new FormData();
 			formData.append("image", userData.image);
 			const res = await axiosInstance.post("/auth/upload-image", formData);
 			console.log(res);
 			// Take the image url and update the user data
+			url = res.data.url;
 			setUserData({
 				...userData,
 				image: res.data.url,
@@ -87,10 +95,11 @@ function Profile({ handleToggle, toggle, user }) {
 		}
 		// Update the user details
 		try {
+			console.log(userData);
 			const res = axiosInstance.patch("/user/update", {
 				name: userData.name,
 				about: userData.about,
-				image: userData.image,
+				image: url,
 			});
 			toast.promise(res, {
 				loading: { title: "Updating..." },
@@ -111,6 +120,7 @@ function Profile({ handleToggle, toggle, user }) {
 			user.name = response.data.name;
 			user.image = response.data.image;
 			localStorage.setItem("user", JSON.stringify(user));
+			window.location.reload();
 		} catch (error) {
 			console.log(error);
 		}
