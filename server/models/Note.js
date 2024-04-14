@@ -11,7 +11,7 @@ const noteSchema = new mongoose.Schema({
         type:String,
         // required:[true,'Please provide description'],   
         maxlength:[200,'Description cannot be more than 200 characters'],
-        minlength:[10,'Description cannot be less than 10 characters'],
+        // minlength:[10,'Description cannot be less than 10 characters'],
     },
     content:{
         type:String,//HTML?

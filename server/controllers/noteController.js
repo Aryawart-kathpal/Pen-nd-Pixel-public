@@ -47,7 +47,8 @@ const getAllNotes= async(req,res)=>{
         queryObject.$or = [
             { tags: { $in: search.split(',').map(tag => new RegExp(tag, 'i')) } }, // Search by tags
             // { title: { $regex: search , $options:'i' } } // Search by name (assuming 'name' property exists in the Note model)
-            {title :{$in : search.split(',').map(tag => new RegExp(tag,'i'))}} // instead of searching on just one title value as above I can do on all the search items
+            {title :{$in : search.split(',').map(tag => new RegExp(tag,'i'))}}, // instead of searching on just one title value as above I can do on all the search items
+            {category : {$in:search.split(',').map(tag=> new RegExp(tag,'i'))}}
         ];
     }
 
@@ -55,10 +56,6 @@ const getAllNotes= async(req,res)=>{
 
     // console.log(queryObject['$or'].title);
     // console.log(queryObject['$or'][0].tags['$in']);
-    
-    if(category){
-        queryObject.category=category;
-    }
 
     let result = Note.find(queryObject).populate({
         path : 'user',
@@ -296,7 +293,8 @@ const shareNote = async(req,res)=>{
         }
 
         shared = [...shared,user._id];
-
+        user.sharedNotes.push(note._id);
+        await user.save();
         const link = `${process.env.FRONTEND_URL}/blog/${note._id}`;
         const html = `
             <h3>${req.user.name} shared a private note with you</h3>
