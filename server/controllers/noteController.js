@@ -124,7 +124,7 @@ const getSingleNote = async(req,res)=>{
 const updateNote = async(req,res)=>{
     const{id:noteId} = req.params;
     const {title,description,content,tags,visibility,category}=req.body;
-    // console.log(tags);
+    console.log(tags);
     const note = await Note.findOne({_id:noteId});
     if(!note){
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
@@ -297,15 +297,16 @@ const shareNote = async(req,res)=>{
 
         shared = [...shared,user._id];
 
-        // const link = `${process.env.FRONTEND_URL}/blog/${note._id}`;
-        // const html = `
-        //     <h3>${req.user.name} shared a private note with you</h3>
-        //     <p>Title: ${note.title}</p>
-        //     <p>Category: ${note.category}</p>
-        //     <p>Description: ${note.description}</p>
-        //     <p>Here is a link to it: ${link}</p>
-        // `;
-        // await sendEmail({ to: userEmail, subject: `Pen and Pixel Note Sharing`, html });
+        const link = `${process.env.FRONTEND_URL}/blog/${note._id}`;
+        const html = `
+            <h3>${req.user.name} shared a private note with you</h3>
+            <p>Title: ${note.title}</p>
+            <p>Category: ${note.category}</p>
+            <p>Description: ${note.description}</p>
+            <p>Here is a link to it: ${link}</p>
+        `;
+
+        await sendEmail({ to: userEmail, subject: `Pen and Pixel Note Sharing`, html });
     }
 
     note.sharedWith = [...note.sharedWith,...shared];
