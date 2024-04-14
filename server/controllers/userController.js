@@ -2,10 +2,16 @@ const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const { checkPermissions } = require("../utils");
-const cloudinary = require("cloudinary").v2;
+const cloudinary = require("cloudinary");
 const Note = require("../models/Note");
 const mongoose = require("mongoose");
 const { sendEmail } = require("../utils");
+
+cloudinary.config({
+    cloud_name:process.env.CLOUD_NAME,
+    api_key:process.env.CLOUD_API_KEY,
+    api_secret:process.env.CLOUD_API_SECRET,
+})
 
 const getAllUsers = async (req, res) => {
 	const users = await User.find({})
@@ -91,12 +97,13 @@ const updateUser = async (req, res) => {
 	}
 
 	const user = await User.findOne({ _id: req.user.userId }).select("-password");
-    console.log(image);
-    console.log(user.image);
+    // console.log(image);
+    // console.log(user.image);
 	if (image!=="") {
 		if (image === "https://www.gravatar.com/avatar/000?d=mp") {
 			user.image = image;
 		} else {
+            console.log("Inside deleting");
 			function getImagePublicId(cloudinaryUrl) {
 				// Split the URL by '/'
 				const parts = cloudinaryUrl.split("/");
@@ -109,26 +116,29 @@ const updateUser = async (req, res) => {
 			const cloudinaryUrl = user.image;
 			const imagePublicId = getImagePublicId(cloudinaryUrl);
 			console.log(imagePublicId); // Output: image_public_id
-			const result = await cloudinary.uploader
-				.destroy(imagePublicId)
-				.then((result) => {
-					console.log("Deleted success:", result);
-				})
-				.catch((error) => {
-					console.error("Error deleting:", error);
-				});
-
-			await cloudinary.api
+			// const result = await cloudinary.uploader
+			// 	.destroy(imagePublicId)
+			// 	.then((result) => {
+			// 		console.log("Deleted success:", result);
+			// 	})
+			// 	.catch((error) => {
+			// 		console.error("Error deleting:", error);
+			// 	});
+            // console.log("Hello");
+			await cloudinary.v2.api
 				.delete_resources([`Pen-and-Pixel/${imagePublicId}`], {
 					type: "upload",
 					resource_type: "image",
 				})
 				.then((result) => {
+                    // console.log("Hello");
 					console.log("Deleted resources:", result);
 				})
 				.catch((error) => {
+                    // console.log("Bye bye");
 					console.error("Error deleting resources:", error);
 				});
+                // console.log("Deleting completed");
 
 			user.image = image;
 		}
