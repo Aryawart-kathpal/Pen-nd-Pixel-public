@@ -1,14 +1,19 @@
 import RichEditor from "./RichEditor";
 import EditorAside from "./EditorAside";
+import axiosInstance from "../../Helpers/axiosInstance";
+import { useToast } from "@chakra-ui/react";
 import { IoIosArrowForward } from "react-icons/io";
 import Nav from "../../Layouts/Nav";
 import "./editor.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-export default function CreateNote({title, noteId}) {
+export default function CreateNote() {
+	const {id} = useParams();
+	const toast = useToast();
 	// State variables
 	const [noteDetails, setNoteDetails] = useState({
-		title: title || "",
+		title: "",
 		description: "",
 		tags: [],
 		category: "",
@@ -16,6 +21,36 @@ export default function CreateNote({title, noteId}) {
 	const [content, setContent] = useState(
 		"<h1>Hello I am a rich text editor!</h1>"
 	);
+
+	// Fetch note details
+	const fetchNoteDetails = async () => {
+		console.log("Fetching note details");
+		try {
+			const res = await axiosInstance.get(`/notes/${id}`);
+			console.log(res.data.note);
+			setNoteDetails(res.data.note);
+			setContent(res.data.note.content);
+		} catch (error) {
+			console.error(error);
+			toast({
+				title: "Failed to fetch note details",
+				description: "Please try again later",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+		}
+	}
+	useEffect(() => {
+		// Make api call to get note details
+		try {
+			fetchNoteDetails();
+		} catch (error) {
+			console.error(error);
+			toast.error({title : "Failed to fetch note details"})
+		}
+	}, []);
+
 	const [open, setOpen] = useState(false);
 
 	// Functions
@@ -34,6 +69,9 @@ export default function CreateNote({title, noteId}) {
 		});
 		
 		setNoteDetails({ ...noteDetails, tags: tagArray });
+	}
+	const handleTitle = (e) => {
+		setNoteDetails({ ...noteDetails, title: e.target.value });
 	}
 	const handleCategory = (e) => {
 		setNoteDetails({ ...noteDetails, category: e.target.value });
@@ -68,6 +106,17 @@ export default function CreateNote({title, noteId}) {
 					save={handleSave}
 				/>
 				<div className="basis-[100%] max-h-full overflow-auto">
+					<div className="flex items-center justify-between h-[10svh]">
+						<h1>{noteDetails.title}</h1>
+						<div className="flex items-center">
+							<span className="text-sm bg-gray-200 py-2 px-3 rounded-l-md text-slate-600 font-semibold">
+								Category:
+							</span>
+							<span className="text-sm text-gray-200 py-2 px-3 rounded-r-md bg-slate-600">
+								{noteDetails.category}
+							</span>
+						</div>
+					</div>
 					<RichEditor content={content} handleOnBlur={handleBlur} />
 				</div>
 			</div>

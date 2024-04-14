@@ -169,9 +169,12 @@ function UserDasboard() {
 	const createNote = async () => {
 		// Collect the title
 		const title = document.getElementById("noteTitle").value;
+		// Collect the category
+		const category = document.getElementById("noteCategory").value;
 		// Make an api call
 		const res = axiosInstance.post("/notes/create", {
 			title: title,
+			category: category,
 		});
 		toast.promise(res, {
 			success: { title: "Note Created" },
@@ -226,6 +229,13 @@ function UserDasboard() {
 										type="text"
 										id="noteTitle"
 										placeholder="Title of the note"
+									/>
+									{/* Input Text Field for Category */}
+									<FormLabel>Category</FormLabel>
+									<Input
+										type="text"
+										id="noteCategory"
+										placeholder="Category of the note"
 									/>
 								</FormControl>
 							</ModalBody>

@@ -17,7 +17,7 @@ function App() {
     <Routes>
       <Route path='/' element={<HomePage />}></Route>
       <Route path='/blog/:id' element={<ViewBlog />}></Route>
-      <Route path='/blog/new' element={<CreateNote />}></Route>
+      <Route path='/blog/new/:id' element={<CreateNote />}></Route>
       <Route path='/browse' element={<Browser />}></Route>
 
       <Route path='/user' element={<UserDashboard />}></Route>

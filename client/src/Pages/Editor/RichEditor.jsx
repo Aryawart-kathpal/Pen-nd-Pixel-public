@@ -14,7 +14,7 @@ const RichEditor = ({ content, handleOnBlur }) => {
 			// placeholder: placeholder || "Start typing...",
 			toolbarAdaptive: false,
 			theme: isDarkMode ? "dark" : "",
-			height: "90svh",
+			height: "80svh",
 		}),
 		[isDarkMode]
 	);
