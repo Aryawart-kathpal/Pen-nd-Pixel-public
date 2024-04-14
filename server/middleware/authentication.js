@@ -24,7 +24,7 @@ const authenticateUser = async(req,res,next)=>{
         attachCookiesToResponse({res,user:payload.user,refreshToken:payload.refreshToken});
         
         req.user=payload.user;
-        // next(); -> had to remove this as in shareNote private it was giving error next() not defined
+        next();
     } catch (error) {
         console.log(error);
         throw new CustomError.UnauthenticatedError("Authentication Invalid");
