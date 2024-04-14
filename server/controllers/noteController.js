@@ -4,8 +4,7 @@ const CustomError = require('../errors');
 const {StatusCodes} = require('http-status-codes');
 const {checkPermissions} = require('../utils');
 const User = require('../models/User');
-const {summarizer} = require('../utils');
-const sendEmail = require('../utils/sendEmail');
+const {isTokenValid,sendEmail,summarizer} = require('../utils');
 const {authenticateUser} = require('../middleware/authentication');
 
 //title,description,content,user,tags,visibility,likes
@@ -106,10 +105,14 @@ const getSingleNote = async(req,res)=>{
     }
     // console.log(req.signedCookies);
     
-    if(note.visibility === 'private')
+    const token = isTokenValid(req.signedCookies.accessToken);
+    if(note.visibility === 'private' && (token && token.user.userId !== note.user._id.toString()))
     {
-        await authenticateUser(req,res);
-        if(!note.sharedWith.includes(req.user.userId)){
+        // console.log(token);
+        if(!token){
+            throw new CustomError.UnauthorizedError('You are not authorized to view this note');
+        }
+        if(!note.sharedWith.includes(token.user.userId)){
             throw new CustomError.UnauthorizedError('You are not authorized to view this note');
         }
     }
@@ -271,5 +274,4 @@ const shareNote = async(req,res)=>{
     res.status(StatusCodes.OK).json({msg : "Note succesfully shared with the user"});
 }
 
-// change getSingleNote
 module.exports = {getAllNotes,getSingleNote,createNote,updateNote,deleteNote,likeNote,unlikeNote,generateSummary,shareNote};
