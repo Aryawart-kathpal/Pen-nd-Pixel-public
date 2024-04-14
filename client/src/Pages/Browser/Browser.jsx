@@ -172,6 +172,7 @@ const Browser = () => {
 						date: note?.user?.createdAt,
 						followers: note?.user?.numOfFollowers,
 						about: note?.user?.about,
+						id: note?.user?._id,
 					},
 					comments: note.comments.map((c) => c.comment),
 				}))
