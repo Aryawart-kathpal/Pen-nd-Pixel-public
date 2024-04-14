@@ -125,7 +125,7 @@ const getSingleNote = async(req,res)=>{
 const updateNote = async(req,res)=>{
     const{id:noteId} = req.params;
     const {title,description,content,tags,visibility,category}=req.body;
-    // console.log(tags);
+    console.log(tags);
     const note = await Note.findOne({_id:noteId});
     if(!note){
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);

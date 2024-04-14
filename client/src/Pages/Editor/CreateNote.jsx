@@ -17,6 +17,8 @@ export default function CreateNote() {
 		description: "",
 		tags: [],
 		category: "",
+		visibility: "private",
+		sharedWith: [],
 	});
 	const [content, setContent] = useState(
 		"<h1>Hello I am a rich text editor!</h1>"
@@ -67,8 +69,41 @@ export default function CreateNote() {
 		tagArray.forEach((tag, index) => {
 			tagArray[index] = tag.trim();
 		});
-		
+		// Remove empty strings
+		tagArray.forEach((tag, index) => {
+			if (tag === "") {
+				tagArray.splice(index, 1);
+			}
+		});
+		// We allow a maximum of 7 tags
+		if (tagArray.length > 7) {
+			toast({
+				title: "Maximum 7 tags allowed",
+				description: "Taking Your first 7 tags",
+				status: "warning",
+				duration: 2000,
+				isClosable: true,
+			})
+			tagArray.splice(7, tagArray.length - 7);
+		}
+		console.log(tagArray);
 		setNoteDetails({ ...noteDetails, tags: tagArray });
+	}
+	const handleSharedWith = (e) => {
+		const email = e.target.value;
+		// Split by comma
+		const emailArray = email.split(",");
+		// trim each email
+		emailArray.forEach((email, index) => {
+			emailArray[index] = email.trim();
+		});
+		// Remove empty strings
+		emailArray.forEach((email, index) => {
+			if (email === "") {
+				emailArray.splice(index, 1);
+			}
+		});
+		setNoteDetails({ ...noteDetails, sharedWith: email });
 	}
 	const handleTitle = (e) => {
 		setNoteDetails({ ...noteDetails, title: e.target.value });
@@ -77,9 +112,89 @@ export default function CreateNote() {
 		setNoteDetails({ ...noteDetails, category: e.target.value });
 	}
 	const handlePublic = () => {
+		if(content === "<h1>Hello I am a rich text editor!</h1>" || content === "") {
+			toast({
+				title: "Note is empty",
+				description: "Please write something before sharing",
+				status: "warning",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		// Description, tags are necessary
+		if(noteDetails.description === "" || noteDetails.tags.length === 0) {
+			toast({
+				title: "Description and Tags are necessary",
+				description: "Please provide a description and tags",
+				status: "warning",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		// Make api call to share note
+		try{
+			const res = axiosInstance.patch(`/notes/update/${id}`, {
+				content: content,
+				visibility: "public",
+				description: noteDetails.description,
+				tags: noteDetails.tags,
+				category: noteDetails.category,
+			});
+			toast.promise(res, {
+				loading: {title: "Sharing Note"},
+				success: {title: "Note Shared"},
+				error: {title: "Failed to share note"},
+			});
+		}
+		catch(error){
+			console.error(error);
+		}
 		console.log("Public", content);
 	};
-	const handlePrivate = () => {
+	const handlePrivate = async () => {
+		if(content === "<h1>Hello I am a rich text editor!</h1>" || content === "") {
+			toast({
+				title: "Note is empty",
+				description: "Please write something before sharing",
+				status: "warning",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		// Description, tags are necessary
+		if(noteDetails.description === "" || noteDetails.tags.length === 0) {
+			toast({
+				title: "Description and Tags are necessary",
+				description: "Please provide a description and tags",
+				status: "warning",
+				duration: 2000,
+				isClosable: true,
+			});
+			return;
+		}
+		// Make api call to share note
+		try{
+			// First Save the note
+			const resAVE = await axiosInstance.patch(`/notes/update/${id}`, {
+				content: content,
+				description: noteDetails.description,
+				tags: noteDetails.tags,
+				category: noteDetails.category,
+			});
+			// Privately Share the note
+			const res = axiosInstance.post(`/notes/share/${id}`, {email})
+			toast.promise(res, {
+				loading: {title: "Sharing Note"},
+				success: {title: "Note Shared"},
+				error: {title: "Failed to share note"},
+			});
+		}
+		catch(error){
+			console.error(error);
+		}
 		console.log("Private", content);
 	};
 	const handleSave = async () => {
@@ -119,6 +234,12 @@ export default function CreateNote() {
 					handlePublic={handlePublic}
 					handlePrivate={handlePrivate}
 					save={handleSave}
+					handleDescription={handleDescription}
+					handleTags={handleTags}
+					handleSharedWith={handleSharedWith}
+					handleTitle={handleTitle}
+					handleCategory={handleCategory}
+					noteDetails={noteDetails}
 				/>
 				<div className="basis-[100%] max-h-full overflow-auto">
 					<div className="flex items-center justify-between h-[10svh] px-5">
