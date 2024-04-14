@@ -73,6 +73,10 @@ const userSchema = mongoose.Schema({
     likes:{
         type:[mongoose.Schema.Types.ObjectId],
         ref:'Note',
+    },
+    sharedNotes : {
+        type: [mongoose.Schema.ObjectId],
+        ref:'Note',
     }
 },{timestamps:true ,toJSON : {virtuals:true}, toObject : {virtuals:true}});
 

@@ -31,6 +31,9 @@ const getCurrentUser = async(req,res)=>{
     }).populate({
         path:'likes',
         select : 'title description',
+    }).populate({
+        path:'sharedNotes',
+        select : 'title description content user category likes likedBy tags visibility sharedWith'
     });
     // later also have to give some more data including notes and may be setting pipeline too.. -> done
     //name,image,about me of user ->done
@@ -61,7 +64,7 @@ const getCurrentUser = async(req,res)=>{
     // console.log(noteLikes);
 
     res.status(StatusCodes.OK).json({user,notes,numOfNotes:notes.length,noteLikes});
-}
+} 
 
 const updateUser = async(req,res)=>{
     // name,email and image only
