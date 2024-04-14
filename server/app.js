@@ -60,10 +60,10 @@ app.use(cors(
 
 app.use(xss());
 app.use(mongoSanitize());
-app.use(rateLimiter({
-    windowMs:15*60*1000,
-    max:60,
-}));
+// app.use(rateLimiter({
+//     windowMs:15*60*1000,
+//     max:60,
+// }));
 
 app.use(express.static(path.resolve(__dirname,'../client/dist')));
 app.use(express.json());
