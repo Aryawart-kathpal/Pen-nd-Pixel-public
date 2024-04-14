@@ -5,7 +5,6 @@ const {StatusCodes} = require('http-status-codes');
 const {checkPermissions} = require('../utils');
 const User = require('../models/User');
 const {isTokenValid,sendEmail,summarizer} = require('../utils');
-const {authenticateUser} = require('../middleware/authentication');
 
 //title,description,content,user,tags,visibility,likes
 const createNote = async(req,res)=>{
@@ -254,6 +253,7 @@ const shareNote = async(req,res)=>{
     }
 
     let shared = [];
+    //async await doesn't work in forEach loop
 
     // await email.forEach(async(email) => {
     //     let user = await User.findOne({email});
@@ -284,7 +284,7 @@ const shareNote = async(req,res)=>{
 
     for (const userEmail of email) {
         const user = await User.findOne({ email: userEmail });
-
+    
         if (!user) {
             console.log(`No user exists with email: ${userEmail}`);
             continue; // Move to the next email
