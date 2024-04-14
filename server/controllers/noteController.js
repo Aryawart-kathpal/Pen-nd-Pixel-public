@@ -248,29 +248,70 @@ const shareNote = async(req,res)=>{
     if(!note.category || !note.tags || !note.description){
         throw new CustomError.BadRequestError("Category, tags and description are required to share a note");
     }
-
-    const user = await User.findOne({email});
-    if(!user){
-        throw new CustomError.notFoundError(`No user exists with email : ${email}`);
-    }
-
+    
     if(note.visibility!=='private'){
         throw new CustomError.BadRequestError(`Can use this only for private notes`);
     }
-    
-    note.sharedWith = [...note.sharedWith,user._id];
+
+    let shared = [];
+
+    // await email.forEach(async(email) => {
+    //     let user = await User.findOne({email});
+    //     if(note.sharedWith.includes(user._id)){
+    //         console.log(`Note already shared with ${email}`);
+    //         return;
+    //     }
+    //     if(!user){
+    //         console.log(`No user exists with email : ${email}`);
+    //         return;
+    //         // throw new CustomError.notFoundError(`No user exists with email : ${email}`);
+    //     }
+    //     console.log(user._id);
+    //     shared = [...shared,user._id];
+    //     console.log(shared);
+    //     link=`${process.env.FRONTEND_URL}/blog/${note._id}`
+    //     // send email to the user
+    //     html = `
+    //         <h3> ${req.user.name} shared a private note with you</h3>
+    //         <p>Title : ${note.title}</p>
+    //         <p>Category : ${note.category}</p>
+    //         <p>Description : ${note.description}</p>
+    //         <p> Here is a link to it : ${link}
+    //     `
+    //     await sendEmail({to:`${email}`,subject : `Pen and Pixel Note Sharing`,html});
+        
+    // });
+
+    for (const userEmail of email) {
+        const user = await User.findOne({ email: userEmail });
+
+        if (!user) {
+            console.log(`No user exists with email: ${userEmail}`);
+            continue; // Move to the next email
+        }
+
+        if (note.sharedWith.includes(user._id)) {
+            console.log(`Note already shared with ${userEmail}`);
+            continue; // Move to the next email
+        }
+
+        shared = [...shared,user._id];
+
+        // const link = `${process.env.FRONTEND_URL}/blog/${note._id}`;
+        // const html = `
+        //     <h3>${req.user.name} shared a private note with you</h3>
+        //     <p>Title: ${note.title}</p>
+        //     <p>Category: ${note.category}</p>
+        //     <p>Description: ${note.description}</p>
+        //     <p>Here is a link to it: ${link}</p>
+        // `;
+
+        // await sendEmail({ to: userEmail, subject: `Pen and Pixel Note Sharing`, html });
+    }
+
+    note.sharedWith = [...note.sharedWith,...shared];
     await note.save();
 
-    link=`${process.env.FRONTEND_URL}/blog/${note._id}`
-    // send email to the user
-    html = `
-        <h3> ${req.user.name} shared a private note with you</h3>
-        <p>Title : ${note.title}</p>
-        <p>Category : ${note.category}</p>
-        <p>Description : ${note.description}</p>
-        <p> Here is a link to it : ${link}
-    `
-    await sendEmail({to:`${email}`,subject : `Pen and Pixel Note Sharing`,html});
     res.status(StatusCodes.OK).json({msg : "Note succesfully shared with the user"});
 }
 
