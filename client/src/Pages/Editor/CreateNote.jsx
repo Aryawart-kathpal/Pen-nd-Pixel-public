@@ -122,8 +122,8 @@ export default function CreateNote() {
 			title: "Email Added",
 			status: "success",
 			duration: 1000,
-			isClosable: true
-		})
+			isClosable: true,
+		});
 		console.log(noteDetails);
 	};
 	const handleTitle = (e) => {
@@ -238,7 +238,9 @@ export default function CreateNote() {
 				category: noteDetails.category,
 			});
 			// Privately Share the note
-			const res = axiosInstance.post(`/notes/share/${id}`, noteDetails.sharedWith);
+			const res = axiosInstance.post(`/notes/share/${id}`, {
+				email: noteDetails.sharedWith,
+			});
 			toast.promise(res, {
 				loading: { title: "Sharing Note" },
 				success: { title: "Note Shared" },
