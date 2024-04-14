@@ -82,8 +82,23 @@ export default function CreateNote() {
 	const handlePrivate = () => {
 		console.log("Private", content);
 	};
-	const handleSave = () => {
+	const handleSave = async () => {
 		console.log("Save", content);
+		try {
+			const res = axiosInstance.patch(`/notes/update/${id}`, {
+				content: content
+			});
+			toast.promise(res, {
+				loading: { title: "Saving Note" },
+				success: { title: "Note Saved" },
+				error: { title: "Failed to save note" },
+			});
+			// Reload the page
+			const response = await res;
+			setContent(response.data.note.content);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 	function handleOpen() {
 		setOpen(!open);
@@ -106,16 +121,16 @@ export default function CreateNote() {
 					save={handleSave}
 				/>
 				<div className="basis-[100%] max-h-full overflow-auto">
-					<div className="flex items-center justify-between h-[10svh]">
-						<h1>{noteDetails.title}</h1>
-						<div className="flex items-center">
+					<div className="flex items-center justify-between h-[10svh] px-5">
+						<h1 className="font-bold text-3xl">{noteDetails.title}</h1>
+						{noteDetails.category && <div className="flex items-center">
 							<span className="text-sm bg-gray-200 py-2 px-3 rounded-l-md text-slate-600 font-semibold">
 								Category:
 							</span>
 							<span className="text-sm text-gray-200 py-2 px-3 rounded-r-md bg-slate-600">
 								{noteDetails.category}
 							</span>
-						</div>
+						</div>}
 					</div>
 					<RichEditor content={content} handleOnBlur={handleBlur} />
 				</div>

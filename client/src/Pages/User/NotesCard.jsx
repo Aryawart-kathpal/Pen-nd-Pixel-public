@@ -31,7 +31,7 @@ function Notes({ note }) {
 			onClick={() => navigate(`/blog/new/${note?.id}`)}
 		>
 			<FaTrash 
-				className="absolute top-2 right-2 text-slate-900 cursor-pointer hover:text-white hover:scale-105"
+				className="absolute top-2 right-2 text-slate-900 cursor-pointer hover:scale-105"
 				onClick={(e) => {
 					e.stopPropagation();
 					deleteNote(note.id);

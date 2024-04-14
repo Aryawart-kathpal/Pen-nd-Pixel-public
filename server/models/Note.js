@@ -25,7 +25,7 @@ const noteSchema = new mongoose.Schema({
     },
     category:{
         type:String,
-        // required:[true,'Please provide category'],
+        required:[true,'Please provide category'],
         enum:{
             values:['tech','travel','food','music','movies','books','disaster','personal','work','study','ideas','innovation','journal','recipes','health','finance','fitness','fashion','lifestyle','sports','politics','science','history','art','culture','education','environment','religion','philosophy','psychology','self-help','spirituality','technology','movies','quotes','other'],
             message:'{VALUE} is not supported category',

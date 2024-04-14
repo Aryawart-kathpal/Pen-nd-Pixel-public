@@ -143,7 +143,7 @@ const updateNote = async(req,res)=>{
     const updatedNote = await Note.findOneAndUpdate({_id:noteId},{title,description,content,visibility,category},{new:true,runValidators:true});
     // console.log(updatedNote.tags);
 
-    res.status(StatusCodes.OK).json({updatedNote});
+    res.status(StatusCodes.OK).json({note : updatedNote});
 }
 
 const deleteNote = async(req,res)=>{
