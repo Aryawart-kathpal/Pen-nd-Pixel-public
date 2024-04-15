@@ -7,7 +7,7 @@ import Nav from "../../Layouts/Nav";
 import "./editor.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
 export default function CreateNote() {
 	const { id } = useParams();
