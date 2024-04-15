@@ -10,15 +10,16 @@ const {attachCookiesToResponse,sendResetPasswordEmail,sendVerificationEmail,crea
 
 const register = async(req,res)=>{
     const {name,email,password,image,about} = req.body;
-
+    console.log("HELLO");
     const emailAlreadyExists = await User.findOne({email});
+    console.log(emailAlreadyExists);
     if(emailAlreadyExists){
         throw new CustomError.BadRequestError(`Email ${email} already exists`);
     }
-
+    console.log("sajhv");
     const verificationToken = crypto.randomBytes(40).toString('hex');
     const user = await User.create({name,email,password,image,verificationToken,about});
-
+    
     const origin = 'http://localhost:5000';
     await sendVerificationEmail({name,email,verificationToken,origin});
 
