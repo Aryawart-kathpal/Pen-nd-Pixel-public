@@ -21,7 +21,7 @@ const createNote = async(req,res)=>{
 // by default sorted to latest(x)
 // categories(x),tags,likes,date(latest,oldest)(x),year(x)
 const getAllNotes= async(req,res)=>{
-    const { year,sort,category,search,orderBy } = req.query;
+    const { year,sort,search,orderBy } = req.query;
 
     let queryObject = {};
     queryObject.visibility='public';
@@ -60,7 +60,11 @@ const getAllNotes= async(req,res)=>{
     let result = Note.find(queryObject).populate({
         path : 'user',
         select : 'name image createdAt about numOfFollowers'
-    }).populate('comments',['name','comment','user']).populate('likedBy',['name','image']); // this way, will get only the name,image
+    }).populate('comments',['name','comment','user']).populate('likedBy',['name','image'])
+    .populate({
+        path : 'sharedWith',
+        select : '_id email'
+    }); // this way, will get only the name,image
 
     // Any of the both below ways can be used to sort based on likes and the createdAt
 
@@ -95,7 +99,10 @@ const getAllNotes= async(req,res)=>{
 const getSingleNote = async(req,res)=>{
     const {id:noteId} = req.params;
     const note = await Note.findOne({_id:noteId}).populate('comments').populate({
-        path:'likedBy',select : 'name image'}).populate({path : 'user' ,select : 'name image createdAt about numOfFollowers'});
+        path:'likedBy',select : 'name image'}).populate({path : 'user' ,select : 'name image createdAt about numOfFollowers'}).populate({
+            path : 'sharedWith',
+            select : '_id email'
+        });
     if(!note){
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
@@ -295,7 +302,8 @@ const shareNote = async(req,res)=>{
         shared = [...shared,user._id];
         user.sharedNotes.push(note._id);
         await user.save();
-        const link = `${process.env.FRONTEND_URL}/blog/${note._id}`;
+        const origin = process.env.FRONTEND_URL || 'http://localhost:5000';
+        const link = `${origin}/blog/${note._id}`;
         const html = `
             <h3>${req.user.name} shared a private note with you</h3>
             <p>Title: ${note.title}</p>

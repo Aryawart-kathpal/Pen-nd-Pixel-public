@@ -92,15 +92,22 @@ noteSchema.methods.calculateLikes = async function (userId){
 }// not using
 
 noteSchema.pre('remove',async function(next){
-    console.log("Inside note remove");
+    // console.log("Inside note remove");
     await this.likedBy.forEach(async(userId)=>{
         const user = await this.model('User').findOne({_id:userId});
         user.likes= user.likes.filter((noteId)=>noteId.toString()!==this._id.toString());
         user.numOfLikes=user.numOfLikes-1;
         await user.save();
     })
+
+    await this.sharedWith.forEach(async(userId)=>{
+        const user = await this.model('User').findOne({_id:userId});
+        user.sharedNotes = user.sharedNotes.filter((noteId)=>noteId.toString()!==this._id.toString());
+        await user.save();
+    })
+
     await this.model('Comment').deleteMany({note:this._id});
-    console.log("finished note remove");
+    // console.log("finished note remove");
     next();
 })
 

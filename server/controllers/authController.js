@@ -20,7 +20,7 @@ const register = async(req,res)=>{
     const verificationToken = crypto.randomBytes(40).toString('hex');
     const user = await User.create({name,email,password,image,verificationToken,about});
     
-    const origin = 'http://localhost:5000';
+    const origin = process.env.FRONTEND_URL || 'http://localhost:5000';
     await sendVerificationEmail({name,email,verificationToken,origin});
 
     res.status(StatusCodes.CREATED).json({msg : 'Success, Email sent for verification'});
@@ -113,7 +113,7 @@ const forgotPassword= async(req,res)=>{
 
     if(user){
         const passwordToken = crypto.randomBytes(70).toString('hex');
-        const origin = process.env.FRONTEND_URL;
+        const origin = process.env.FRONTEND_URL || 'http://localhost:5000';
         await sendResetPasswordEmail({name:user.name,email:user.email,token:passwordToken,origin});
         
         const tenMinutes= 10*60*1000;
