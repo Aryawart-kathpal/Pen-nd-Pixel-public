@@ -6,11 +6,13 @@ import Button from "../../Components/Button";
 import { LiaWindowCloseSolid } from "react-icons/lia";
 
 const AuthorDetails = (props) => {
+  const formattedDate = new Date(props.date).toLocaleDateString("en-GB");
+  
   return (
     <>
-      <div className="h-screen min-w-[250px] backdrop-blur-3xl fixed top-0 z-20 left-0 p-3 flex flex-col customSlideLeft">
+      <div className="h-screen w-[250px] backdrop-blur-3xl fixed top-0 z-20 left-0 p-3 flex flex-col customSlideLeft">
         <LiaWindowCloseSolid
-          className="close-icon absolute z-30 top-2 left-2 text-3xl cursor-pointer"
+          className="close-icon absolute z-30 top-2 left-2 text-3xl cursor-pointer text-white"
           onClick={props.handleClose}
         />
         <div>
@@ -20,16 +22,16 @@ const AuthorDetails = (props) => {
             <Button
               handleOnClick={() => {}}
               text={"Follow"}
-              className="px-2 py-1 text-black text-xs border-2 border-black rounded-md m-2 bg-slate-400"
+              className="px-1 py-0 text-black text-sm font-semibold border-2 border-black rounded-sm m-2 bg-slate-400 cursor-pointer hover:bg-slate-500 hover:text-white"
             />
           </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center mx-auto gap-1">
           <MdDateRange />
-          <h1>{props.date}</h1>
+          <h1>{formattedDate}</h1>
         </div>
         <div className="flex flex-col gap-2">
-          <h1 className="text-xl font-bold">About</h1>
+          <h1 className="text-xl font-semibold mt-4">About</h1>
           <p className="text-sm">{props.about}</p>
         </div>
       </div>
