@@ -32,6 +32,7 @@ const otherRoutes = require('./routes/otherRoutes');
 //Other packages
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const { fileURLToPath } = require("url");
 const xss=require('xss-clean');
 const cors = require('cors');
 const rateLimiter = require('express-rate-limit');
@@ -65,7 +66,7 @@ app.use(mongoSanitize());
 //     max:60,
 // }));
 
-app.use(express.static(path.resolve(__dirname,'../client/dist')));
+app.use(express.static(path.resolve(__dirname, "../client/dist")));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan('tiny'));
@@ -79,12 +80,19 @@ app.use('/api/v1/notes',noteRoutes);
 app.use('/api/v1/notes',commentRoutes);
 app.use('/api/v1/',otherRoutes);
 
+
+// serves index.html
+app.get("*", (req, res) => {
+	try {
+		res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+	} catch (error) {
+		console.error("Error serving index.html:", error);
+		res.status(500).send("Internal Server Error");
+	}
+});
+
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
-
-app.get('*',(req,res)=>{
-    res.sendFile(path.resolve(__dirname,'../client/dist','index.html'));
-})
 
 const port = process.env.PORT || 5000;
 
