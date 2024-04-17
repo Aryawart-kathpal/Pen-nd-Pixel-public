@@ -163,7 +163,7 @@ const deleteUser = async (req, res) => {
 	if (!user) {
 		throw new CustomError.BadRequestError(`No user exists with id : ${id}`);
 	}
-	console.log("Delete user called");
+	// console.log("Delete user called");
 	await user.remove(); // to delete the info at post remove hook, followers, updating lists of followers and following, rating,review,comments,etc.
 
 	// Also deleting the notes of the user, ratings, comments,etc.
