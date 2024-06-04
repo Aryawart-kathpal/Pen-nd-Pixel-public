@@ -25,7 +25,17 @@ export default function CreateNote() {
 		"<h1>Hello I am a rich text editor!</h1>"
 	);
 
-	const socket = io(); // Connect to the server's Socket.IO instance
+	// Client Socket Connection
+	const connectSocket = () => {
+		const socket = io("http://localhost:5000");
+		socket.on("connect", () => {
+			console.log("Connected to server");
+		});
+
+		// :TODO
+		// Listen to events (check eventname from backend)
+
+	};
 
 	// Fetch note details
 	const fetchNoteDetails = async () => {
@@ -91,20 +101,6 @@ export default function CreateNote() {
 		}
 		setNoteDetails({ ...noteDetails, tags: tagArray });
 		console.log(noteDetails);
-		// try {
-		// 	const res = await axiosInstance.patch(`/notes/update/${id}`, {
-		// 		tags: noteDetails.tags,
-		// 	});
-		// 	toast({
-		// 		title: "Tags Updated",
-		// 		status: "success",
-		// 		duration: 2000,
-		// 		isClosable: true,
-		// 	});
-		// 	// fetchNoteDetails();
-		// } catch (err) {
-		// 	console.log(err);
-		// }
 	};
 	const handleSharedWith = (emailStr) => {
 		// Split by comma
@@ -147,7 +143,6 @@ export default function CreateNote() {
 				duration: 2000,
 				isClosable: true,
 			});
-			// window.location.reload();
 			fetchNoteDetails();
 		} catch (error) {
 			console.error(error);
@@ -221,7 +216,11 @@ export default function CreateNote() {
 			return;
 		}
 		// Description, tags are necessary
-		if (noteDetails.description === "" || noteDetails.tags.length === 0 || noteDetails.sharedWith.length === 0) {
+		if (
+			noteDetails.description === "" ||
+			noteDetails.tags.length === 0 ||
+			noteDetails.sharedWith.length === 0
+		) {
 			toast({
 				title: "Description and Tags are necessary",
 				description: "Please provide a description and tags",

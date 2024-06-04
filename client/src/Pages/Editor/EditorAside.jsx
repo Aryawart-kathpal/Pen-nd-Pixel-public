@@ -124,6 +124,13 @@ const EditorAside = ({
 					className={`flex items-center  justify-center gap-6 cursor-pointer ${
 						isDarkMode ? `hover:bg-slate-700` : `hover:bg-slate-300`
 					} duration-500 hover:text hover:shadow-slate-300 px-4 border-slate-500 h-14`}
+					onClick={() => {
+							// :TODO
+							// axios Call to start Socket Connection in Backend
+							// Frontend socket connection function (which will deal with the state variable 'content' and update it in real time)
+							// The frontend function will be defined in the CreateNote.jsx file where the content state is defined
+						}
+					}
 				>
 					<AiOutlineTeam className="w-6 h-6" />
 					<span className="w-full">Start Collaboration</span>

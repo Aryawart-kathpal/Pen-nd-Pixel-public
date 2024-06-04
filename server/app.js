@@ -1,12 +1,13 @@
 require('express-async-errors');
 require('dotenv').config();
 const http = require('http');
-const socketIo= require('socket.io');
 const {Server}= require('socket.io');
 
+// express - app
 const express = require('express');
 const app = express();
 
+// Socket.io
 const server = http.createServer(app);
 const io = new Server(server);
 module.exports = {app,io};
@@ -32,12 +33,9 @@ const otherRoutes = require('./routes/otherRoutes');
 //Other packages
 const fileUpload = require('express-fileupload');
 const path = require('path');
-const { fileURLToPath } = require("url");
 const xss=require('xss-clean');
 const cors = require('cors');
-const rateLimiter = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
-const helmet = require('helmet');
 
 //Cloudinary
 const cloudinary = require('cloudinary');
@@ -49,8 +47,6 @@ cloudinary.config({
 
 // Middleware
 
-// app.use(helmet());
-
 app.use(cors(
     {
         origin:process.env.FRONTEND_URL,
@@ -60,10 +56,7 @@ app.use(cors(
 
 app.use(xss());
 app.use(mongoSanitize());
-// app.use(rateLimiter({
-//     windowMs:15*60*1000,
-//     max:60,
-// }));
+
 
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
 app.use(express.json());
@@ -105,30 +98,5 @@ const start = async()=>{
     }
 }
 
-//searching on tags -> done
-//getCurrentUser (may be any pipeline linked to it) ->sending exact thing instead of id, using populate->done
-//comments->done
-// Handling all the things on removal such as comments,likes,etc. -> done
-//finishing -> populate,trim:true,
-// summary ->done
-// contactus(name,email,phone,message),review,etc.->done
-// searching on title also ->done
-// deleting on deletion
-// populate at last, public finishing ->done
+
 start();
-// follow settings have to be made in the user model only, numOfFollowers and List Of Followers have to be made in the user model only -> aggregate pipleine has to be made for realtime updating the followers and following, also list of following and numOfFollowing has to be made too
-// authenticateUser to be stick at the follow also
-
-// sequence-> now firstly userController has to be setup for now and then the notesController with CRUD and other pipeline,etc. have to be setup at the end may be review,comments have to be thought of along with rating of a note
-
-//get Current user and it's analytics such as all his notes, as well as for a note ratings comments,etc. have also to be made in a model
-// also some review,contact us,etc. have to be thought of on some later stage, along with setting some pre and post aggregation pipeline for the ratings,etc,
-// linking notes to every use
-// one user one note unique comment like in e-commerce
-// trim:true in all models?
-// comments note model mein nahi alag se bnaye e-commerece ki trah
-//getCurrentUser at the end
-// ek user ke saari liked posts bhi store krni hain
-// likes bhi delete hone chahiye har tarah se, note ko delete karne par
-// using mongoose virtuals populate method at end
-//summary route
