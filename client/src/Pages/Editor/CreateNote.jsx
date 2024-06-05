@@ -26,15 +26,24 @@ export default function CreateNote() {
 	);
 
 	// Client Socket Connection
-	const connectSocket = () => {
+	const connectSocket = async () => {
+		console.log("Connecting to socket");
 		const socket = io("http://localhost:5000");
 		socket.on("connect", () => {
 			console.log("Connected to server");
 		});
 
-		// :TODO
 		// Listen to events (check eventname from backend)
+		socket.on("updateNote", (data) => {
+			console.log("Note Updated", data);
+			setContent(data.note.content);
+		});
 
+		// Emit events
+		socket.emit("editNote", { noteId: id });
+
+		// Return the socket connection
+		return socket;
 	};
 
 	// Fetch note details
@@ -297,6 +306,7 @@ export default function CreateNote() {
 					handleCategory={handleCategory}
 					handleUnShare={handleUnShare}
 					noteDetails={noteDetails}
+					socketConnection={connectSocket}
 				/>
 				<div className="basis-[100%] max-h-full overflow-auto">
 					<div className="flex items-center justify-between h-[10svh] px-5">

@@ -7,6 +7,7 @@ import { AiOutlineShareAlt } from "react-icons/ai";
 import { AiOutlineTeam } from "react-icons/ai";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { useDisclosure } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import {
 	Modal,
 	ModalOverlay,
@@ -74,7 +75,9 @@ const EditorAside = ({
 	handleCategory,
 	handleUnShare,
 	noteDetails,
+	socketConnection,
 }) => {
+	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isDarkMode, toggleTheme } = useTheme();
 	const [tags, setTags] = useState("");
@@ -87,6 +90,35 @@ const EditorAside = ({
 		setVisibility(noteDetails.visibility);
 		setShareWith(noteDetails.sharedWith.join(","));
 	}, [noteDetails]);
+
+	const collaborateCall = async () => {
+		const body = {
+			title: noteDetails.title,
+			description: noteDetails.description,
+			content: noteDetails.content,
+			tags: noteDetails.tags,
+			visibility: noteDetails.visibility,
+			category: noteDetails.category,
+		};
+		const noteID = noteDetails._id;
+		try {
+			const res = await axiosInstance.patch(`/notes/${noteID}/edit`, body);
+
+			toast({
+				title: "Connection created.",
+				status: "success",
+				duration: 2000,
+				isClosable: true,
+			});
+
+			// Frontend socket connection function (which will deal with the state variable 'content' and update it in real time)
+			// The frontend function will be defined in the CreateNote.jsx file where the content state is defined
+			await socketConnection();
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	return (
 		<div
 			className={`customSlideLeft w-[250px] h-[90svh] ${
@@ -124,13 +156,7 @@ const EditorAside = ({
 					className={`flex items-center  justify-center gap-6 cursor-pointer ${
 						isDarkMode ? `hover:bg-slate-700` : `hover:bg-slate-300`
 					} duration-500 hover:text hover:shadow-slate-300 px-4 border-slate-500 h-14`}
-					onClick={() => {
-							// :TODO
-							// axios Call to start Socket Connection in Backend
-							// Frontend socket connection function (which will deal with the state variable 'content' and update it in real time)
-							// The frontend function will be defined in the CreateNote.jsx file where the content state is defined
-						}
-					}
+					onClick={collaborateCall}
 				>
 					<AiOutlineTeam className="w-6 h-6" />
 					<span className="w-full">Start Collaboration</span>
