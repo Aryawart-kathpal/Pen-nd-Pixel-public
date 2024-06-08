@@ -1,0 +1,28 @@
+{
+	"note": {
+		"category": "movies",
+		"comments": [],
+		"content": "After",
+		"createdAt": "2024-04-17T06:43:25.261Z",
+		"description": "Movie Review of Kungfu Panda 4. Its released in 2024.",
+		"id": "661f6f8d315eac84f6d2c43d",
+		"likedBy": [],
+		"likes": 0,
+		"sharedWith": [],
+		"tags": ["movie", "kubgfuPanda"],
+		"title": "Movie Review: Kungfu Panda 4",
+		"updatedAt": "2024-04-17T06:52:53.207Z",
+		"visibility": "public",
+		"__v": 1,
+		"_id": "661f6f8d315eac84f6d2c43d"
+	},
+	"user": {
+		"about": "Hi, This is Mayank Tripathi from Faridabad India.\nI love to watch movies and write about them.",
+		"createdAt": "2024-04-17T06:27:29.862Z",
+		"id": "661f6bd1315eac84f6d2c431",
+		"image": "https://res.cloudinary.com/drpj0czgs/image/upload/v1713336932/Pen-and-Pixel/tmp-1-1713336936830_vr0ooz.jpg",
+		"name": "Mayank Tripathi",
+		"numOfFollowers": 0,
+		"_id": "661f6bd1315eac84f6d2c431"
+	}
+}

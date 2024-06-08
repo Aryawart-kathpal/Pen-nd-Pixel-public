@@ -1,35 +1,72 @@
-import React, { useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import AuthorDetails from './AuthorDetails';
-import Blog from './Blog';
-import Comment from './Comment';
-import './ViewBrowse.css';
-import Button from '../../Components/Button';
-import Nav from '../../Layouts/Nav';
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import AuthorDetails from "./AuthorDetails";
+import Blog from "./Blog";
+import Comment from "./Comment";
+import "./ViewBrowse.css";
+import Nav from "../../Layouts/Nav";
 import { VscChevronRight } from "react-icons/vsc";
+import axiosInstance from "../../Helpers/axiosInstance";
 
 const ViewBlog = () => {
-  const location = useLocation();
-  const data = location.state;
-  console.log(data);
-  const [isOpen, setIsOpen] = useState(false); 
-  const [author, setAuthor] = useState(data.authorDetails);
-  const [blog, setBlog] = useState(data.content);
-  const [title, setTitle] = useState(data.title);
-  const [topics, setTopics] = useState(data.topics);
-  const [category, setCategory] = useState(data.category);
-  const [description, setDescription] = useState(data.description);
-  const [comments, setComments] = useState(data.comments);
-  const [id, setId] = useState(data.id);
+	const location = useLocation();
+	const { id } = useParams();
+	const [isOpen, setIsOpen] = useState(false);
+	const [author, setAuthor] = useState({
+		about: "",
+		date: "",
+		followers: 0,
+		name: "",
+		profilePhoto: "",
+	});
+	const [blog, setBlog] = useState("Blog Content");
+	const [title, setTitle] = useState("Title");
+	const [topics, setTopics] = useState(["Topic1", "Topic2"]);
+	const [category, setCategory] = useState("Category");
+	const [description, setDescription] = useState("Description");
+	const [comments, setComments] = useState(["Comment1", "Comment2"]);
 
-  const newComments = (comment) => {
-    setComments([...comments, comment]);
-    console.log("new comment", comments);
-  };
+	const newComments = (comment) => {
+		setComments([...comments, comment]);
+		console.log("new comment", comments);
+	};
 
-  return (
+	//   Fetch Note Using ID
+	const fetchNote = async () => {
+		try {
+			const res = await axiosInstance.get(`/notes/${id}`);
+			const data = res.data;
+			const user = data.note.user;
+			console.log(data);
+			const note = data.note;
+			// Setting Author Details
+			setAuthor({
+				about: user?.about,
+				date: user?.createdAt,
+				followers: user?.numOfFollowers,
+				name: user?.name,
+				profilePhoto: user?.image,
+			});
+			// Setting Note Details
+			setBlog(note.content);
+			setTitle(note.title);
+			setTopics(note.tags);
+			setCategory(note.category);
+			setDescription(note.description);
+			setComments(note.comments.map((c) => c.comment));
+
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		fetchNote();
+	}, []);
+
+	return (
 		<>
-			<div className='fixed top-0 w-full z-20'>
+			<div className="fixed top-0 w-full z-20">
 				<Nav />
 			</div>
 			<div className="viewBlog-container relative lg:flex mt-[10svh]">
@@ -59,4 +96,3 @@ const ViewBlog = () => {
 };
 
 export default ViewBlog;
-

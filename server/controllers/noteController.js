@@ -107,6 +107,9 @@ const getSingleNote = async(req,res)=>{
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
     // console.log(req.signedCookies);
+    if(note.visibility === 'public'){
+        return res.status(StatusCodes.OK).json({note});
+    }
     
     const token = isTokenValid(req.signedCookies.accessToken);
     if(note.visibility === 'private' && (token && token.user.userId !== note.user._id.toString()))
