@@ -106,19 +106,21 @@ const getSingleNote = async(req,res)=>{
     if(!note){
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
+
     // console.log(req.signedCookies);
-    if(note.visibility === 'public'){
-        return res.status(StatusCodes.OK).json({note});
-    }
-    
-    const token = isTokenValid(req.signedCookies.accessToken);
-    if(note.visibility === 'private' && (token && token.user.userId !== note.user._id.toString()))
+    let token;
+    if(req.signedCookies.accessToken){
+        token = isTokenValid(req.signedCookies.accessToken);    
+    }    
+    // console.log(token);
+    if(note.visibility === 'private' && (token))
     {
-        // console.log(token);
         if(!token){
             throw new CustomError.UnauthorizedError('You are not authorized to view this note');
         }
-        if(!note.sharedWith.includes(token.user.userId)){
+
+        const sharedWithexists = note.sharedWith.some(obj => obj.id === token.user.userId);
+        if(!sharedWithexists && note.user._id.toString()!==token.user.userId){
             throw new CustomError.UnauthorizedError('You are not authorized to view this note');
         }
     }
