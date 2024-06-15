@@ -113,7 +113,7 @@ const getSingleNote = async(req,res)=>{
         token = isTokenValid(req.signedCookies.accessToken);    
     }    
     // console.log(token);
-    if(note.visibility === 'private' && (token))
+    if(note.visibility === 'private' )
     {
         if(!token){
             throw new CustomError.UnauthorizedError('You are not authorized to view this note');
