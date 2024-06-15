@@ -9,6 +9,7 @@ import { VscChevronRight } from "react-icons/vsc";
 import axiosInstance from "../../Helpers/axiosInstance";
 
 const ViewBlog = () => {
+	const [isLoading, setIsLoading] = useState(true);
 	const location = useLocation();
 	const { id } = useParams();
 	const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +58,8 @@ const ViewBlog = () => {
 
 		} catch (error) {
 			console.error(error);
+		}finally{
+			setIsLoading(false);
 		}
 	};
 
@@ -64,6 +67,9 @@ const ViewBlog = () => {
 		fetchNote();
 	}, []);
 
+	if (isLoading) {
+		return <h1>Loading...</h1>;
+	}
 	return (
 		<>
 			<div className="fixed top-0 w-full z-20">

@@ -62,7 +62,6 @@ const NewComment = ({addComment}) => {
 };
 
 const Comment = ({ addComment, oldComments }) => {
-  console.log(oldComments);
   return (
 		<div className="comment-container max-lg:w-[80%]">
 			<div className="comment">
