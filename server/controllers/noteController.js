@@ -235,9 +235,10 @@ const generateSummary = async(req,res)=>{
         throw new CustomError.notFoundError(`No note exists with noteId : ${noteId}`);
     }
 
-    if(note.visibility!== 'public'){
-        throw new CustomError.BadRequestError(`You can't generate summary for a ${note.visibility} note`);
-    }
+    // everyone should be able to generate summary for public notes
+    // if(note.visibility!== 'public'){
+    //     throw new CustomError.BadRequestError(`You can't generate summary for a ${note.visibility} note`);
+    // }
     
     try {
         console.log(note.id);
