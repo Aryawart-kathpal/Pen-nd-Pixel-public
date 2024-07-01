@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Profile from "./Profile";
 import Notes from "./NotesCard";
+import Card from "../../Components/BrowserCard";
 import Button from "../../Components/Button";
 import { FaBars } from "react-icons/fa";
 import Toggle from "../../Components/Toggle";
@@ -67,6 +68,9 @@ export default function UserDashboard() {
 	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isDarkMode, toggleTheme } = useTheme();
+	const [isFetching, setIsFetching] = useState(true);
+	const [shardNotesPresent, setSharedNotesPresent] = useState(false);
+	const [isShowingSharedNotes, setIsShowingSharedNotes] = useState(false);
 	const [user, setUser] = useState({
 		name: "",
 		email: "",
@@ -78,20 +82,9 @@ export default function UserDashboard() {
 		numOfFollowers: 0,
 		numOfFollowing: 0,
 	});
-	const [notes, setNotes] = useState([
-		{
-			id: 6,
-			title: "Note 6",
-			description: "Description of Note 6",
-			likes: "0",
-			comments: [
-				{
-					name: "Alex Flex",
-					text: "Best Note ever",
-				},
-			],
-		},
-	]);
+	const [notes, setNotes] = useState(null);
+
+	const [sharedNotes, setSharedNotes] = useState(null);
 
 	const fetchUser = async () => {
 		const res = axiosInstance.get("/user/current");
@@ -105,7 +98,7 @@ export default function UserDashboard() {
 			loading: { title: "Loading Details", description: "Please wait" },
 		});
 		const response = await res;
-		console.log(response.data);
+		console.log("SHARED NOTES", response.data?.user?.sharedNotes);
 		setUser(
 			(user.name = response.data.user.name),
 			(user.email = response.data.user.email),
@@ -119,6 +112,11 @@ export default function UserDashboard() {
 			(user.numOfFollowing = response.data.user.numOfFollowing)
 		);
 		setNotes(response.data.notes);
+		if (response.data?.user?.sharedNotes) {
+			setSharedNotes(response.data?.user?.sharedNotes);
+			setSharedNotesPresent(true);
+		}
+		setIsFetching(false);
 	};
 
 	useEffect(() => {
@@ -146,7 +144,7 @@ export default function UserDashboard() {
 			loading: { title: "Creating Note", description: "Please wait" },
 		});
 		const response = await res;
-		console.log(response.data);
+		// console.log(response.data);
 		// Redirect to the new note
 		navigate(`/blog/new/${response.data.note.id}`);
 	};
@@ -165,18 +163,41 @@ export default function UserDashboard() {
 						onToggle={toggleTheme}
 						tailwind="absolute top-1 right-1 text-base"
 					/>
-					MY NOTES
+					DASHBOARD
 				</div>
 
 				<div className="flex flex-col w-full gap-5 overflow-x-hidden overflow-y-scroll customScrollbar py-5 pt-3 h-[65%] sticky ">
-					{notes.map((note, index) => {
-						return <Notes note={note} key={index} />;
-					})}
+					{!isFetching &&
+						!isShowingSharedNotes &&
+						notes &&
+						notes.map((note, index) => {
+							return <Notes note={note} key={index} />;
+						})}
+					{!isFetching &&
+						isShowingSharedNotes &&
+						sharedNotes &&
+						sharedNotes.map((note, index) => {
+							return (
+								<Card
+									key={index}
+									id={note._id}
+									title={note.title}
+									description={note.description}
+									category={note.category}
+									topics={note.topics}
+									content={note.content}
+									authorDetails={note.user}
+									comments={note.comments}
+								/>
+							);
+						})}
 				</div>
-				<div className=" flex justify-center mt-4">
+				<div className="flex flex-row-reverse justify-evenly bg-slate-400 rounded-lg w-full py-2 mt-2">
 					<Button
 						text="Create new note"
-						className="bg-slate-400 font-semibold p-2 border-2 rounded hover:bg-slate-500 hover:text-white transition-all duration-300 ease-in-out"
+						className={`${
+							isDarkMode ? "bg-slate-700" : " bg-slate-200"
+						} font-semibold p-2 border-1 border-black rounded hover:bg-slate-500 hover:text-white transition-all duration-300 ease-in-out`}
 						handleOnClick={onOpen}
 					/>
 
@@ -221,6 +242,17 @@ export default function UserDashboard() {
 							</ModalFooter>
 						</ModalContent>
 					</Modal>
+					{shardNotesPresent && (
+						<Button
+							text={isShowingSharedNotes ? "My Notes" : "Shared Notes"}
+							className={`${
+								isDarkMode ? "bg-slate-700" : " bg-slate-200"
+							} font-semibold p-2 border-1 border-black rounded hover:bg-slate-500 hover:text-white transition-all duration-300 ease-in-out`}
+							handleOnClick={() =>
+								setIsShowingSharedNotes(!isShowingSharedNotes)
+							}
+						/>
+					)}
 				</div>
 			</div>
 		</div>

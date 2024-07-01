@@ -8,7 +8,7 @@ import { useToast } from "@chakra-ui/react";
 function Notes({ note }) {
 	const navigate = useNavigate();
 	const toast = useToast();
-	console.log(note);
+	// console.log("NOTE", note);
 	function deleteNote() {
 		try{
 			// Make api call to delete note
@@ -27,7 +27,7 @@ function Notes({ note }) {
 
 	return (
 		<div 
-			className="relative shadow-sm shadow-black rounded-md px-4 py-3 flex flex-col min-w-[90%] max-w-[90%] h-[120px] mx-auto bg-[#ffffff32] cursor-pointer hover:bg-[#ffffff64] transition-all duration-300 ease-in-out"
+			className="relative shadow-sm shadow-black rounded-md px-4 py-3 flex flex-col min-w-[90%] max-w-[90%] min-h-[110px] mx-auto bg-[#ffffff32] cursor-pointer hover:bg-[#ffffff64] transition-all duration-300 ease-in-out"
 			onClick={() => navigate(`/blog/new/${note?.id}`)}
 		>
 			<FaTrash 
