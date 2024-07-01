@@ -1,6 +1,10 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
+const { Headers, Request, Response } = fetch;
 
 global.fetch = fetch;
+global.Headers = Headers;
+global.Request = Request;
+global.Response = Response;
 
 require("express-async-errors");
 require("dotenv").config();
