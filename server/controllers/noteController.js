@@ -238,9 +238,15 @@ const generateSummary = async(req,res)=>{
     if(note.visibility!== 'public'){
         throw new CustomError.BadRequestError(`You can't generate summary for a ${note.visibility} note`);
     }
-
-    const summary = await summarizer(note);
-    res.status(StatusCodes.OK).json({summary}); 
+    
+    try {
+        console.log(note.id);
+        const summary = await summarizer(note);
+        res.status(StatusCodes.OK).json({summary});
+    } catch (error) {
+        console.log(error);
+        throw new CustomError.BadRequestError('Failed to generate summary');
+    } 
 }
 
 const shareNote = async(req,res)=>{

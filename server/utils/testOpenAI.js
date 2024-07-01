@@ -25,26 +25,21 @@
 //   return completion.choices[0].message.content;
 // }
 
-const apiKey = process.env.OPENAI_API_KEY;
+// GEMINI CODE
 
-const {GoogleGenerativeAI} = require("@google/generative-ai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI(apiKey);
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY);
 
 async function main(note) {
-  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
-
-  let length = parseInt(note.content.length/10);
-  if(length<=10){
-    length=10;
-  }
-
-  const prompt = `Please summarize the following blog : ${note.content}.
-  Make sure it is less than ${length} words.`;
-
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+	const prompt = `Please summarize the following blog : ${note.content}.
+  Make sure it is less than ${Math.max(
+		10,
+		parseInt(note.content.length / 10)
+	)} words.`;
+	const result = await model.generateContent(prompt);
+  const text = result.response.text();
   return text;
 }
 
