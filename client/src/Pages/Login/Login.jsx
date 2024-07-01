@@ -25,8 +25,18 @@ const Login = () => {
 			};
 			const res = axiosInstance.post("/auth/forgot-password", {email: login.email});
 			toast.promise(res, {
-				success: { title: "Password reset link sent", description: "Check your email" },
-				error: { title: "Failed to send email" },
+				success: { 
+					title: "Password reset link sent", 
+					description: "Check your email",
+					duration: 1000,
+					isClosable: true,
+				},
+				error: { 
+					title: "Failed to send email",
+					status: "error",
+					duration: 2000,
+					isClosable: true,
+				},
 				loading: { title: "Sending email...", description: "Please wait" },
 			});
 		} catch (error) {
@@ -53,11 +63,21 @@ const Login = () => {
 			return;
 		}
 		try {
-			console.log(login);
+			// console.log(login);
 			const res = axiosInstance.post("/auth/login", login);
 			toast.promise(res, {
-				success: { title: "Login Successful", description: "Welcome back" },
-				error: { title: "Login Failed" },
+				success: { 
+					title: "Login Successful", 
+					description: "Welcome back",
+					duration: 1000,
+					isClosable: true,
+				},
+				error: { 
+					title: "Login Failed",
+					status: "error",
+					duration: 2000,
+					isClosable: true, 
+				},
 				loading: { title: "Authenticating...", description: "Please wait" },
 			});
             const response = await res;

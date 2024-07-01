@@ -24,7 +24,7 @@ const Signup = () => {
 				title: "Sign Up Failed",
 				description: `Fill All Details`,
 				status: "error",
-				duration: 9000,
+				duration: 3000,
 				isClosable: true,
 			});
 		} else if (!validateEmail(Signup.email)) {
@@ -32,7 +32,7 @@ const Signup = () => {
 				title: "Sign Up Failed",
 				description: `Invalid Email ${Signup.email}`,
 				status: "error",
-				duration: 9000,
+				duration: 3000,
 				isClosable: true,
 			});
 		} else if (!validatePassword(Signup.password)) {
@@ -40,7 +40,7 @@ const Signup = () => {
 				title: "Sign Up Failed",
 				description: `Password must contain atleast one capital letter, one digit, one special character`,
 				status: "error",
-				duration: 9000,
+				duration: 3000,
 				isClosable: true,
 			});
 		} else if (Signup.password != Signup.confirmPassword) {
@@ -48,7 +48,7 @@ const Signup = () => {
 				title: "Sign Up Failed",
 				description: `Password not matched!!`,
 				status: "error",
-				duration: 9000,
+				duration: 3000,
 				isClosable: true,
 			});
 		}
@@ -64,11 +64,15 @@ const Signup = () => {
 				success: {
 					title: `Kindly Verify Your Email : ${Signup.email}`,
 					status: "success",
+					duration: 3000,
+					isClosable: true,
 				},
 				error: {
 					title: "Sign Up Failed",
 					description: "Something went wrong",
 					status: "error",
+					duration: 3000,
+					isClosable: true,
 				},
 			});
 			const response = await res;
