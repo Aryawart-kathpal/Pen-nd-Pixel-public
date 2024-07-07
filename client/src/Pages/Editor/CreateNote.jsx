@@ -6,7 +6,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import Nav from "../../Layouts/Nav";
 import "./editor.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 
 export default function CreateNote() {
@@ -46,22 +46,52 @@ export default function CreateNote() {
 		return socket;
 	};
 
+	const navigate = useNavigate();
 	// Fetch note details
 	const fetchNoteDetails = async () => {
 		try {
 			const res = await axiosInstance.get(`/notes/${id}`);
-			console.log(res.data.note);
-			setNoteDetails(res.data.note);
-			setContent(res.data.note.content);
+
+			const user =await JSON.parse(localStorage.getItem('user'));
+			// console.log(user.userId);
+			let flag=false
+			const isSharedWith = ()=>{
+				res.data.note.sharedWith.forEach((item)=>{
+					const {id} = item;
+					if(user.userId === id){
+						flag=true;
+					}
+				})
+			}
+			isSharedWith();
+
+			// console.log("Hello");
+			if(user.userId === res.data.note.user.id || flag){
+				console.log(res.data.note);
+				setNoteDetails(res.data.note);
+				setContent(res.data.note.content);
+			}
+			else{
+				toast({
+					title: "Not authorized to edit this note",
+					description: "Please try again later",
+					status: "error",
+					duration: 3000,
+					isClosable: true,
+				});
+				navigate('/');
+			}
+
 		} catch (error) {
 			console.error(error);
 			toast({
-				title: "Failed to fetch note details",
+				title: "Not authorized to access private note",
 				description: "Please try again later",
 				status: "error",
 				duration: 3000,
 				isClosable: true,
 			});
+			navigate('/');
 		}
 	};
 	useEffect(() => {

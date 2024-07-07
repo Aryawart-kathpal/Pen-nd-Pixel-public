@@ -139,7 +139,7 @@ const updateNote = async(req,res)=>{
         throw new CustomError.notFoundError(`No note with id: ${noteId}`);
     }
 
-    if(note.user.toString()!==req.user.userId){
+    if(note.user.toString()!==req.user.userId && note.sharedWith.includes(req.user.userId)===false){
         throw new CustomError.UnauthorizedError('You are not authorized to update this note');
     }
 
