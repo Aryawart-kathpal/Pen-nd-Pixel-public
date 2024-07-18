@@ -18,13 +18,14 @@ const NewComment = ({addComment}) => {
 	const handleOnClick = (e) => {
 		console.log("hello button");
 		// Use addComment to add the comment to the comments array
-		if(comment.comment=="")
+		if(comment.comment.trim()==="")
 		{
 			setComment({
 				name: "",
 				email: "",
 				comment: "",
 			});
+			return;
 		}
 		else
 		{
